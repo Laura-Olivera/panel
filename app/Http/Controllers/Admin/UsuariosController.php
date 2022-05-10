@@ -51,28 +51,29 @@ class UsuariosController extends Controller
         try {
             DB::beginTransaction();
             $user = User::create([
-                'name' => $request->input('nombre'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
+                'name' => $request->nombre,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
                 'estatus' => 1
             ]);
             DB::commit();
 
-            $rol = DB::table('roles')->where('id', '=', $request->input('perfil'))->first();
-            $user->assingRole($rol->name);
+            $rol = DB::table('roles')->where('id', '=', $request->perfil)->first();
+            $user->assignRole($rol->name);
 
             $registro = Auth::user();
 
             DB::beginTransaction();
-            $direccion = $request->input('calle').' '.$request->input('municipio').' '.$request->input('estado').' '.$request->input('postal');
+            $direccion = $request->direccion;
             $empleado = Empleado::create([
                 'user_id' => $user->id,
-                'nombre' => $request->input('nombre'),
-                'primer_apellido' => $request->input('pApellido'),
-                'segundo_apellido' => $request->input('sApellido'),
+                'nombre' => $request->nombre,
+                'primer_apellido' => $request->primer,
+                'segundo_apellido' => $request->segundo,
                 'created_user_id' => $registro->id,
+                'updated_user_id' => $registro->id,
                 'direccion' => $direccion,
-                'telefono' => $request->input('telefono'),
+                'telefono' => $request->telefono,
             ]);
             DB::commit();
 
@@ -85,5 +86,7 @@ class UsuariosController extends Controller
             \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
             $response = ['success' => false, 'message' => 'Error al crear un nuevo usuario'];
         }
+
+        return $response;
     }
 }

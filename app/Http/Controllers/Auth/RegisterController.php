@@ -78,6 +78,7 @@ class RegisterController extends Controller
                     'estatus' => 1,
                 ]);
                 DB::commit();
+                $usuario->assingRole('Cliente');
                 $response = ['success' => true];
             } catch (\Throwable $th) {
                 DB::rollback();

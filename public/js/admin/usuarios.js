@@ -73,16 +73,19 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
+    var dir = $('#calle').val() + ' ' + $('#municipio').val() + ' ' + $('#estado').val() + ' ' + $('#postal').val();    
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
             primer: $('#pApellido').val(),
             segundo: $('#sApellido').val(),
             email: $('#email').val(),
-            password: $('#password'),
-            direccion: $('#calle').val() + ' ' + $('#municipio').val() + ' ' + $('#estado').val() + ' ' + $('#postal').val(),
-            perfil: $('#perfil').val()
+            password: $('#password').val(),
+            direccion: dir,
+            perfil: $('#perfil').val(),
+            telefono: $('#telefono').val(),
         };
+        console.log(data);
         $.ajax({
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -167,7 +170,8 @@ function validar(form){
             },
             calle: {
                 required: true,
-                maxlength: 150
+                maxlength: 150,
+                minlength: 8
             },
             municipio: {
                 required: true,
@@ -179,11 +183,11 @@ function validar(form){
             },
             postal: {
                 required: true,
-                maxlength: 150
+                maxlength: 5
             },
             telefono: {
                 required: true,
-                maxlength: 150
+                maxlength: 10
             },
             perfil: {
                 required: true,

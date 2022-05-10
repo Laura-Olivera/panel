@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-				<form class="form" method="POST" id="frm_nuevo_usuario" name="frm_nuevo_usuario">
+				<form class="form" id="frm_nuevo_usuario" name="frm_nuevo_usuario">
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">
@@ -54,7 +54,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-lg-2 col-form-label text-right">Municipio:</label>
+										<label>Municipio:</label>
 										<input type="text" class="form-control" placeholder="Enter full name" id="municipio" name="municipio" autocomplete="off"/>
 									</div>
 								</div>
@@ -68,7 +68,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label class="col-lg-2 col-form-label text-right">C.P:</label>
+										<label>C.P:</label>
 										<input type="text" class="form-control" placeholder="Enter full name" id="postal" name="postal" autocomplete="off"/>
 									</div>
 								</div>
