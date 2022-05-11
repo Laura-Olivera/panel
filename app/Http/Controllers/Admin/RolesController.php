@@ -13,7 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RolesController extends Controller
 {
-    public function roles()
+    public function index()
     {
         return view('admin.roles.listar_roles');
     }
@@ -69,11 +69,19 @@ class RolesController extends Controller
             $rolData = $request->except(['permissions']);
             $permissions = $request['permissions'];
             $rol->fill($rolData)->save();
-            
+            $permisosTabla = Permission::all();
+            foreach ($permisosTabla as $permiso) {
+                $rol->revokePermissionTo($permiso);
+            }
+            foreach ($permissions as $permission) {
+                $perm = Permission::where('id', '=', $permission)->firstOrFail();
+                $rol->givePermissionTo($perm);
+            }
+            $response = ['success' => true, 'message' => 'Se actualizo el perfil correctamente.'];
         } catch (\Throwable $th) {
             DB::rollback();
             \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            $response = ['success' => false, 'message' => 'Error al crear un nuevo perfil'];
+            $response = ['success' => false, 'message' => 'Error al crear actualizar el perfil.'];
         }
         return $response;
     }

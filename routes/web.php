@@ -26,14 +26,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware('auth')->group(function(){
 
     Route::prefix('admin')->group(function(){
-
+        //RUTAS USUARIOS
         Route::get('/usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'index']);
-        Route::get('/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
-        Route::get('/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
-        Route::post('/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
-        Route::get('/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
-        Route::post('/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
-        Route::get('/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'view']);
+        Route::get('/usuarios/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
+        Route::get('/usuarios/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
+        Route::post('/usuarios/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
+        Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
+        Route::post('/usuarios/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
+        Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'view']);
+        //RUTAS ROLES
+        Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);
+        Route::get('/perfiles/lista_perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'listar_roles']);
+        Route::get('/perfiles/create', [\App\Http\Controllers\Admin\RolesController::class, 'create']);
+        Route::post('/perfiles/store', [\App\Http\Controllers\Admin\RolesController::class, 'store']);
+        Route::get('/perfiles/edit/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
+        Route::post('/perfiles/update/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'update']);
 
     });
 
