@@ -85,7 +85,6 @@ function store_usuario(){
             perfil: $('#perfil').val(),
             telefono: $('#telefono').val(),
         };
-        console.log(data);
         $.ajax({
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -134,11 +133,93 @@ function store_usuario(){
 }
 
 function edit_usuario_modal(id){
+    $.ajax({
+        url: "edit/" + id,
+        datatype: 'html',
+        success: function(data){
+            var modal = data;
+            $(modal).modal().on('shown.bs.modal', function () {
+                $('.selectKeyword').select2({
+                    placeholder: 'Seleccione...',
+                });
 
+            }).on('hidden.bs.modal', function () {
+                $(this).remove();
+            });
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
 }
 
 function update_usuario(id){
-
+    var dir = 'DIRECCION';    
+    let data = {
+        id_usuario: $('#id_usuario').val(),
+        nombre: $('#nombre').val(),
+        primer: $('#pApellido').val(),
+        segundo: $('#sApellido').val(),
+        email: $('#email').val(),
+        password: $('#password').val(),
+        direccion: dir,
+        perfil: $('#perfil').val(),
+        telefono: $('#telefono').val(),
+        estatus: $('#estatus').is(':checked') ? 1 : 0,
+    };
+    $.ajax({
+        headers : {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "update/" + id,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (respuesta) {
+            if (respuesta.success == true) {
+                $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
+                    Swal.fire("Exito!", respuesta.message, "success");
+                    $('#users-table').DataTable().ajax.reload();
+                });
+            } else {
+                $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
+                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                    $('#users-table').DataTable().ajax.reload();
+                });
+            }
+        },
+        error: function (xhr) { //xhr
+            if (xhr.responseJSON) {
+                if (xhr.responseJSON.errors) {
+                    imprimirMensajesDeError(xhr.responseJSON.errors);
+                }
+            } else {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+            }
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
 }
 
 function view_usuario_modal(id){

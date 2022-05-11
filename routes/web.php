@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
         Route::get('/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
         Route::post('/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
+        Route::get('/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
+        Route::post('/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
+        Route::get('/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'view']);
 
     });
 

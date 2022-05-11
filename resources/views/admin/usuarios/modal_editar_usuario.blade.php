@@ -1,14 +1,15 @@
-<div class="modal fade" id="modal_nuevo_usuario" name="modal_nuevo_usuario" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">				
+<div class="modal fade" id="modal_editar_usuario" name="modal_editar_usuario" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">				
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Registrar nuevo usuario</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-				<form class="form" id="frm_nuevo_usuario" name="frm_nuevo_usuario">
+				<form class="form" id="frm_editar_usuario" name="frm_editar_usuario">
+					<input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="{{$usuario->id}}">
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">
@@ -49,13 +50,13 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Calle:</label>
-                                    <input type="text" class="form-control" value="{{ $calle }}" placeholder="Enter full name" id="calle" name="calle" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="calle" name="calle" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Municipio:</label>
-                                    <input type="text" class="form-control" value="{{ $municipio }}" placeholder="Enter full name" id="municipio" name="municipio" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="municipio" name="municipio" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -63,13 +64,13 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Estado:</label>
-                                    <input type="text" class="form-control" value="{{ $estado }}" placeholder="Enter full name" id="estado" name="estado" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="estado" name="estado" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>C.P:</label>
-                                    <input type="text" class="form-control" value="{{ $postal }}" placeholder="Enter full name" id="postal" name="postal" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="postal" name="postal" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -85,10 +86,21 @@
 										<label>Perfil:</label>
 										<select class="form-control" id="perfil" name="perfil">
 											@foreach($roles as $role)
-     										<option value="{{ $role->id }}">{{ $role->name }}</option>
+     										<option value="{{ $role->id }}" {{ ($role->id == $perfil->role_id) ? "selected" : "" }}>{{ $role->name }}</option>
 											@endforeach
 										</select>
 									</div>
+								</div>
+							</div>
+							<div class="col-md-12 text-right">
+								<label class="control-label">Habilitado</label>
+								<div class="form-group">
+									<span class="kt-switch kt-switch--icon">
+										<label>
+											<input type="checkbox"  {{ ( $usuario->estatus == 1) ? 'checked' : ''}} name="estatus" id="estatus">
+											<span></span>
+										</label>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -97,7 +109,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary font-weight-bold" onclick="store_usuario();">Registrar</button>
+                <button type="button" class="btn btn-primary font-weight-bold" onclick="update_usuario();">Registrar</button>
             </div>
         </div>
     </div>
