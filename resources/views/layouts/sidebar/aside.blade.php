@@ -67,7 +67,7 @@
 								</a>
 							</li>
 							<li class="menu-item" aria-haspopup="true">
-								<a href="features/bootstrap/buttons.html" class="menu-link">
+								<a href="{{ url('admin/perfiles') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
 									</i>
@@ -75,7 +75,7 @@
 								</a>
 							</li>
 							<li class="menu-item" aria-haspopup="true">
-								<a href="features/bootstrap/button-group.html" class="menu-link">
+								<a href="{{ url('admin/permisos') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
 									</i>

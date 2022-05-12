@@ -15,17 +15,12 @@ class RolesController extends Controller
 {
     public function index()
     {
-        return view('admin.roles.listar_roles');
-    }
-
-    public function listar_roles(){
         $roles = Role::all();
-        return DataTables::of($roles)->toJson();
+        return view('admin.roles.listar_roles')->with('roles', $roles);
     }
 
     public function create()
     {
-        $permisos = Permission::all();
         return view('admin.roles.modal_crear_perfil');
     }
 
@@ -64,26 +59,20 @@ class RolesController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
-            $rol = Role::findOrFail($id);
-            $rolData = $request->except(['permissions']);
-            $permissions = $request['permissions'];
-            $rol->fill($rolData)->save();
-            $permisosTabla = Permission::all();
-            foreach ($permisosTabla as $permiso) {
-                $rol->revokePermissionTo($permiso);
-            }
-            foreach ($permissions as $permission) {
-                $perm = Permission::where('id', '=', $permission)->firstOrFail();
-                $rol->givePermissionTo($perm);
-            }
-            $response = ['success' => true, 'message' => 'Se actualizo el perfil correctamente.'];
-        } catch (\Throwable $th) {
-            DB::rollback();
-            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            $response = ['success' => false, 'message' => 'Error al crear actualizar el perfil.'];
+        $rol = Role::findOrFail($id);
+        $rolData = $request->except(['permissions']);
+        $permissions = $request['permissions'];
+        $rol->fill($rolData)->save();
+        $permisosTabla = Permission::all();
+        foreach ($permisosTabla as $permiso) {
+            $rol->revokePermissionTo($permiso);
         }
-        return $response;
+        foreach ($permissions as $permission) {
+            $perm = Permission::where('id', '=', $permission)->firstOrFail();
+            $rol->givePermissionTo($perm);
+        }
+        Bitacora::admin(request(), 'Actualizar perfil');
+        return redirect('admin/perfiles');
     }
 
 }

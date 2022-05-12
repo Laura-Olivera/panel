@@ -36,12 +36,17 @@ Route::middleware('auth')->group(function(){
         Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'view']);
         //RUTAS ROLES
         Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);
-        Route::get('/perfiles/lista_perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'listar_roles']);
         Route::get('/perfiles/create', [\App\Http\Controllers\Admin\RolesController::class, 'create']);
         Route::post('/perfiles/store', [\App\Http\Controllers\Admin\RolesController::class, 'store']);
-        Route::get('/perfiles/edit/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
+        Route::get('/perfiles/editar_perfil/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
         Route::post('/perfiles/update/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'update']);
-
+        //RUTAS PERMISOS
+        Route::get('/permisos', [\App\Http\Controllers\Admin\PermisosController::class, 'index']);
+        Route::get('/permisos/lista_permisos', [App\Http\Controllers\Admin\PermisosController::class, 'lista_permisos']);
+        Route::get('/permisos/create', [\App\Http\Controllers\Admin\PermisosController::class, 'create']);
+        Route::post('/permisos/store', [\App\Http\Controllers\Admin\PermisosController::class, 'store']);
+        Route::get('/permisos/edit/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'edit']);
+        Route::post('/permisos/update/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'update']);
     });
 
 });
