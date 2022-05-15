@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function(){
         Route::post('/permisos/store', [\App\Http\Controllers\Admin\PermisosController::class, 'store']);
         Route::get('/permisos/edit/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'edit']);
         Route::post('/permisos/update/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'update']);
+        //RUTAS CLIENTES 
+        Route::get('/clientes', [\App\Http\Controllers\Admin\ClientesController::class,'index']);
+        Route::get('/clientes/lista_clientes', [\App\Http\Controllers\Admin\ClientesController::class, 'lista_clientes']);
+        Route::get('/clientes/detalle_cliente/{id}', [App\Http\Controllers\Admin\ClientesController::class, 'show']);
     });
 
 });

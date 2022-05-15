@@ -40,7 +40,7 @@
 			<div class="card-body">
                 <div class="checkbox-list">
                     {{ Form::model($rol, array('url' => array('admin/perfiles/update', $rol->id), 'method' => 'POST')) }}
-                    {{ Form::label('name', 'Nombre del Rol Asignado') }}
+                    {{ Form::label('name', 'Nombre del Perfil Asignado') }}
                     {{ Form::text('name', null, array('class' => 'form-control','readonly' => true)) }}
                     <br>
                     <h5><b>Permisos Asignados</b></h5>
