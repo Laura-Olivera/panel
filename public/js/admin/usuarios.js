@@ -73,7 +73,7 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
-    var dir = $('#calle').val() + ' ' + $('#municipio').val() + ' ' + $('#estado').val() + ' ' + $('#postal').val();    
+    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
@@ -164,8 +164,8 @@ function edit_usuario_modal(id){
     });
 }
 
-function update_usuario(id){
-    var dir = 'DIRECCION';    
+function update_usuario(id){  
+    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();
     let data = {
         id_usuario: $('#id_usuario').val(),
         nombre: $('#nombre').val(),
@@ -247,12 +247,12 @@ function validar(form){
             },
             password: {
                 required: true,
-                maxlength: 150
+                maxlength: 150,
+                minlength: 8
             },
             calle: {
                 required: true,
-                maxlength: 150,
-                minlength: 8
+                maxlength: 150
             },
             municipio: {
                 required: true,

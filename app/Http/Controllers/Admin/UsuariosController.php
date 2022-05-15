@@ -97,10 +97,11 @@ class UsuariosController extends Controller
                     ->select('empleados.*', 'users.id','users.name', 'users.email','users.estatus', 'users.password')
                     ->where('empleados.id', '=', $id)
                     ->first();
-                    
+        $direccion = explode('|', $usuario->direccion);
         $perfil = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
         return view('admin.usuarios.modal_editar_usuario')
             ->with(compact('usuario'))
+            ->with(compact('direccion'))
             ->with(compact('roles'))
             ->with(compact('perfil'));
     }

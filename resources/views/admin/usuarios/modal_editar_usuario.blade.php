@@ -50,13 +50,13 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Calle:</label>
-                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="calle" name="calle" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $direccion[0] }}" placeholder="Enter full name" id="calle" name="calle" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Municipio:</label>
-                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="municipio" name="municipio" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $direccion[1] }}" placeholder="Enter full name" id="municipio" name="municipio" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -64,13 +64,13 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Estado:</label>
-                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="estado" name="estado" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $direccion[2] }}" placeholder="Enter full name" id="estado" name="estado" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>C.P:</label>
-                                    <input type="text" class="form-control" value="{{ $usuario->direccion }}" placeholder="Enter full name" id="postal" name="postal" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $direccion[3] }}" placeholder="Enter full name" id="postal" name="postal" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
