@@ -18,6 +18,7 @@ class Empleado extends Model
         'segundo_apellido',
         'telefono',
         'direccion',
+        'clave_empleado',
         'created_user_id',
         'updated_user_id'
     ];

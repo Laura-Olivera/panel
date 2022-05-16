@@ -10,13 +10,16 @@ class Cliente extends Model
     protected $table = 'clientes';
     protected $primarykey = 'id';
     public $timestamps = true;
-    protected $filleable = [
+    protected $fillable = [
         'user_id',
-        'clave_clinte',
-        'nombre',
-        'primer_apellido',
-        'segundo_apellido',
+        'clave_cliente',
+        'nombre_completo',
         'telefono',
         'slug',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

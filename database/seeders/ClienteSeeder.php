@@ -22,6 +22,7 @@ class ClienteSeeder extends Seeder
                 'nombre_completo' => 'cliente',
                 'telefono' => '1234567890',
                 'slug' => 'CG-0201CNT',
+                'tipo' => 'general',
                 'created_at' => now(),
                 'updated_at' => now()
             )

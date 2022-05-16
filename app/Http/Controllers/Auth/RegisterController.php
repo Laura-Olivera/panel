@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Admin\Cliente;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -66,9 +67,10 @@ class RegisterController extends Controller
         $name = strtolower($request->input('usuario'));
         $email = $request->input('email');
         $password = Hash::make($request->input('password'));
-
+        $telefono = $request->input('telefono');
         $existe = User::where('email', '=', $email)->where('estatus', 1)->exists();
         if(!$existe){
+
             try {
                 DB::beginTransaction();
                 $usuario = User::create([
@@ -78,7 +80,17 @@ class RegisterController extends Controller
                     'estatus' => 1,
                 ]);
                 DB::commit();
-                $usuario->assingRole('Cliente');
+                $usuario->assignRole('Cliente');
+                DB::beginTransaction();
+                $clave = $this->generarCLave($usuario->id);
+                $cliente = Cliente::create([
+                    'user_id' => $usuario->id,
+                    'nombre_completo' => $name,
+                    'telefono' => $telefono,
+                    'clave_cliente' => $clave,
+                    'slug' => $clave,
+                ]);
+                DB::commit();
                 $response = ['success' => true];
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -89,5 +101,15 @@ class RegisterController extends Controller
             $response = ['success' => false];
         }       
         return $response; 
+    }
+
+    public function generarCLave($usuario)
+    {
+        $random_num = mt_rand(10, 99);
+        $char = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $strlen = strlen('CG'.$usuario.$random_num);
+        $random_str = substr($char, 0, 15 - $strlen);
+        $clave = strtoupper('cg'.$usuario.$random_num.$random_str);
+        return $clave;
     }
 }

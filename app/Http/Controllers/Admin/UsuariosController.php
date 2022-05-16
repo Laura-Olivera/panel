@@ -62,6 +62,8 @@ class UsuariosController extends Controller
 
             DB::beginTransaction();
             $direccion = $request->direccion;
+            $clave = $this->generarClave($rol->name, $user->id);
+            
             $empleado = Empleado::create([
                 'user_id' => $user->id,
                 'nombre' => $request->nombre,
@@ -71,6 +73,7 @@ class UsuariosController extends Controller
                 'updated_user_id' => $registro->id,
                 'direccion' => $direccion,
                 'telefono' => $request->telefono,
+                'clave_empleado' => $clave,
             ]);
             DB::commit();
 
@@ -150,5 +153,30 @@ class UsuariosController extends Controller
             $response = ['success' => false, 'message' => 'Error al actualizar los datos'];
         }
         return $response;
+    }
+
+    public function generarClave($perfil, $empleado){
+        $reservar = ['la', 'el', 'de', 'del', 'y'];
+        $perfil_array = explode(' ', $perfil);
+        $n_array = [];
+        $prefijo_perfil = null;
+        for ($i=0; $i < count($perfil_array); $i++) { 
+            if(!in_array($perfil_array[$i], $reservar)){
+                array_push($n_array, $perfil_array[$i]);
+            }
+        }
+        if(count($n_array) < 2){
+            $prefijo_perfil = substr($n_array[0], 0, 2);
+        }else{
+            for ($i=0; $i < count($n_array); $i++) { 
+                $prefijo_perfil .= substr($n_array[$i], 0, 1);
+            }
+        }       
+        $random_num = mt_rand(10, 99);
+        $char = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $strlen = strlen($prefijo_perfil.$empleado.$random_num);
+        $random_str = substr($char, 0, 10 - $strlen);
+        $clave = strtoupper($prefijo_perfil.$empleado.$random_num.$random_str);
+        return $clave;
     }
 }

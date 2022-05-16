@@ -79,7 +79,10 @@
 									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Nombre(s) y apellidos" name="usuario" autocomplete="off" />
 								</div>
 								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Correo electronico" name="email" autocomplete="off" />
+									<input class="form-control h-auto form-control-solid py-4 px-8" type="email" placeholder="Correo electronico" name="email" autocomplete="off" />
+								</div>
+								<div class="form-group mb-5">
+									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Telefono" name="telefono" autocomplete="off" />
 								</div>
 								<div class="form-group mb-5">
 									<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Contraseña" name="password" />

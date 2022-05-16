@@ -264,11 +264,13 @@ function validar(form){
             },
             postal: {
                 required: true,
-                maxlength: 5
+                maxlength: 5,
+                minlength: 5
             },
             telefono: {
                 required: true,
-                maxlength: 10
+                maxlength: 10,
+                minlength: 10
             },
             perfil: {
                 required: true,

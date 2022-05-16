@@ -30,10 +30,13 @@
 			<!--begin::Menu Nav-->
 			<ul class="menu-nav">
 				<!-- aqui empieza -->
+				@canany(['SuperAdmin', 'Administrador General'])
+					
 				<li class="menu-section">
 					<h4 class="menu-text">Administración</h4>
 					<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 				</li>
+				@can('MenuUsuarios')
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
@@ -66,6 +69,7 @@
 									<span class="menu-text">Listar usuarios</span>
 								</a>
 							</li>
+							@can('MenuPerfiles')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/perfiles') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -74,6 +78,8 @@
 									<span class="menu-text">Perfiles</span>
 								</a>
 							</li>
+							@endcan
+							@can('MenuPermisos')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/permisos') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -82,9 +88,11 @@
 									<span class="menu-text">Permisos</span>
 								</a>
 							</li>
+							@endcan
 						</ul>
 					</div>
 				</li>
+				@endcan
 				<li class="menu-item" aria-haspopup="true">
 					<a href="{{ url('admin/clientes') }}" class="menu-link">
 						<span class="svg-icon menu-icon">
@@ -117,6 +125,8 @@
 						<span class="menu-text">Empresa</span>
 					</a>
 				</li>
+
+				@endcanany
 				<!-- aqui termina -->
 				<!-- aqui empieza -->
 				<li class="menu-section">

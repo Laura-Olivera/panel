@@ -126,18 +126,25 @@ var KTLoginGeneral = function() {
 
             form.validate({
                 rules: {
-                    fullname: {
+                    usuario: {
                         required: true
                     },
                     email: {
                         required: true,
                         email: true
                     },
+                    telefono:{
+                        required: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
                     password: {
-                        required: true
+                        required: true,
+                        minlength: 8
                     },
                     rpassword: {
-                        required: true
+                        required: true,
+                        minlength: 8
                     },
                     agree: {
                         required: true
@@ -171,7 +178,7 @@ var KTLoginGeneral = function() {
 	                        signInForm.clearForm();
 	                        signInForm.validate().resetForm();
 
-	                        showErrorMsg(signInForm, 'success', 'Thank you. To complete your registration please check your email.');
+	                        showErrorMsg(signInForm, 'success', 'Tu registro se realizo correctamente.');
 	                    }, 1000);
                     }else{
                         // similate 2s delay

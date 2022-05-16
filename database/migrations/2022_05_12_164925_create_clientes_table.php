@@ -20,6 +20,7 @@ class CreateClientesTable extends Migration
             $table->string('nombre_completo');
             $table->string('telefono');
             $table->string('slug');
+            $table->string('tipo');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
