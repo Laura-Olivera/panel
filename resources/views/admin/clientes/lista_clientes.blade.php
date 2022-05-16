@@ -42,8 +42,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Primer apellido</th>
-                            <th>Segundo apellido</th>
                             <th>Correo electrónico</th>
                             <th>Telefono</th>                            
                             <th>Acciones</th>

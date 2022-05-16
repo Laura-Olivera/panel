@@ -51,5 +51,9 @@ class RolesSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        $role_cliente->givePermissionTo([
+            'PermisosCliente'
+        ]);
     }
 }

@@ -25,6 +25,7 @@ class EmpleadoSeeder extends Seeder
                 'updated_user_id' => 1,
                 'telefono' => '1234567890',
                 'direccion' => 'direccion',
+                'clave_empleado' => '01-SPADMIN',
                 'created_at' => now(),
                 'updated_at' => now()
             )

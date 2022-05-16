@@ -29,5 +29,18 @@ class UserSeeder extends Seeder
         );
 
         $userSuperadmin->assignRole('SuperAdmin');
+
+        $userCliente = User::create(
+            array(
+                'name' => 'cliente',
+                'email' => 'cliente@correo.com',
+                'password' => Hash::make('12345678'),
+                'estatus' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            )
+        );
+
+        $userCliente->assignRole('Cliente');
     }
 }

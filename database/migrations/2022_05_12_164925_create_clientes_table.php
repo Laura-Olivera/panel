@@ -17,9 +17,7 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('clave_cliente')->unique();
-            $table->string('nombre');
-            $table->string('primer_apellido');
-            $table->string('segundo_apellido');
+            $table->string('nombre_completo');
             $table->string('telefono');
             $table->string('slug');
             $table->timestamps();

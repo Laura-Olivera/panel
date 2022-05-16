@@ -14,8 +14,6 @@ $(document).ready(function() {
         columns: [
             { data: 'clave_cliente', name: 'clave_cliente'},
             { data: 'nombre', name: 'nombre' },
-            { data: 'primer_apellido', name: 'primer_apellido' },
-            { data: 'segundo_apellido', name: 'segundo_apellido' },
             { data: 'email', name: 'email' },
             { data: 'telefono', name: 'telefono' },
             {   
