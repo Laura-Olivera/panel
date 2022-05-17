@@ -66,12 +66,12 @@ class UsuariosController extends Controller
             
             $empleado = Empleado::create([
                 'user_id' => $user->id,
-                'nombre' => $request->nombre,
-                'primer_apellido' => $request->primer,
-                'segundo_apellido' => $request->segundo,
+                'nombre' => strtoupper($request->nombre),
+                'primer_apellido' => strtoupper($request->primer),
+                'segundo_apellido' => strtoupper($request->segundo),
                 'created_user_id' => $registro->id,
                 'updated_user_id' => $registro->id,
-                'direccion' => $direccion,
+                'direccion' => strtoupper($direccion),
                 'telefono' => $request->telefono,
                 'clave_empleado' => $clave,
             ]);
@@ -79,7 +79,8 @@ class UsuariosController extends Controller
 
             $datos = request();
             $datos['password'] = 'xxxxxxxx';
-            Bitacora::admin($datos, 'Crear nuevo usuario');
+            $accion = 'Crear nuevo usuario '.$empleado->clave_empleado.' '.$empleado->nombre.' '.$empleado->primer_apellido.' '.$empleado->segundo_apellido;
+            Bitacora::admin($datos, $accion);
 
             $response =['success' => true, 'message' => 'El usuario se registro correctamente'];
         } catch (\Throwable $th) {
@@ -97,7 +98,7 @@ class UsuariosController extends Controller
         $roles = DB::table('roles')->get();
         $usuario = DB::table('empleados')
                     ->join('users', 'empleados.user_id', '=', 'users.id')
-                    ->select('empleados.*', 'users.id','users.name', 'users.email','users.estatus', 'users.password')
+                    ->select('empleados.*','users.name', 'users.email','users.estatus', 'users.password')
                     ->where('empleados.id', '=', $id)
                     ->first();
         $direccion = explode('|', $usuario->direccion);
@@ -117,11 +118,11 @@ class UsuariosController extends Controller
             $registro = $getId->id;
             
             DB::beginTransaction();
-            $usuario->nombre = $request->nombre;
-            $usuario->primer_apellido = $request->primer;
-            $usuario->segundo_apellido = $request->segundo;
+            $usuario->nombre = strtoupper($request->nombre);
+            $usuario->primer_apellido = strtoupper($request->primer);
+            $usuario->segundo_apellido = strtoupper($request->segundo);
             $usuario->telefono = $request->telefono;
-            $usuario->direccion = $request->direccion;
+            $usuario->direccion = strtoupper($request->direccion);
             $usuario->updated_user_id = $registro;
             $usuario->save();
             DB::commit();
@@ -140,11 +141,19 @@ class UsuariosController extends Controller
 
             $userRole = DB::table('model_has_roles')->where('model_id', '=', $user->id)->first();
             $anterior = $userRole->role_id;
-            DB::table('model_has_roles')->where('role_id','=',$anterior)->where('model_id', '=', $user->id)
+            if($anterior <> $request->perfil){
+                DB::table('model_has_roles')->where('role_id','=',$anterior)->where('model_id', '=', $user->id)
                         ->update(['role_id' => $request->perfil]);
+                
+                $datos = request();
+                $datos['password'] = 'xxxxxxxx';
+                $accion = 'Actulizar perfil usuario '.$usuario->clave_empleado.' '.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+                Bitacora::admin($datos, $accion);
+            }
             $datos = request();
             $datos['password'] = 'xxxxxxxx';
-            Bitacora::admin($datos, 'actualizar usuario');
+            $accion = 'Actulizar datos usuario '.$usuario->clave_empleado.' '.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+            Bitacora::admin($datos, $accion);
 
             $response = ['success' => true, 'message' => 'Los datos se actualizarón correctamente'];
         } catch (\Throwable $th) {
@@ -153,6 +162,20 @@ class UsuariosController extends Controller
             $response = ['success' => false, 'message' => 'Error al actualizar los datos'];
         }
         return $response;
+    }
+
+    public function viewUsuario($id)
+    {
+        $usuario = DB::table('empleados')
+                    ->join('users', 'empleados.user_id', '=', 'users.id')
+                    ->select('empleados.*','users.name', 'users.email','users.estatus', 'users.password')
+                    ->where('empleados.id', '=', $id)
+                    ->first();
+        $direccion = explode('|', $usuario->direccion);
+        $modHasRol = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
+        $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
+        $ultimaAccion = DB::table('bitacora')->where('user_id', '=', $usuario->user_id)->latest('created_at')->first();
+        return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion'));
     }
 
     public function generarClave($perfil, $empleado){

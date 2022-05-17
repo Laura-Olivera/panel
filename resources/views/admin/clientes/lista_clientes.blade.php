@@ -11,7 +11,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Clientes</h5>
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Usuarios</h5>
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -24,26 +24,17 @@
 	<div class="container">
 		<!--begin::Card-->
 		<div class="card card-custom">
-			<!--begin::Header-->
-			<div class="card-header flex-wrap border-0 pt-6 pb-0">
-				<div class="card-title">
-					<h3 class="card-label">
-					<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
-				</div>
-				<div class="card-toolbar">
-				</div>
-			</div>
-			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin: Datatable-->
-                <table id="clientes-table" name="clientes-table" class="table table-striped- table-bordered table-hover table-checkable">
+                <table id="c-table" name="c-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Correo electrónico</th>
-                            <th>Telefono</th>                            
+                            <th>Telefono</th>
+							<th>Estatus</th>                            
                             <th>Acciones</th>
                         </tr>
                     </thead>

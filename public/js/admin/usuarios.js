@@ -18,7 +18,12 @@ $(document).ready(function() {
             { data: 'segundo_apellido', name: 'segundo_apellido' },
             { data: 'email', name: 'email' },
             { data: 'telefono', name: 'telefono' },
-            { data: 'direccion', name: 'direccion' },
+            { data: 'direccion', name: 'direccion', 
+                "mRender": function(data, type, row){
+                    let direccion = row.direccion;
+                    return direccion.replaceAll('|', ' ');
+                }
+            },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
@@ -28,7 +33,7 @@ $(document).ready(function() {
                 "mRender": function (data, type, row) {
                     let id_user = row.id;
                     let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_usuario_modal(' + id_user + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
-                    btn += '<a class="btn btn-elevate kt-font-brand" onClick="view_usuario_modal(' + id_user + ');" href="javascript:void(0)" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
+                    btn += '<a class="btn btn-elevate kt-font-brand" href="usuarios/detalle_usuario/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
                     return btn;
                 }
             },

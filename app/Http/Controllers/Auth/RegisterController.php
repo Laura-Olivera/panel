@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use DB;
+use App\Helpers\Bitacora;
 
 class RegisterController extends Controller
 {
@@ -91,6 +92,10 @@ class RegisterController extends Controller
                     'slug' => $clave,
                 ]);
                 DB::commit();
+                $data = request();
+                $data['password'] = 'xxxxxxxx';
+                $accion = 'Registro nuevo cliente '.$clave.' '.$cliente->nombre_completo;
+                Bitacora::cliente($data, $accion);
                 $response = ['success' => true];
             } catch (\Throwable $th) {
                 DB::rollback();

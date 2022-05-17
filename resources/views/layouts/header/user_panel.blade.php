@@ -69,14 +69,16 @@
 			</a>
 			<!--end:Item-->
 			<!--begin::Item-->
-			<a href="custom/apps/userprofile-1/overview.html" class="navi-item">
+			<a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="navi-item">
 				<div class="navi-link">
 					<div class="navi-text">
-						<div class="font-weight-bold">My Tasks</div>
-						<div class="text-muted">latest tasks and projects</div>
+						<div class="font-weight-bold">Salir</div>
 					</div>
 				</div>
 			</a>
+			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+				@csrf
+			</form>
 			<!--end:Item-->
 		</div>
 		<!--end::Nav-->

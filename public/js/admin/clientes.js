@@ -1,9 +1,9 @@
 "use strict";
 $(document).ready(function() {
-    $('.clientes-table').each(function () {
+    $('.c-table').each(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
-    var tbCliente = $('#clientes-table').DataTable({
+    $('#c-table').DataTable({
         processing: true,
         serverSide: true,
         responsive: true,
@@ -13,7 +13,7 @@ $(document).ready(function() {
         },
         columns: [
             { data: 'clave_cliente', name: 'clave_cliente'},
-            { data: 'nombre', name: 'nombre' },
+            { data: 'nombre_completo', name: 'nombre_completo' },
             { data: 'email', name: 'email' },
             { data: 'telefono', name: 'telefono' },
             {   
@@ -24,7 +24,7 @@ $(document).ready(function() {
             {
                 "mRender": function (data, type, row) {
                     let id_user = row.id;
-                    let btn = '<a class="btn btn-elevate kt-font-brand" href="admin/clientes/detalle_cliente/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
+                    let btn = '<a class="btn btn-elevate kt-font-brand" href="clientes/detalle_cliente/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
                     return btn;
                 }
             },

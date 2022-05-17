@@ -11,7 +11,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle {{ $cliente->clave_cliente }}</h5>
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle {{ $usuario->clave_empleado }}</h5>
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -34,9 +34,9 @@
                             <div class="mr-3">
                                 <div class="d-flex align-items-center mr-3">
                                     <!--begin::Name-->
-                                    <a href="#" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $cliente->nombre_completo }}</a>
+                                    <a href="#" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $usuario->nombre }} {{ $usuario->primer_apellido }}</a>
                                     <!--end::Name-->
-                                    <span class="label label-light-success label-inline font-weight-bolder mr-1">{{$cliente->tipo}}</span>                                    
+                                    <span class="label label-light-success label-inline font-weight-bolder mr-1">{{$perfil->name}}</span>                                    
                                 </div>
                                 <!--begin::Contacts-->
                                 <div class="d-flex flex-wrap my-2">
@@ -51,7 +51,7 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
-                                    </span>{{ $cliente->email }}</a>
+                                    </span>{{ $usuario->email }}</a>
                                     <a href="#" class="text-muted text-hover-primary font-weight-bold">
                                     <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Map/Marker2.svg-->
@@ -62,7 +62,7 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
-                                    </span></a>
+                                    </span>{{ $direccion[2] }}</a>
                                 </div>
                                 <!--end::Contacts-->
                             </div>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="card-body pt-2">
-                        <p class="text-dark-50"></p>
+                        <p class="text-dark-50">{{ $ultimaAccion->accion }}</p>
                     </div>
                 </div>
                 <!--end::Card-->
@@ -125,15 +125,22 @@
                         <div class="form-group row my-2">
                             <label class="col-4 col-form-label">Nombre:</label>
                             <div class="col-8">
-                                <span class="form-control-plaintext font-weight-bolder">{{ $cliente->nombre_completo }}</span>
+                                <span class="form-control-plaintext font-weight-bolder">{{ $usuario->nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</span>
                             </div>
                         </div>
                         <div class="form-group row my-2">
                             <label class="col-4 col-form-label">Telefono:</label>
                             <div class="col-8">
-                                <span class="form-control-plaintext font-weight-bolder">{{ $cliente->telefono }}</span>
+                                <span class="form-control-plaintext font-weight-bolder">{{ $usuario->telefono }}</span>
                             </div>
-                        </div>                      
+                        </div>
+                        <div class="form-group row my-2">
+                            <label class="col-4 col-form-label">Dirección:</label>
+                            <div class="col-8">
+                                <span class="form-control-plaintext">
+                                <span class="font-weight-bolder">{{ $direccion[0] }}. {{ $direccion[1] }}. {{ $direccion[2] }}. {{ $direccion[3] }}</span>
+                            </div>
+                        </div>                        
                     </div>
                     <!--end::Body-->
                 </div>
