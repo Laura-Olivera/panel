@@ -52,15 +52,18 @@ class LoginController extends Controller
             if($validar == true){
                 $datos = request();
                 $datos['password'] = 'xxxxxxxx';
-                $usuario = User::where('email', '=', $user)->where('estatus', '=', 1)->first();
+                $usuario = Auth::user();
                 $modHasRol = DB::table('model_has_roles')->where('model_id', '=', $usuario->id)->first();
                 $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
+                session(['user' => $usuario]);
                 if($perfil->name == 'Cliente'){
-                    $cliente = DB::table('clientes')->where('user_id', '=', $usuario->id)->first();
+                    $cliente = $usuario->cliente;
+                    session(['cliente' => $cliente]);
                     $accion = 'Inicio de sesión cliente '.$cliente->clave_cliente;
                     Bitacora::cliente($datos, $accion);
                 }else{
-                    $empleado = DB::table('empleados')->where('user_id', '=', $usuario->id)->first();
+                    $empleado = $usuario->empleado;
+                    session(['empleado' => $empleado]);
                     $accion = 'Inicio de sesión empleado '.$empleado->clave_empleado;
                     Bitacora::admin($datos, $accion);
                 }

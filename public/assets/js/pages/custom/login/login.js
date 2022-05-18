@@ -104,7 +104,7 @@ var KTLoginGeneral = function() {
                 success: function(data) {
                     if(data.success == true){
                         console.log('confirmar');
-                        window.location.href = "home";
+                        window.location.href = "/";
                     }else{
                         // similate 2s delay
                 	    setTimeout(function() {

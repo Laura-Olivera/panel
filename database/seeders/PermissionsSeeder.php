@@ -20,13 +20,21 @@ class PermissionsSeeder extends Seeder
            
             1 => 
             array (
+                'name' =>'Dashboard',
+                'guard_name' =>'web',
+                'descrip' => 'Entrar a dashboard administrador.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            2 => 
+            array (
                 'name' =>'SuperAdmin',
                 'guard_name' =>'web',
                 'descrip' => 'Todos los permisos.',
                 'created_at' => now(),
                 'updated_at' => now(),     
             ),
-            2 => 
+            3 => 
             array (
                 'name' =>'Admin',
                 'guard_name' =>'web',
@@ -34,7 +42,7 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(), 
             ),
-            3 => 
+            4 => 
             array (
                 'name' =>'MenuUsuarios',
                 'guard_name' =>'web',
@@ -42,7 +50,7 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(), 
             ), 
-            4 => 
+            5 => 
             array (
                 'name' =>'MenuPermisos',
                 'guard_name' =>'web',
@@ -50,7 +58,7 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(), 
             ), 
-            5 => 
+            6 => 
             array (
                 'name' =>'MenuPerfiles',
                 'guard_name' =>'web',
@@ -58,7 +66,7 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(), 
             ),
-            6 => 
+            7 => 
             array (
                 'name' => 'PermisosCliente',
                 'guard_name' => 'web',

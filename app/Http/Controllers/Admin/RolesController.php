@@ -35,7 +35,8 @@ class RolesController extends Controller
                 ]);
                 $response = ['success' => true, 'message' => 'El perfil se registro correctamente'];
                 DB::commit();
-                Bitacora::admin(request(), 'registrar nuevo perfil');
+                $accion = 'Registrar nuevo perfil '.$rol->name;
+                Bitacora::admin(request(), $accion);
             } catch (\Throwable $th) {
                 DB::rollback();
                 \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
@@ -69,7 +70,8 @@ class RolesController extends Controller
             $perm = Permission::where('id', '=', $permission)->firstOrFail();
             $rol->givePermissionTo($perm);
         }
-        Bitacora::admin(request(), 'Actualizar perfil');
+        $accion = 'Actualizar perfil '.$rol->name;
+        Bitacora::admin(request(), $accion);
         return redirect('admin/perfiles');
     }
 

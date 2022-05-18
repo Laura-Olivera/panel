@@ -94,6 +94,7 @@
 						</div>
  					</div>
 				</form>
+				{{ session('user')->roles }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>

@@ -39,7 +39,8 @@ class PermisosController extends Controller
                     'descrip' => $request->descrip
                 ]);
                 DB::commit();
-                Bitacora::admin(request(), 'Registrar nuevo permiso');
+                $accion = 'Registro nuevo permiso '.$permiso->name;
+                Bitacora::admin(request(), $accion);
                 $response = ['success' => true, 'message' => 'El permiso se registro correctamente.'];
             }else{
                 $response = ['success' => false, 'message' => 'El permiso ya existe.'];
@@ -64,7 +65,8 @@ class PermisosController extends Controller
             $getData = $request->all();
             $permiso = Permission::findOrFail($request->id);
             $permiso->fill($getData)->save();
-            Bitacora::admin(request(), 'Actualizar permiso');
+            $accion = 'Actualizar permiso '.$permiso->name;
+            Bitacora::admin(request(), $accion);
             $response = ['success' => true, 'message' => 'El permiso se actualizo correctamente.'];
         } catch (\Throwable $th) {
             DB::rollback();

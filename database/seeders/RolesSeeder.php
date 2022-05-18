@@ -25,6 +25,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role_superadmin->givePermissionTo([
+            'Dashboard',
             'SuperAdmin',
             'MenuPerfiles',
             'MenuPermisos',
@@ -40,6 +41,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role_admin->givePermissionTo([
+            'Dashboard',
             'Admin',
             'MenuUsuarios',
         ]);

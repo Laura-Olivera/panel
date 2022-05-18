@@ -40,7 +40,9 @@ class UsuariosController extends Controller
         $roles = DB::table('roles')->where(function($query){
             $query->where('name', '!=', 'Cliente');
         })->get();
-        return view('admin.usuarios.modal_crear_usuario')->with('roles', $roles);
+        $usuario = Auth::user();
+        $tipo = $usuario->empleado->clave_empleado;
+        return view('admin.usuarios.modal_crear_usuario',compact('roles', 'tipo'));
     }
 
     public function store(Request $request)
