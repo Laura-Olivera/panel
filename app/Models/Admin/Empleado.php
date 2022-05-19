@@ -27,4 +27,9 @@ class Empleado extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function empleadoContacto()
+    {
+        return $this->hasMany(EmpleadoContacto::class);
+    }
 }

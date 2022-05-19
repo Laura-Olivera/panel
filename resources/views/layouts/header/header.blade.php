@@ -323,7 +323,7 @@
 					<div class="row row-paddingless">
 						<!--begin:Item-->
 						<div class="col-6">
-							<a href="#" class="d-block py-10 px-5 text-center bg-hover-light border-right border-bottom">
+							<a href="{{ URL::to('perfil') }}" class="d-block py-10 px-5 text-center bg-hover-light border-right border-bottom">
 								<span class="svg-icon svg-icon-3x svg-icon-success">
 									<!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Euro.svg-->
 									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

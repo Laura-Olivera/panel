@@ -3,31 +3,32 @@
 namespace App\Http\Controllers\Usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Admin\EmpleadoContacto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\Bitacora;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Bitacora;
 
 class PerfilController extends Controller
 {
     public function empleadoPerfil()
     {
-        $user = Auth::user();
-        $empleado = $user->empleado;
-        $contacto = EmpleadoContacto::where('empleado_id', '=', $empleado->id)->get();
-        return view('admin.usuarios.usuario_perfil', compact('user', 'empleado', 'contacto'));
+        $user = session('empleado');
+        $contactos = EmpleadoContacto::where('empleado_id', '=', $user->id)->get();
+        return view('admin.perfil.usuario_perfil', compact('contactos'));
     }
 
     public function crearContacto()
     {
-        return view('admin.usuarios.modal_crear_contacto');
+        return view('admin.perfil.modal_crear_contacto');
     }
 
     public function storeContacto(Request $request)
     {
         try {
-            $empleado = Auth::user();
+            $empleado = session('empleado');
             $id_empleado = $empleado->id;
             DB::beginTransaction();
             $contacto = EmpleadoContacto::create([
@@ -37,7 +38,7 @@ class PerfilController extends Controller
                 'direccion' => $request->direccion
             ]);
             DB::commit();
-            $data = reuqest();
+            $data = request();
             $accion = 'El usuario '.$empleado->clave_empleado.' añadio nuevo contacto';
             Bitacora::admin($data, $accion);
             $response = ['success' => true, 'message' => 'El contacto se agrego correctamente'];
@@ -51,10 +52,63 @@ class PerfilController extends Controller
 
     public function editContacto($id)
     {
-        $empleado = Auth::user();
+        $empleado = session('empleado');
         $id_empleado = $empleado->id;
-        $contacto = EmpleadoContacto::where('empleado_id', '=',$id_empleado)->get();
-        return view('admin.usuarios.modal_editar_contacto');
+        $contacto = EmpleadoContacto::where('empleado_id', '=',$id_empleado)->where('id','=',$id)->first();
+        return view('admin.perfil.modal_editar_contacto',compact('contacto'));
+    }
+
+    public function updateContacto(Request $request)
+    {
+        try {
+            $contacto = EmpleadoContacto::findOrFail($request->id);
+            DB::beginTransaction();
+            $contacto->nombre = $request->nombre;
+            $contacto->telefono = $request->telefono;
+            $contacto->direccion = $request->direccion;
+            $contacto->save();
+            DB::commit();
+            $response = ['success' => true, 'message' => 'El contacto se actualizo correctamente.'];
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            $response = ['success' => false, 'message' => 'Error al actualizar el contacto.'];
+        }
+        return $response;
+    }
+
+    public function deleteContacto()
+    {
+        
+    }
+
+    public function passwordView()
+    {
+        return view('admin.perfil.modal_editar_password');
+    }
+
+    public function passwordReset(Request $request)
+    {
+        try {
+            DB::transaction();
+            $id = Auth::user()->id;
+            $user = User::findOrFail($id);
+            $empleado = session('empleado')->clave_empleado;
+            $user->password = Hash::make($request->password);
+            $user->save();
+            DB::commit();
+            $data = request();
+            $data['passwors'] = 'xxxxxxxx';
+            $accion = 'El usuario '.$empleado.' cambio su contraseña';
+            Bitacora::admin($data, $accion);
+            $response = ['success' => true, 'message' => 'Se actualizo la contraseña.'];
+        } catch (\Throwable $th) {
+            DB::rollback();
+            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            $response = ['success' => false, 'message' => 'Error al actualizar la contraseña.'];
+        }
+        return $response;
     }
 
 }

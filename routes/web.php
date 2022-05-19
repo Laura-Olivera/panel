@@ -25,6 +25,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware('auth')->group(function(){
 
+    Route::prefix('perfil')->group(function(){
+        Route::get('/', [App\Http\Controllers\Usuarios\PerfilController::class, 'empleadoPerfil']);
+        Route::get('/create', [App\Http\Controllers\Usuarios\PerfilController::class, 'crearContacto']);
+        Route::post('/store', [App\Http\Controllers\Usuarios\PerfilController::class, 'storeContacto']);
+        Route::get('/edit/{id}', [App\Http\Controllers\Usuarios\PerfilController::class, 'editContacto']);
+        Route::post('/update/{id}', [App\Http\Controllers\Usuarios\PerfilController::class, 'updateContacto']);
+        Route::get('/viewPassword',[\App\Http\Controllers\Usuarios\PerfilController::class, 'passwordView']);
+        Route::post('/resetPassword', [App\Http\Controllers\Usuarios\PerfilController::class, 'paswordReset']);
+    });
+
     Route::prefix('admin')->group(function(){
         //RUTAS USUARIOS
         Route::get('/usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'index']);

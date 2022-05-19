@@ -66,7 +66,7 @@
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->descrip }}</td>
                             <td>
-                             {{ $role->permissions()->pluck('name') }}
+                             {{ objectToString($role->permissions()->pluck('name')) }}
                             </td>
                             <td>
                             <a href="{{ URL::to('admin/perfiles/editar_perfil/'.$role->id) }}" class="btn btn-elevate kt-font-brand" style="margin-right: 3px;"><i class="icon-xl far fa-eye"></i></a>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Bitacora;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -76,5 +77,27 @@ class LoginController extends Controller
         }
 
         return $response;
+    }
+
+    public function logout()
+    {
+        $usuario = Auth::user();
+        $datos = request();
+        $modHasRol = DB::table('model_has_roles')->where('model_id', '=', $usuario->id)->first();
+        $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
+        session(['user' => $usuario]);
+        if($perfil->name == 'Cliente'){
+            $cliente = $usuario->cliente;
+            session(['cliente' => $cliente]);
+            $accion = 'Cerrar sesión cliente '.$cliente->clave_cliente;
+            Bitacora::cliente($datos, $accion);
+        }else{
+            $empleado = $usuario->empleado;
+            session(['empleado' => $empleado]);
+            $accion = 'Cerrar sesión empleado '.$empleado->clave_empleado;
+            Bitacora::admin($datos, $accion);
+        }
+        session()->flush();
+        return redirect('/');
     }
 }
