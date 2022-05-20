@@ -154,7 +154,7 @@ class UsuariosController extends Controller
             }
             $datos = request();
             $datos['password'] = 'xxxxxxxx';
-            $accion = 'Actulizar datos usuario '.$usuario->clave_empleado.' '.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+            $accion = $usuario->clave_empleado.' actualizo los datos del usuario'.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
             Bitacora::admin($datos, $accion);
 
             $response = ['success' => true, 'message' => 'Los datos se actualizarón correctamente'];

@@ -78,9 +78,21 @@ class PerfilController extends Controller
         return $response;
     }
 
-    public function deleteContacto()
+    public function deleteContacto(Request $request)
     {
-        
+        try {
+            $empleado = session('empleado');
+            $id_empleado = $empleado->id;
+            DB::beginTransaction();
+            $deleteContacto = DB::table('empleado_contacto')->where('empleado_id', '=', $id_empleado)->where('id', '=', $request->id)->delete();
+            DB::commit();
+            $response = ['success' => true, 'message' => 'El contacto se elimino correctamente.'];
+        } catch (\Throwable $th) {
+            DB::rollback();
+            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            $response = ['success' => false, 'message' => 'Error al eliminar el contacto.'];
+        }
+        return $response;
     }
 
     public function passwordView()
@@ -91,10 +103,11 @@ class PerfilController extends Controller
     public function passwordReset(Request $request)
     {
         try {
-            DB::transaction();
             $id = Auth::user()->id;
             $user = User::findOrFail($id);
             $empleado = session('empleado')->clave_empleado;
+            dd($request->password);
+            DB::beginTransaction();            
             $user->password = Hash::make($request->password);
             $user->save();
             DB::commit();

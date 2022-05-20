@@ -1,29 +1,21 @@
-"use strict";
-$(document).ready(function() {
-    $('.users-table').each(function () {
+'use strict';
+$(document).ready(function(){
+    $('.categorias-table').each(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
-    var tbUser = $('#users-table').DataTable({
+    var tbCatgoria = $('#categorias-table').DataTable({
         processing: true,
         serverSide: true,
         "ordering": true,
         responsive: true,
         ajax: {
-            "url": "usuarios/lista_usuarios",
+            "url": "categorias/lista_categorias",
             "type": "GET",
         },
         columns: [
+            { data: 'clave_cat', name: 'clave_cat'},
             { data: 'nombre', name: 'nombre' },
-            { data: 'primer_apellido', name: 'primer_apellido' },
-            { data: 'segundo_apellido', name: 'segundo_apellido' },
-            { data: 'email', name: 'email' },
-            { data: 'telefono', name: 'telefono' },
-            { data: 'direccion', name: 'direccion', 
-                "mRender": function(data, type, row){
-                    let direccion = row.direccion;
-                    return direccion.replaceAll('|', '. ');
-                }
-            },
+            { data: 'descripcion', name: 'descripcion' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
@@ -31,9 +23,8 @@ $(document).ready(function() {
             },
             {
                 "mRender": function (data, type, row) {
-                    let id_user = row.id;
-                    let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_usuario_modal(' + id_user + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
-                    btn += '<a class="btn btn-elevate kt-font-brand" href="usuarios/detalle_usuario/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
+                    let id_cat = row.id;
+                    let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_categoria_modal(' + id_cat + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
                     return btn;
                 }
             },
@@ -42,17 +33,14 @@ $(document).ready(function() {
     });
 });
 
-function add_usuario_modal()
+function add_categoria_modal()
 {
     $.ajax({
-        url: "usuarios/create",
+        url: "categorias/create",
         datatype: 'GET',
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
-                    placeholder: 'Seleccione...',
-                });
 
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
@@ -75,39 +63,35 @@ function add_usuario_modal()
     });
 }
 
-function store_usuario(){
-    var form = $("#frm_nuevo_usuario");
-    var validarForm = validar(form);
-    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
+function store_categoria(){
+    var form = $("#frm_nueva_categoria");
+    var validarForm = validar(form);   
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
-            primer: $('#pApellido').val(),
-            segundo: $('#sApellido').val(),
-            email: $('#email').val(),
-            password: $('#password').val(),
-            direccion: dir,
-            perfil: $('#perfil').val(),
-            telefono: $('#telefono').val(),
+            descripcion: $('#descripcion').val(),
+            path: $('#path').val(),
+            slug: $('#slug').val(),
+            clave: $('#clave').val(),
         };
         $.ajax({
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "usuarios/store",
+            url: "categorias/store",
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function (respuesta) {
                 if (respuesta.success == true) {
-                    $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
+                    $('#modal_nueva_categoria').modal('hide').on('hidden.bs.modal', function () {
                         Swal.fire("Exito!", respuesta.message, "success");
-                        $('#users-table').DataTable().ajax.reload();
+                        $('#categoria-table').DataTable().ajax.reload();
                     });
                 } else {
-                    $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
+                    $('#modal_nueva_categoria').modal('hide').on('hidden.bs.modal', function () {
                         Swal.fire('¡Alerta!', respuesta.message, 'warning');
-                        $('#users-table').DataTable().ajax.reload();
+                        $('#categoria-table').DataTable().ajax.reload();
                     });
                 }
             },
@@ -227,10 +211,6 @@ function update_usuario(id){
     });
 }
 
-function view_usuario_modal(id){
-
-}
-
 function validar(form){
     var validator = form.validate({
         rules: {
@@ -238,49 +218,18 @@ function validar(form){
                 required: true,
                 maxlength: 150
             },
-            pApellido: {
+            descripcion: {
                 required: true,
                 maxlength: 150
             },
-            sApellido: {
+            slug: {
                 required: true,
                 maxlength: 150
             },
-            email: {
+            clave: {
                 required: true,
                 maxlength: 150
             },
-            password: {
-                required: true,
-                maxlength: 150,
-                minlength: 8
-            },
-            calle: {
-                required: true,
-                maxlength: 150
-            },
-            municipio: {
-                required: true,
-                maxlength: 150
-            },
-            estado: {
-                required: true,
-                maxlength: 150
-            },
-            postal: {
-                required: true,
-                maxlength: 5,
-                minlength: 5
-            },
-            telefono: {
-                required: true,
-                maxlength: 10,
-                minlength: 10
-            },
-            perfil: {
-                required: true,
-                maxlength: 150
-            }
         },
     });
 

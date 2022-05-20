@@ -8,6 +8,68 @@ $(document).ready(function() {
         "searching": false,
         responsive: true,
     });
+
+    $(document).on('click', 'a.eliminar', function(e){
+        let id = $(this).data('id');
+        Swal.fire({
+            title: '¿Desea eliminar este contacto?',
+            showCancelButton: true,
+            confirmButtonText: `Eliminar`,
+            cancelButtonText: `Cancelar`
+        }).then((result) => {
+            console.log(result);
+            if(result.value){
+                delete_contacto(id);
+            }
+        })
+    });
+
+    function delete_contacto(id)
+    {
+        let data = {
+            id: id,
+        };
+        $.ajax({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "perfil/delete/" + id,
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (respuesta) {
+                if (respuesta.success == true) {
+                    Swal.fire("Exito!", respuesta.message, "success");
+                    $("#contacto-table").load(" #contacto-table");
+                    $("#contacto-card").load(" #contacto-card");
+                } else {
+                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                    $("#contacto-table").load(" #contacto-table");
+                    $("#contacto-card").load(" #contacto-card");
+                }
+            },
+            error: function (xhr) { //xhr
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors) {
+                        imprimirMensajesDeError(xhr.responseJSON.errors);
+                    }
+                } else {
+                    Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+                }
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    }
 });
 
 function add_contacto_modal()
@@ -59,11 +121,13 @@ function store_contacto(){
                 $('#modal_nuevo_contacto').modal('hide').on('hidden.bs.modal', function () {
                     Swal.fire("Exito!", respuesta.message, "success");
                     $("#contacto-table").load(" #contacto-table");
+                    $("#contacto-card").load(" #contacto-card");
                 });
             } else {
                 $('#modal_nuevo_contacto').modal('hide').on('hidden.bs.modal', function () {
                     Swal.fire('¡Alerta!', respuesta.message, 'warning');
                     $("#contacto-table").load(" #contacto-table");
+                    $("#contacto-card").load(" #contacto-card");
                 });
             }
         },
@@ -202,52 +266,71 @@ function edit_password()
 
 function update_password()
 {
-    let data = {
-        nombre: $('#password').val(),
-    };
-    $.ajax({
-        headers : {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: "perfil/resetPassword",
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function (respuesta) {
-            if (respuesta.success == true) {
-                $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire("Exito!", respuesta.message, "success");
-                });
-            } else {
-                $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
-                });
-            }
-        },
-        error: function (xhr) { //xhr
-            if (xhr.responseJSON) {
-                if (xhr.responseJSON.errors) {
-                    imprimirMensajesDeError(xhr.responseJSON.errors);
+    var form = $('#frm_editar_password');
+    var valid = validar(form);
+    if(valid){
+        let data = {
+            password: $('#rpass').val(),
+        };
+        $.ajax({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "perfil/resetPassword",
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (respuesta) {
+                if (respuesta.success == true) {
+                    $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
+                        Swal.fire("Exito!", respuesta.message, "success");
+                    });
+                } else {
+                    $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
+                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                    });
                 }
-            } else {
-                Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
-            }
-        },
-        beforeSend: function () {
-            KTApp.blockPage({
-                overlayColor: '#000000',
-                type: 'v2',
-                state: 'success',
-                zIndex: 3000
-            });
-        },
-        complete: function () {
-            KTApp.unblockPage();
-        },
-    });
+            },
+            error: function (xhr) { //xhr
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors) {
+                        imprimirMensajesDeError(xhr.responseJSON.errors);
+                    }
+                } else {
+                    Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+                }
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    }else{
+        return false;
+    }
 }
 
-function delete_contacto(id)
-{
-    
+function validar(form){
+    var validator = form.validate({
+        rules: {
+            pass: {
+                required: true,
+                maxlength: 150,
+                minlength: 8
+            },
+            rpass: {
+                required: true,
+                equalTo: '#pass',
+            }
+        },
+    });
+
+    return validator.form();
 }

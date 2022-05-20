@@ -187,7 +187,7 @@
                     <span class="d-block text-muted pt-2 font-size-md">Informacion de contacto</span></h3>
                 </div>
                 @if( count($contactos) < 2)
-                <div class="card-toolbar">
+                <div class="card-toolbar"  id="contacto-card" name="contacto-card">
                     <!--begin::Button-->
 					<a href="javascript:void(0);" onclick="add_contacto_modal();" class="btn btn-success btn-sm">
                         <span class="svg-icon svg-icon-md">
@@ -224,7 +224,7 @@
                             <td>{{ $contacto->telefono }}</td>
                             <td>{{ $contacto->direccion }}</td>
                             <td><a href="javascript:void(0);" onclick="edit_contacto_modal({{$contacto->id}});" class="btn btn-elevate kt-font-brand" style="margin-right: 3px;"><i class="icon-xl far fa-edit"></i></a>
-                                <a href="javascript:void(0);" onclick="delete_contacto({{$contacto->id}});" class="btn btn-elevate kt-font-brand" style="margin-right: 3px;"><i class="icon-xl far fa-trash-alt"></i></a>
+                                <a href="javascript:void(0);" data-id="{{$contacto->id}}" class="btn btn-elevate kt-font-brand eliminar" style="margin-right: 3px;"><i class="icon-xl far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                         @endforeach
