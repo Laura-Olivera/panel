@@ -11,7 +11,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle {{ $cliente->clave_cliente }}</h5>
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle Cliente {{ $cliente->clave_cliente }}</h5>
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
