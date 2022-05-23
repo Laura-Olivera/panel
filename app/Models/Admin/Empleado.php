@@ -32,4 +32,9 @@ class Empleado extends Model
     {
         return $this->hasMany(EmpleadoContacto::class);
     }
+
+    public function tareas()
+    {
+        return $this->belongsToMany(Tarea::class);
+    }
 }

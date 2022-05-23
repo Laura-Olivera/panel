@@ -95,3 +95,60 @@ if(! function_exists('objectToString'))
     }
 
 }
+
+/* 
+*
+*Convertir estatus en etiqueta de atencion
++
+*/
+
+if(! function_exists('statusToString'))
+{
+
+    function statusToString($estatus)
+    {
+        switch ($estatus) {
+            case 1:
+                $importancia = "Realizar";
+                break;
+            case 2:
+                $importancia = "Urgente";
+                break;
+            case 3:
+                $importancia = "Extra Urgente";
+                break;
+            case 4:
+                $importancia = "terminado";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $importancia;
+    }
+}
+
+
+if (! function_exists('getStringFromObject')) 
+{
+    
+    function getStringFromObject($object, $separador = ",")
+    {
+        $array = [];
+
+        if( gettype($object)  == 'array' ) {
+            $object = (object) $object;
+        }
+
+        foreach($object as $row ){
+            if( in_array(gettype($row), ['array','object'] )  ) {
+                $array[] = getStringFromObject($row, $separador);
+            } else {
+                $array[] = $row;
+            }
+        }
+
+        return implode($separador, $array);
+    }
+}

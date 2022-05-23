@@ -134,7 +134,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_2_3">
+                            <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
                                 <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
                                 <span class="nav-text">Informacion personal</span>
                             </a>

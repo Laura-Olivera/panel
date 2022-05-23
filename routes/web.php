@@ -63,6 +63,12 @@ Route::middleware('auth')->group(function(){
         Route::get('/clientes', [App\Http\Controllers\Admin\ClientesController::class,'index']);
         Route::get('/clientes/lista_clientes', [App\Http\Controllers\Admin\ClientesController::class, 'lista_clientes']);
         Route::get('/clientes/detalle_cliente/{id}', [App\Http\Controllers\Admin\ClientesController::class, 'show']);
+        //RUTAS TAREAS
+        Route::get('/tareas', [App\Http\Controllers\Admin\TareasController::class, 'index']);
+        Route::get('/tareas/listar_tareas', [App\Http\Controllers\Admin\TareasController::class, 'listar_tareas']);
+        Route::get('/tareas/create', [App\Http\Controllers\Admin\TareasController::class, 'create']);
+        Route::post('/tareas/store', [App\Http\Controllers\Admin\TareasController::class, 'store']);
+        Route::get('/tareas/edit/{id}', [App\Http\Controllers\Admin\TareasController::class, 'edit']);
     });
 
     //RUTAS CATALOGOS

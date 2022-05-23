@@ -13,6 +13,11 @@ use App\Helpers\Bitacora;
 
 class PerfilController extends Controller
 {
+    public function tareas()
+    {
+        
+    }
+
     public function empleadoPerfil()
     {
         $user = session('empleado');
@@ -112,7 +117,7 @@ class PerfilController extends Controller
             $user->save();
             DB::commit();
             $data = request();
-            $data['passwors'] = 'xxxxxxxx';
+            $data['password'] = 'xxxxxxxx';
             $accion = 'El usuario '.$empleado.' cambio su contraseña';
             Bitacora::admin($data, $accion);
             $response = ['success' => true, 'message' => 'Se actualizo la contraseña.'];
