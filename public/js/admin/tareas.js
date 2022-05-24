@@ -6,10 +6,32 @@ $(document).ready(function() {
     });
     var tbTareas = $('#tareas-table').DataTable({
         processing: true,
-        "ordering": true,
-        "searching": true,
+        "ordering": false,
+        "searching": false,
         responsive: true,
         /* dom: 'Bfrtip */
+        /* ajax: {
+            "url": "tareas/listar_tareas",
+            "type": "GET",
+        },
+        columns: [
+            { data: 'tarea', name: 'tarea' },
+            { data: 'descripcion', name: 'descripcion' },
+            { data: 'nombre', name: 'nombre' },
+            {   
+                "mRender": function ( data, type, row ) {
+                    return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
+                }
+            },
+            {
+                "mRender": function (data, type, row) {
+                    let id = row.id;
+                    let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_usuario_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
+                    return btn;
+                }
+            },
+
+        ], */
     });
 });
 
@@ -21,8 +43,10 @@ function add_tarea_modal()
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
-                    placeholder: 'Seleccione...',
+                // multi select
+                $('#empleados').select2({
+                    placeholder: "Seleciona una o mas opciones",
+                    allowClear: true,
                 });
 
             }).on('hidden.bs.modal', function () {
@@ -70,10 +94,12 @@ function store_tarea()
                 if (respuesta.success == true) {
                     $('#modal_nueva_tarea').modal('hide').on('hidden.bs.modal', function () {
                         Swal.fire("Exito!", respuesta.message, "success");
+                        $("#tareas-table").load(" #tareas-table");
                     });
                 } else {
                     $('#modal_nueva_tarea').modal('hide').on('hidden.bs.modal', function () {
                         Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                        $("#tareas-table").load(" #tareas-table");
                     });
                 }
             },
@@ -111,8 +137,10 @@ function edit_tarea_modal(id)
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
-                    placeholder: 'Seleccione...',
+                // multi select
+                $('#empleados').select2({
+                    placeholder: "Seleciona una o mas opciones",
+                    allowClear: true,
                 });
 
             }).on('hidden.bs.modal', function () {
@@ -121,6 +149,60 @@ function edit_tarea_modal(id)
         },
         error: function (xhr) {
             Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
+}
+
+function update_tarea(id)
+{
+    let data = {
+        id: $('#id').val(),
+        tarea: $('#tarea').val(),
+        descripcion: $('#descripcion').val(),
+        modulo: $('#modulo').val(),
+        estatus: $('#estatus').val(),
+        empleados: $('#empleados').val()
+    }
+    $.ajax({
+        headers : {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "tareas/update/" + id,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (respuesta) {
+            if (respuesta.success == true) {
+                $('#modal_editar_tarea').modal('hide').on('hidden.bs.modal', function () {
+                    Swal.fire("Exito!", respuesta.message, "success");
+                    $("#tareas-table").load(" #tareas-table");
+                });
+            } else {
+                $('#modal_editar_tarea').modal('hide').on('hidden.bs.modal', function () {
+                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                    $("#tareas-table").load(" #tareas-table");
+                });
+            }
+        },
+        error: function (xhr) { //xhr
+            if (xhr.responseJSON) {
+                if (xhr.responseJSON.errors) {
+                    imprimirMensajesDeError(xhr.responseJSON.errors);
+                }
+            } else {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+            }
         },
         beforeSend: function () {
             KTApp.blockPage({

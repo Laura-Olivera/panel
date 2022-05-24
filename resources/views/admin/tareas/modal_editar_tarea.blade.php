@@ -2,13 +2,14 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar tarea</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ ($tarea->estatus == 4) ? 'Ver tarea' : 'Editar tarea' }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
 				<form class="form" id="frm_editar_tarea" name="frm_editar_tarea">
+					<input type="hidden" value="{{ $tarea->id }}" id="id" name="id"/>
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">
@@ -39,11 +40,11 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Asignar a:</label>
-										<select class="form-control select2" id="empleados" name="empleados[]" multiple="multiple">
+										<select class="js-example-basic-multiple" id="empleados" name="empleados[]" multiple="multiple">
 											@foreach($empleados as $empleado)
-                                                {{-- @foreach($empleadoTareas as $asignado)
-                                                <option value="{{ $empleado->id }}" {{ ($asignado == $empleado->id) ? "selected" : "" }}>{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
-                                                @endforeach --}}
+                                                @foreach($empleadoTareas as $asignado)
+                                                <option value="{{ $empleado->id }}" {{ ($asignado->empleado_id == $empleado->id) ? "selected" : "" }}>{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
+                                                @endforeach
 											@endforeach
 										</select>
 									</div>
@@ -52,10 +53,10 @@
 									<div class="form-group">
 										<label>Estatus:</label>
 										<select class="form-control" id="estatus" name="estatus">
-     										<option value="1" {{ ($tarea->estatus = 1) ? "selected" : ""}}>Realizar</option>
-                                            <option value="2" {{ ($tarea->estatus = 2) ? "selected" : ""}}>Urgente</option>
-                                            <option value="3" {{ ($tarea->estatus = 3) ? "selected" : ""}}>Extra Urgente</option>
-                                            <option value="4" {{ ($tarea->estatus = 4) ? "selected" : ""}}>Terminado</option>
+     										<option value="1" {{ ($tarea->estatus == 1) ? "selected" : ""}}>Realizar</option>
+                                            <option value="2" {{ ($tarea->estatus == 2) ? "selected" : ""}}>Urgente</option>
+                                            <option value="3" {{ ($tarea->estatus == 3) ? "selected" : ""}}>Extra Urgente</option>
+                                            <option value="4" {{ ($tarea->estatus == 4) ? "selected" : ""}}>Terminado</option>
 										</select>
 									</div>
 								</div>
@@ -65,8 +66,10 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary font-weight-bold" onclick="store_tarea();">Registrar</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ ($tarea->estatus == 4) ? 'Cerrar' : 'Cancelar' }}</button>
+				@if ($tarea->estatus != 4)
+				 <button type="button" class="btn btn-primary font-weight-bold" onclick="update_tarea();">Guardar</button>
+				@endif
             </div>
         </div>
     </div>

@@ -157,160 +157,43 @@
 								<!--begin::Body-->
 								<div class="card-body pt-0">
 									<!--begin::Item-->
-									<div class="mb-6">
-										<!--begin::Content-->
-										<div class="d-flex align-items-center flex-grow-1">
-											<!--begin::Bullet-->
-                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-											<!--end::Bullet-->
-                                            <!--begin::Checkbox-->
-											<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-											<!--end::Checkbox-->
-											<!--begin::Section-->
-											<div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-												<!--begin::Info-->
-												<div class="d-flex flex-column align-items-cente py-2 w-75">
-													<!--begin::Title-->
-													<a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">Daily Standup Meeting</a>
-													<!--end::Title-->
-													<!--begin::Data-->
-													<span class="text-muted font-weight-bold">Due in 2 Days</span>
-													<!--end::Data-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Label-->
-												<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Approved</span>
-												<!--end::Label-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Content-->
-									</div>
-									<!--end::Item-->
-									<!--begin::Item-->
-									<div class="mb-6">
-										<!--begin::Content-->
-										<div class="d-flex align-items-center flex-grow-1">
-											<!--begin::Bullet-->
-                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-											<!--end::Bullet-->
-                                            <!--begin::Checkbox-->
-											<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-											<!--end::Checkbox-->
-											<!--begin::Section-->
-											<div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-												<!--begin::Info-->
-												<div class="d-flex flex-column align-items-cente py-2 w-75">
-													<!--begin::Title-->
-													<a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">Group Town Hall Meet-up with showcase</a>
-													<!--end::Title-->
-													<!--begin::Data-->
-													<span class="text-muted font-weight-bold">Due in 2 Days</span>
-													<!--end::Data-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Label-->
-												<span class="label label-lg label-light-warning label-inline font-weight-bold py-4">In Progress</span>
-												<!--end::Label-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Content-->
-									</div>
-									<!--end::Item-->
-									<!--begin::Item-->
-									<div class="mb-6">
-										<!--begin::Content-->
-										<div class="d-flex align-items-center flex-grow-1">
-											<!--begin::Bullet-->
-                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-											<!--end::Bullet-->
-                                            <!--begin::Checkbox-->
-											<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-											<!--end::Checkbox-->
-											<!--begin::Section-->
-											<div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-												<!--begin::Info-->
-												<div class="d-flex flex-column align-items-cente py-2 w-75">
-													<!--begin::Title-->
-													<a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">Next sprint planning and estimations</a>
-													<!--end::Title-->
-													<!--begin::Data-->
-													<span class="text-muted font-weight-bold">Due in 2 Days</span>
-													<!--end::Data-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Label-->
-												<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Success</span>
-												<!--end::Label-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Content-->
-									</div>
-									<!--end::Item-->
-									<!--begin::Item-->
-									<div class="mb-6">
-										<!--begin::Content-->
-										<div class="d-flex align-items-center flex-grow-1">
-											<!--begin::Bullet-->
-                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-											<!--end::Bullet-->
-                                            <!--begin::Checkbox-->
-											<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-											<!--end::Checkbox-->
-											<!--begin::Section-->
-											<div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-												<!--begin::Info-->
-												<div class="d-flex flex-column align-items-cente py-2 w-75">
-													<!--begin::Title-->
-													<a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">Sprint delivery and project deployment</a>
-													<!--end::Title-->
-													<!--begin::Data-->
-													<span class="text-muted font-weight-bold">Due in 2 Days</span>
-													<!--end::Data-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Label-->
-												<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Rejected</span>
-												<!--end::Label-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Content-->
-									</div>
-									<!--end: Item-->
-									<!--begin: Item-->
-									<div class="">
-										<!--begin::Content-->
-										<div class="d-flex align-items-center flex-grow-1">
-											<!--begin::Bullet-->
-                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-											<!--end::Bullet-->
-                                            <!--begin::Checkbox-->
-											<label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-											<!--end::Checkbox-->
-											<!--begin::Section-->
-											<div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-												<!--begin::Info-->
-												<div class="d-flex flex-column align-items-cente py-2 w-75">
-													<!--begin::Title-->
-													<a href="#" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">Data analytics research showcase</a>
-													<!--end::Title-->
-													<!--begin::Data-->
-													<span class="text-muted font-weight-bold">Due in 2 Days</span>
-													<!--end::Data-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Label-->
-												<span class="label label-lg label-light-warning label-inline font-weight-bold py-4">In Progress</span>
-												<!--end::Label-->
-											</div>
-											<!--end::Section-->
-										</div>
-										<!--end::Content-->
-									</div>
-									<!--end: Item-->
+									@foreach ($tareas as $tarea)
+                                        @foreach ($tareaEmpleado as $asignado)
+                                            @if ($asignado->tarea_id == $tarea->id)
+                                            <div class="mb-6">
+                                                <!--begin::Content-->
+                                                <div class="d-flex align-items-center flex-grow-1">
+                                                    <!--begin::Bullet-->
+                                                    <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                    <!--end::Bullet-->
+                                                    <!--begin::Checkbox-->
+                                                    <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
+                                                    <!--end::Checkbox-->
+                                                    <!--begin::Section-->
+                                                    <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                        <!--begin::Info-->
+                                                        <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                            <!--begin::Title-->
+                                                            <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                            <!--end::Title-->
+                                                            <!--begin::Data-->
+                                                            <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
+                                                            <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                            <!--end::Data-->
+                                                        </div>
+                                                        <!--end::Info-->
+                                                        <!--begin::Label-->
+                                                        <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                        <!--end::Label-->
+                                                    </div>
+                                                    <!--end::Section-->
+                                                </div>
+                                                <!--end::Content-->
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                    {{-- end::item --}}
 								</div>
 								<!--end: Card Body-->
 							</div>
@@ -443,5 +326,6 @@
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/users/perfil.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/admin/tareas.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

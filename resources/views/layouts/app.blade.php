@@ -118,6 +118,7 @@
     <script src="{{ URL::asset('assets/js/scripts.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/vendors/general/jquery_validation/dist/jquery.validate.min.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}" type="text/javascript"></script>
+	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/select2.js') }}" type="text/javascript"></script>
 	<!--end::Global Theme Bundle-->
 	<!-- begin::Page Scripts -->
 	@yield('scripts')

@@ -39,7 +39,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Asignar a:</label>
-										<select class="js-example-basic-multiple" id="empleados" name="empleados[]" multiple="multiple">
+										<select class="select2" id="empleados" name="empleados[]" multiple="multiple">
 											@foreach($empleados as $empleado)
      										<option value="{{ $empleado->id }}">{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
 											@endforeach

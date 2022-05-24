@@ -129,6 +129,37 @@ if(! function_exists('statusToString'))
     }
 }
 
+/*  
+*
+*Obtener etiqueta success|warning|primary|danger
+*
+*/
+
+if(! function_exists('getLabelStatusTask'))
+{
+
+    function getLabelStatusTask($estatus)
+    {
+        switch ($estatus) {
+            case 1:
+                $etiqueta = "primary";
+                break;
+            case 2:
+                $etiqueta = "warning";
+                break;
+            case 3:
+                $etiqueta = "danger";
+                break;
+            case 4:
+                $etiqueta = "success";
+                break;
+            default:
+                $etiqueta = "info";
+                break;
+        }
+        return $etiqueta;
+    }
+}
 
 if (! function_exists('getStringFromObject')) 
 {

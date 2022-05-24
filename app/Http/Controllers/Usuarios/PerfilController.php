@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Bitacora;
+use App\Models\Admin\Tarea;
+use Carbon\Carbon;
 
 class PerfilController extends Controller
 {
@@ -22,7 +24,12 @@ class PerfilController extends Controller
     {
         $user = session('empleado');
         $contactos = EmpleadoContacto::where('empleado_id', '=', $user->id)->get();
-        return view('admin.perfil.usuario_perfil', compact('contactos'));
+        $tareas = DB::table('tareas')->orderByDesc('created_at')->get();
+        $tareaEmpleado = DB::table('empleado_tarea')->select('tarea_id')->where('empleado_id', '=', $user->id)->get();
+        foreach ($tareas as $tarea) {
+            $tarea->created_at = Carbon::parse($tarea->created_at)->diffForHumans();
+        }
+        return view('admin.perfil.usuario_perfil', compact('contactos', 'tareas', 'tareaEmpleado'));
     }
 
     public function crearContacto()

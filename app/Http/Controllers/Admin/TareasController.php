@@ -17,13 +17,22 @@ class TareasController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all();
+        $tareas = Tarea::all()->sortByDesc('createt_at');
         return view('admin.tareas.lista_tareas', compact('tareas'));
     }
 
     public function listar_tareas()
     {
+        /* $tareas = DB::table('tareas')->select('*')->addSelect('empleados.nombre as nombre')
+            ->leftJoin('empleados', 'empleados.id','=', DB::raw('(select empleado_id from empleado_tarea where empleado_tarea.tarea_id = tareas.id limit 1)')); */
+
         $tareas = Tarea::all();
+        $concat = [];
+        foreach ($tareas as $tarea) {
+            $concat = $tarea->empleados()->pluck('nombre');
+        }
+        dd($concat);
+
         return DataTables::of($tareas)->toJson();
     }
 
@@ -123,6 +132,25 @@ class TareasController extends Controller
         }
 
         return $response;
+    }
+
+    function getStringFromObject($object, $separador = ",")
+    {
+        $array = [];
+
+        if( gettype($object)  == 'array' ) {
+            $object = (object) $object;
+        }
+
+        foreach($object as $row ){
+            if( in_array(gettype($row), ['array','object'] )  ) {
+                $array[] = getStringFromObject($row, $separador);
+            } else {
+                $array[] = $row;
+            }
+        }
+
+        return implode($separador, $array);
     }
 
 }
