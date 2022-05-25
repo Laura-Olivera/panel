@@ -11,6 +11,8 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Admin\Empleado;
 use App\Helpers\Bitacora;
+use App\Models\Admin\Tarea;
+use Illuminate\Support\Carbon;
 
 class UsuariosController extends Controller
 {
@@ -154,7 +156,7 @@ class UsuariosController extends Controller
             }
             $datos = request();
             $datos['password'] = 'xxxxxxxx';
-            $accion = $usuario->clave_empleado.' actualizo los datos del usuario'.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+            $accion = $usuario->clave_empleado.' actualizo los datos del usuario '.$usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
             Bitacora::admin($datos, $accion);
 
             $response = ['success' => true, 'message' => 'Los datos se actualizarón correctamente'];
@@ -176,8 +178,17 @@ class UsuariosController extends Controller
         $direccion = explode('|', $usuario->direccion);
         $modHasRol = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
         $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
-        $ultimaAccion = DB::table('bitacora')->where('user_id', '=', $usuario->user_id)->latest('created_at')->first();
-        return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion'));
+        $ultimaAccion = DB::table('bitacora')->where('user_id', '=', $usuario->user_id)->orderByDesc('created_at')->limit(5)->get();
+        $tPendientes = DB::table('tareas')->where('estatus', '<>', 4)->get();
+        $tFinalizadas = DB::table('tareas')->where('estatus', '=', 4)->get();
+        $empleadoTarea = DB::table('empleado_tarea')->where('empleado_id', '=', $usuario->id)->get();
+        foreach ($tPendientes as $tarea) {
+            $tarea->created_at = Carbon::parse($tarea->created_at)->diffForHumans();
+        }
+        foreach ($tFinalizadas as $tarea) {
+            $tarea->created_at = Carbon::parse($tarea->created_at)->diffForHumans();
+        }
+        return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion', 'tPendientes', 'tFinalizadas', 'empleadoTarea'));
     }
 
     public function generarClave($perfil, $empleado){

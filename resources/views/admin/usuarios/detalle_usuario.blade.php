@@ -11,9 +11,14 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle {{ $usuario->clave_empleado }}</h5>
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle usuario {{ $usuario->clave_empleado }}</h5>
 			<!--end::Title-->
 		</div>
+        <div class="d-flex align-items-center">
+            <!--begin::Actions-->
+            <button onClick="window.history.go(-1)" class="btn btn-primary font-weight-bolder">Regresar</button>
+            <!--end::Actions-->
+        </div>
 		<!--end::Details-->
 	</div>
 </div>
@@ -106,10 +111,138 @@
                         </div>
                     </div>
                     <div class="card-body pt-2">
-                        <p class="text-dark-50">{{ $ultimaAccion->accion }}</p>
+                        @foreach ($ultimaAccion as $accion)
+                            <p class="text-dark-50">{{ $accion->accion }}</p>
+                        @endforeach
                     </div>
                 </div>
                 <!--end::Card-->
+                <div class="card card-custom gutter-b">
+                    <div class="card-header card-header-tabs-line">
+                        <div class="card-toolbar">
+                            <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_3">
+                                        <span class="nav-icon"><i class="fas fa-tasks"></i></span>
+                                        <span class="nav-text">Pendientes</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
+                                        <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
+                                        <span class="nav-text">Terminadas</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_tab_pane_1_3" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
+                                <div class="col-xl-12">
+                                    <!--begin::List Widget 10-->
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <!--begin::Body-->
+                                        <div class="card-body pt-0">
+                                            <!--begin::Item-->
+                                            @foreach ($tPendientes as $tarea)
+                                                @foreach ($empleadoTarea as $asignado)
+                                                    @if ($asignado->tarea_id == $tarea->id)                                                  
+                                                    <div class="mb-6">
+                                                        <!--begin::Content-->
+                                                        <div class="d-flex align-items-center flex-grow-1">
+                                                            <!--begin::Bullet-->
+                                                            <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                            <!--end::Bullet-->
+                                                            <!--begin::Checkbox-->
+                                                            <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
+                                                            <!--end::Checkbox-->
+                                                            <!--begin::Section-->
+                                                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                                <!--begin::Info-->
+                                                                <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                                    <!--begin::Title-->
+                                                                    <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                                    <!--end::Title-->
+                                                                    <!--begin::Data-->
+                                                                    <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
+                                                                    <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                                    <!--end::Data-->
+                                                                </div>
+                                                                <!--end::Info-->
+                                                                <!--begin::Label-->
+                                                                <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                                <!--end::Label-->
+                                                            </div>
+                                                            <!--end::Section-->
+                                                        </div>
+                                                        <!--end::Content-->
+                                                    </div>                                                    
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                            {{-- end::item --}}
+                                        </div>
+                                        <!--end: Card Body-->
+                                    </div>
+                                    <!--end: Card-->
+                                    <!--end: List Widget 10-->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="kt_tab_pane_2_3" role="tabpanel" aria-labelledby="kt_tab_pane_2_3">
+                                <div class="col-xl-12">
+                                    <!--begin::List Widget 10-->
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <!--begin::Body-->
+                                        <div class="card-body pt-0">
+                                            <!--begin::Item-->
+                                            @foreach ($tFinalizadas as $tarea)
+                                                @foreach ($empleadoTarea as $asignado)
+                                                    @if ($asignado->tarea_id == $tarea->id)                                                    
+                                                    <div class="mb-6">
+                                                        <!--begin::Content-->
+                                                        <div class="d-flex align-items-center flex-grow-1">
+                                                            <!--begin::Bullet-->
+                                                            <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                            <!--end::Bullet-->
+                                                            <!--begin::Checkbox-->
+                                                            <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
+                                                            <!--end::Checkbox-->
+                                                            <!--begin::Section-->
+                                                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                                <!--begin::Info-->
+                                                                <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                                    <!--begin::Title-->
+                                                                    <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                                    <!--end::Title-->
+                                                                    <!--begin::Data-->
+                                                                    <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
+                                                                    <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                                    <!--end::Data-->
+                                                                </div>
+                                                                <!--end::Info-->
+                                                                <!--begin::Label-->
+                                                                <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                                <!--end::Label-->
+                                                            </div>
+                                                            <!--end::Section-->
+                                                        </div>
+                                                        <!--end::Content-->
+                                                    </div>                                                    
+                                                    @endif
+                                                @endforeach
+                                            @endforeach
+                                            {{-- end::item --}}
+                                        </div>
+                                        <!--end: Card Body-->
+                                    </div>
+                                    <!--end: Card-->
+                                    <!--end: List Widget 10-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--begin::Card-->
                 <div class="card card-custom">
                     <!--begin::Header-->
@@ -141,77 +274,6 @@
                                 <span class="font-weight-bolder">{{ $direccion[0] }}. {{ $direccion[1] }}. {{ $direccion[2] }}. {{ $direccion[3] }}</span>
                             </div>
                         </div>                        
-                    </div>
-                    <!--end::Body-->
-                </div>
-                <!--end::Card-->
-            </div>
-            <div class="col-xl-8">
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <!--begin::Header-->
-                    <div class="card-header card-header-tabs-line">
-                        <div class="card-toolbar">
-                            <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-bold nav-tabs-line-3x" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#kt_apps_contacts_view_tab_1">
-                                        <span class="nav-icon mr-2">
-                                            <span class="svg-icon mr-3">
-                                                <!--begin::Svg Icon | path:assets/media/svg/icons/General/Notification2.svg-->
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                        <rect x="0" y="0" width="24" height="24" />
-                                                        <path d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z" fill="#000000" />
-                                                        <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5" />
-                                                    </g>
-                                                </svg>
-                                                <!--end::Svg Icon-->
-                                            </span>
-                                        </span>
-                                        <span class="nav-text">Notes</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body px-0">
-                        <div class="tab-content pt-5">
-                            <!--begin::Tab Content-->
-                            <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
-                                <div class="container">
-                                    <div class="separator separator-dashed my-10"></div>
-                                    <!--begin::Timeline-->
-                                    <div class="timeline timeline-3">
-                                        <div class="timeline-items">
-                                            <div class="timeline-item">
-                                                <div class="timeline-media">
-                                                    <img alt="Pic" src="assets/media/users/300_25.jpg" />
-                                                </div>
-                                                <div class="timeline-content">
-                                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                                        <div class="mr-2">
-                                                            <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">New order has been placed</a>
-                                                            <span class="text-muted ml-2">Today</span>
-                                                            <span class="label label-light-success font-weight-bolder label-inline ml-2">new</span>
-                                                        </div>
-                                                        <div class="dropdown ml-2" data-toggle="tooltip" title="Quick actions" data-placement="left">
-                                                            <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="ki ki-more-hor icon-md"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <p class="p-0">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Timeline-->
-                                </div>
-                            </div>
-                            <!--end::Tab Content-->
-                        </div>
                     </div>
                     <!--end::Body-->
                 </div>
