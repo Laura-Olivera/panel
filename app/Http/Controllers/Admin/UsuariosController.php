@@ -11,6 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Admin\Empleado;
 use App\Helpers\Bitacora;
+use App\Models\Admin\EmpleadoContacto;
 use App\Models\Admin\Tarea;
 use Illuminate\Support\Carbon;
 
@@ -30,8 +31,9 @@ class UsuariosController extends Controller
     public function getDataUsuarios()
     {
         $empleados = DB::table('empleados')
+        ->select('empleados.*', 'users.email', 'users.estatus')
+            ->addSelect(DB::raw('(select role_id as perfil from model_has_roles where model_has_roles.model_id = empleados.user_id)'))
             ->join('users', 'empleados.user_id', '=', 'users.id')
-            ->select('empleados.*', 'users.email', 'users.estatus')
             ->get();
         return DataTables::of($empleados)->toJson();
     }
@@ -179,6 +181,9 @@ class UsuariosController extends Controller
         $modHasRol = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
         $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
         $ultimaAccion = DB::table('bitacora')->where('user_id', '=', $usuario->user_id)->orderByDesc('created_at')->limit(5)->get();
+        foreach ($ultimaAccion as $accion) {
+            $accion->created_at = Carbon::parse($accion->created_at)->format('Y-m-d H:i');
+        }
         $tPendientes = DB::table('tareas')->where('estatus', '<>', 4)->get();
         $tFinalizadas = DB::table('tareas')->where('estatus', '=', 4)->get();
         $empleadoTarea = DB::table('empleado_tarea')->where('empleado_id', '=', $usuario->id)->get();
@@ -188,7 +193,9 @@ class UsuariosController extends Controller
         foreach ($tFinalizadas as $tarea) {
             $tarea->created_at = Carbon::parse($tarea->created_at)->diffForHumans();
         }
-        return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion', 'tPendientes', 'tFinalizadas', 'empleadoTarea'));
+
+        $contactos = EmpleadoContacto::where('empleado_id', '=', $usuario->id)->get();
+        return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion', 'tPendientes', 'tFinalizadas', 'empleadoTarea', 'contactos'));
     }
 
     public function generarClave($perfil, $empleado){

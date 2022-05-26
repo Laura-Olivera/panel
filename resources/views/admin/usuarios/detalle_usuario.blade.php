@@ -16,7 +16,7 @@
 		</div>
         <div class="d-flex align-items-center">
             <!--begin::Actions-->
-            <button onClick="window.history.go(-1)" class="btn btn-primary font-weight-bolder">Regresar</button>
+            <button onClick="window.history.go(-1);" class="btn btn-primary font-weight-bolder">Regresar</button>
             <!--end::Actions-->
         </div>
 		<!--end::Details-->
@@ -39,13 +39,13 @@
                             <div class="mr-3">
                                 <div class="d-flex align-items-center mr-3">
                                     <!--begin::Name-->
-                                    <a href="#" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">{{ $usuario->nombre }} {{ $usuario->primer_apellido }}</a>
+                                    <h6 class="d-flex align-items-center text-dark font-size-h5 font-weight-bold mr-3">{{ $usuario->nombre }} {{ $usuario->primer_apellido }}</h6>
                                     <!--end::Name-->
-                                    <span class="label label-light-success label-inline font-weight-bolder mr-1">{{$perfil->name}}</span>                                    
+                                    <span class="label label-light-primary label-inline font-weight-bolder mr-1">{{$perfil->name}}</span>                                    
                                 </div>
                                 <!--begin::Contacts-->
                                 <div class="d-flex flex-wrap my-2">
-                                    <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
+                                    <h6 class="text-muted font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                     <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
                                         <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Mail-notification.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -56,41 +56,13 @@
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
-                                    </span>{{ $usuario->email }}</a>
-                                    <a href="#" class="text-muted text-hover-primary font-weight-bold">
-                                    <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Map/Marker2.svg-->
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24" height="24" />
-                                                <path d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z" fill="#000000" />
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span>{{ $direccion[2] }}</a>
+                                    </span>{{ $usuario->email }}</h6>
                                 </div>
                                 <!--end::Contacts-->
                             </div>
                             <!--begin::User-->
                         </div>
                         <!--end::Title-->
-                        <!--begin::Content-->
-                        <div class="d-flex align-items-center flex-wrap justify-content-between">
-                            <!--begin::Description-->
-                            <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">I distinguish three main text objectives could be merely to inform people.
-                            <br />A second could be persuade people. You want people to bay objective.</div>
-                            <!--end::Description-->
-                            <!--begin::Progress-->
-                            <div class="d-flex mt-4 mt-sm-0">
-                                <span class="font-weight-bold mr-4">Progress</span>
-                                <div class="progress progress-xs mt-2 mb-2 flex-shrink-0 w-150px w-xl-500px">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 63%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <span class="font-weight-bolder text-dark ml-4">78%</span>
-                            </div>
-                            <!--end::Progress-->
-                        </div>
-                        <!--end::Content-->
                     </div>
                     <!--end::Info-->
                 </div>
@@ -104,39 +76,63 @@
                 <div class="card card-custom gutter-b">
                     <div class="card-header h-auto py-3 border-0">
                         <div class="card-title">
-                            <h3 class="card-label text-danger">Actividad reciente</h3>
+                            <h3 class="card-label">Actividad reciente</h3>
                         </div>
                         <div class="card-toolbar">
                             <span class="label font-weight-bold label label-inline label-light-danger">Ahora</span>
                         </div>
                     </div>
-                    <div class="card-body pt-2">
+                    <div class="card-body pt-0">
                         @foreach ($ultimaAccion as $accion)
-                            <p class="text-dark-50">{{ $accion->accion }}</p>
+                        <div class="mb-6">
+                            <!--begin::Content-->
+                            <div class="d-flex align-items-center flex-grow-1">
+                                <!--begin::Section-->
+                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                    <!--begin::Info-->
+                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                        <!--begin::Title-->
+                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1">{{ $accion->accion }}</span>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Info-->
+                                    <!--begin::Label-->
+                                    <span class="label label-lg label-light-dark label-inline font-weight-bold py-4">{{ $accion->created_at }}</span>
+                                    <!--end::Label-->
+                                </div>
+                                <!--end::Section-->
+                            </div>
+                            <!--end::Content-->
+                        </div>
                         @endforeach
                     </div>
                 </div>
                 <!--end::Card-->
                 <div class="card card-custom gutter-b">
-                    <div class="card-header card-header-tabs-line">
-                        <div class="card-toolbar">
-                            <ul class="nav nav-tabs nav-bold nav-tabs-line">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_3">
-                                        <span class="nav-icon"><i class="fas fa-tasks"></i></span>
-                                        <span class="nav-text">Pendientes</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
-                                        <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
-                                        <span class="nav-text">Terminadas</span>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="card-header h-auto py-3 border-0">
+                        <div class="card-title">
+                            <h3 class="card-label">Tareas asignadas</h3>
                         </div>
-                    </div>
-                    <div class="card-body">
+                    </div>                    
+                    <div class="card-body pt-2">
+                        <div class="card-header-tabs-line">
+                            <div class="card-toolbar">
+                                <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_3">
+                                            <span class="nav-icon"><i class="far fa-clock"></i></span>
+                                            <span class="nav-text">Pendientes</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
+                                            <span class="nav-icon"><i class="fas fa-check"></i></span>
+                                            <span class="nav-text">Terminadas</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><br>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="kt_tab_pane_1_3" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
                                 <div class="col-xl-12">
@@ -162,7 +158,7 @@
                                                                 <!--begin::Info-->
                                                                 <div class="d-flex flex-column align-items-cente py-2 w-75">
                                                                     <!--begin::Title-->
-                                                                    <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                                    <span class="text-dark-75 font-weight-bold font-size-lg mb-1">{{ $tarea->tarea }}</span>
                                                                     <!--end::Title-->
                                                                     <!--begin::Data-->
                                                                     <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
@@ -183,6 +179,7 @@
                                             @endforeach
                                             {{-- end::item --}}
                                         </div>
+                                        {{-- {{ $tPendientes->links() }} --}}
                                         <!--end: Card Body-->
                                     </div>
                                     <!--end: Card-->
@@ -244,38 +241,122 @@
                     </div>
                 </div>
                 <!--begin::Card-->
-                <div class="card card-custom">
-                    <!--begin::Header-->
-                    <div class="card-header h-auto py-4">
+                <div class="card card-custom gutter-b">
+                    <div class="card-header h-auto py-3 border-0">
                         <div class="card-title">
-                            <h3 class="card-label">
-                            <span class="d-block text-muted pt-2 font-size-sm">Informacion de contacto</span></h3>
+                            <h3 class="card-label">Información</h3>
+                        </div>
+                    </div>                    
+                    <div class="card-body pt-2">
+                        <div class="card-header-tabs-line">
+                            <div class="card-toolbar">
+                                <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#info_tab_pane_1_3">
+                                            <span class="nav-icon"><i class="fas fa-user"></i></span>
+                                            <span class="nav-text">Personal</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#info_tab_pane_2_3">
+                                            <span class="nav-icon"><i class="fas fa-users"></i></span>
+                                            <span class="nav-text">Contacto</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><br>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="info_tab_pane_1_3" role="tabpanel" aria-labelledby="info_tab_pane_1_3">
+                                <div class="col-xl-12">
+                                    <!--begin::List Widget 10-->
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <!--begin::Body-->
+                                        <div class="card-body pt-0">
+                                            <!--begin::Item-->
+                                            <div class="card-body py-4">
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Nombre:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Correo electrónico:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->email }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Telefono:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->telefono }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Dirección:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext">
+                                                        <span class="font-weight-bolder">{{ $direccion[0] }}. {{ $direccion[1] }}. {{ $direccion[2] }}. {{ $direccion[3] }}</span>
+                                                    </div>
+                                                </div>                        
+                                            </div>
+                                            {{-- end::item --}}
+                                        </div>
+                                        <!--end: Card Body-->
+                                    </div>
+                                    <!--end: Card-->
+                                    <!--end: List Widget 10-->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="info_tab_pane_2_3" role="tabpanel" aria-labelledby="info_tab_pane_2_3">
+                                <div class="col-xl-12">
+                                    <!--begin::List Widget 10-->
+                                    <div class="card card-custom card-stretch gutter-b">
+                                        <!--begin::Body-->
+                                        <div class="card-body pt-0">
+                                            <!--begin::Item-->
+                                            @if (count($contactos) < 1)
+                                            <div class="card-body py-4">
+                                                <div class="form-group row my-2">
+                                                    <span class="form-control-plaintext font-weight-bolder">No se encontraron registros.</span>
+                                                </div>                      
+                                            </div>
+                                            @else
+                                            @foreach ($contactos as $contacto)
+                                            <div class="card-body py-4">
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Nombre:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext font-weight-bolder">{{ $contacto->nombre }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Telefono:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext font-weight-bolder">{{ $contacto->telefono }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row my-2">
+                                                    <label class="col-4 col-form-label">Dirección:</label>
+                                                    <div class="col-8">
+                                                        <span class="form-control-plaintext">
+                                                        <span class="font-weight-bolder">{{ $contacto->direccion }}</span>
+                                                    </div>
+                                                </div>                        
+                                            </div>
+                                            @endforeach
+                                            @endif
+                                            {{-- end::item --}}
+                                        </div>
+                                        <!--end: Card Body-->
+                                    </div>
+                                    <!--end: Card-->
+                                    <!--end: List Widget 10-->
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body py-4">
-                        <div class="form-group row my-2">
-                            <label class="col-4 col-form-label">Nombre:</label>
-                            <div class="col-8">
-                                <span class="form-control-plaintext font-weight-bolder">{{ $usuario->nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</span>
-                            </div>
-                        </div>
-                        <div class="form-group row my-2">
-                            <label class="col-4 col-form-label">Telefono:</label>
-                            <div class="col-8">
-                                <span class="form-control-plaintext font-weight-bolder">{{ $usuario->telefono }}</span>
-                            </div>
-                        </div>
-                        <div class="form-group row my-2">
-                            <label class="col-4 col-form-label">Dirección:</label>
-                            <div class="col-8">
-                                <span class="form-control-plaintext">
-                                <span class="font-weight-bolder">{{ $direccion[0] }}. {{ $direccion[1] }}. {{ $direccion[2] }}. {{ $direccion[3] }}</span>
-                            </div>
-                        </div>                        
-                    </div>
-                    <!--end::Body-->
                 </div>
                 <!--end::Card-->
             </div>

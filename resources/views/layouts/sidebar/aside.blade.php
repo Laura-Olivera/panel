@@ -30,7 +30,7 @@
 			<!--begin::Menu Nav-->
 			<ul class="menu-nav">
 				<!-- aqui empieza -->
-				@canany(['SuperAdmin', 'Administrador General'])
+				@canany(['SuperAdmin', 'Admin'])
 					
 				<li class="menu-section">
 					<h4 class="menu-text">Administración</h4>

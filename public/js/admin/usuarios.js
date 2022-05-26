@@ -8,22 +8,18 @@ $(document).ready(function() {
         serverSide: true,
         "ordering": true,
         responsive: true,
+        language: {
+            "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
+        },
         ajax: {
             "url": "usuarios/lista_usuarios",
             "type": "GET",
         },
         columns: [
             { data: 'nombre', name: 'nombre' },
-            { data: 'primer_apellido', name: 'primer_apellido' },
-            { data: 'segundo_apellido', name: 'segundo_apellido' },
+            { data: 'perfil', name: 'perfil' },
             { data: 'email', name: 'email' },
             { data: 'telefono', name: 'telefono' },
-            { data: 'direccion', name: 'direccion', 
-                "mRender": function(data, type, row){
-                    let direccion = row.direccion;
-                    return direccion.replaceAll('|', '. ');
-                }
-            },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';

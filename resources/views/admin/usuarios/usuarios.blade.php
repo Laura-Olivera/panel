@@ -55,11 +55,9 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Primer apellido</th>
-                            <th>Segundo apellido</th>
+                            <th>Perfil</th>
                             <th>Correo electrónico</th>
                             <th>Telefono</th>
-                            <th>Dirección</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
