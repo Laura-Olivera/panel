@@ -21,8 +21,6 @@ class CreateEmpresaTable extends Migration
             $table->string('direccion');
             $table->string('logo');
             $table->string('color');
-            $table->integer('estatus')->default(1);
-            $table->bigInteger('created_user_id');
             $table->bigInteger('updated_user_id');
             $table->timestamps();
         });

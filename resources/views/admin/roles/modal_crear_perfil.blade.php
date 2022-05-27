@@ -20,8 +20,8 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>descripción:</label>
-										<input type="text" class="form-control" placeholder="Descrpción del perfil" id="descrip" name="descrip" autocomplete="off"/>
+										<label>Descripción:</label>
+										<input type="text" class="form-control" placeholder="Descripción del perfil" id="descrip" name="descrip" autocomplete="off"/>
 									</div>
 								</div>
 							</div>							
@@ -30,7 +30,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="store_perfil();">Registrar</button>
             </div>
         </div>

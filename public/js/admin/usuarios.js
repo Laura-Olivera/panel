@@ -7,6 +7,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         "ordering": true,
+        order: [1],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
@@ -16,20 +17,25 @@ $(document).ready(function() {
             "type": "GET",
         },
         columns: [
-            { data: 'nombre', name: 'nombre' },
+            {   
+                "mRender": function ( data, type, row ) {
+                    let nombre = row.nombre+' '+row.primer_apellido+' '+row.segundo_apellido;
+                    return nombre;
+                }
+            },
             { data: 'perfil', name: 'perfil' },
             { data: 'email', name: 'email' },
             { data: 'telefono', name: 'telefono' },
             {   
                 "mRender": function ( data, type, row ) {
-                    return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
+                    return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
                 }
             },
             {
                 "mRender": function (data, type, row) {
-                    let id_user = row.id;
-                    let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_usuario_modal(' + id_user + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
-                    btn += '<a class="btn btn-elevate kt-font-brand" href="usuarios/detalle_usuario/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
+                    let id = row.id;
+                    let btn = '<a class="btn btn-icon" onClick="edit_usuario_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
+                    btn += '<a class="btn btn-icon" href="usuarios/detalle_usuario/'+ id +'" title="Ver detalle"><i class="icon-xl far fa-eye text-info"></i></a>';
                     return btn;
                 }
             },
@@ -46,8 +52,9 @@ function add_usuario_modal()
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
+                $('#perfil').select2({
                     placeholder: 'Seleccione...',
+                    allowClear: true,
                 });
 
             }).on('hidden.bs.modal', function () {
@@ -140,8 +147,9 @@ function edit_usuario_modal(id){
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
+                $('#perfil').select2({
                     placeholder: 'Seleccione...',
+                    allowClear: true,
                 });
 
             }).on('hidden.bs.modal', function () {

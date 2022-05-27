@@ -18,7 +18,7 @@ class PermisosController extends Controller
 
     public function lista_permisos()
     {
-        $permisos = Permission::all();
+        $permisos = Permission::where('name', '!=', 'PermisosCliente')->get();
         return DataTables::of($permisos)->toJson();
     }
 

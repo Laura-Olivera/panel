@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,11 +66,20 @@ Route::middleware('auth')->group(function(){
         Route::get('/clientes/detalle_cliente/{id}', [App\Http\Controllers\Admin\ClientesController::class, 'show']);
         //RUTAS TAREAS
         Route::get('/tareas', [App\Http\Controllers\Admin\TareasController::class, 'index']);
-        Route::get('/tareas/listar_tareas', [App\Http\Controllers\Admin\TareasController::class, 'listar_tareas']);
         Route::get('/tareas/create', [App\Http\Controllers\Admin\TareasController::class, 'create']);
         Route::post('/tareas/store', [App\Http\Controllers\Admin\TareasController::class, 'store']);
         Route::get('tareas/edit/{id}', [App\Http\Controllers\Admin\TareasController::class, 'edit']);
         Route::post('tareas/update/{id}', [App\Http\Controllers\Admin\TareasController::class, 'update']);
+        //RUTAS BITACORA USUARIOS
+        Route::get('/bitacora_usuarios', [App\Http\Controllers\Admin\BitacoraEmpleadosController::class, 'index']);
+        Route::get('/bitacora_usuarios/listar_bitacora', [App\Http\Controllers\Admin\BitacoraEmpleadosController::class, 'listar_bitacora']);
+        //RUTAS BITACORA CLIENTES
+        Route::get('/bitacora_clientes', [App\Http\Controllers\Admin\BitacoraClientesController::class, 'index']);
+        Route::get('/bitacora_clientes/listar_bitacora', [App\Http\Controllers\Admin\BitacoraClientesController::class, 'listar_bitacora']);
+        //RUTAS EMPRESA
+        Route::get('/empresa', [App\Http\Controllers\Admin\EmpresaController::class, 'index']);
+        Route::get('/empresa/edit/{id}', [App\Http\Controllers\Admin\EmpresaController::class, 'edit']);
+        Route::post('/empresa/update/{id}', [App\Http\Controllers\Admin\EmpresaController::class, 'update']);
     });
 
     //RUTAS CATALOGOS

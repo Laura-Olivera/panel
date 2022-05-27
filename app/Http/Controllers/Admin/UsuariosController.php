@@ -30,11 +30,10 @@ class UsuariosController extends Controller
 
     public function getDataUsuarios()
     {
-        $empleados = DB::table('empleados')
-        ->select('empleados.*', 'users.email', 'users.estatus')
-            ->addSelect(DB::raw('(select role_id as perfil from model_has_roles where model_has_roles.model_id = empleados.user_id)'))
-            ->join('users', 'empleados.user_id', '=', 'users.id')
-            ->get();
+        $empleados = Empleado::select('empleados.*', 'users.email', 'users.estatus')
+            ->addSelect(DB::raw('(select name as perfil from roles 
+                where roles.id = (select role_id from model_has_roles where model_has_roles.model_id = empleados.user_id))'))
+            ->join('users', 'empleados.user_id', '=', 'users.id')->get();
         return DataTables::of($empleados)->toJson();
     }
 
@@ -101,7 +100,9 @@ class UsuariosController extends Controller
     public function edit(Request $request)
     {
         $id = $request->id;
-        $roles = DB::table('roles')->get();
+        $roles = DB::table('roles')->where(function($query){
+            $query->where('name', '!=', 'Cliente');
+        })->get();
         $usuario = DB::table('empleados')
                     ->join('users', 'empleados.user_id', '=', 'users.id')
                     ->select('empleados.*','users.name', 'users.email','users.estatus', 'users.password')
@@ -135,7 +136,7 @@ class UsuariosController extends Controller
 
             DB::beginTransaction();
             $user = User::findOrFail($usuario->user_id);
-            $user->name = $request->nombre;
+            $user->name = strtolower($request->nombre);
             $user->email = $request->email;
             if($request->password){
                 $pass = Hash::make($request->password);

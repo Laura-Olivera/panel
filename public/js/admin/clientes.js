@@ -21,13 +21,13 @@ $(document).ready(function() {
             { data: 'telefono', name: 'telefono' },
             {   
                 "mRender": function ( data, type, row ) {
-                    return '<span class="kt-badge kt-badge--'+ (row.estatus == 1 ? 'success' : 'danger') +' kt-badge--inline kt-badge--pill">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
+                    return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
                 }
             },
             {
                 "mRender": function (data, type, row) {
                     let id_user = row.id;
-                    let btn = '<a class="btn btn-elevate kt-font-brand" href="clientes/detalle_cliente/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye"></i></a>';
+                    let btn = '<a class="btn btn-icon" href="clientes/detalle_cliente/'+ id_user +'" title="Ver detalle"><i class="icon-xl far fa-eye text-info"></i></a>';
                     return btn;
                 }
             },

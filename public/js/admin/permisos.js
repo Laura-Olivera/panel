@@ -21,7 +21,7 @@ $(document).ready(function() {
             {
                 "mRender": function (data, type, row) {
                     let id_permiso = row.id;
-                    let btn = '<a class="btn btn-elevate kt-font-brand" onClick="edit_permiso_modal(' + id_permiso + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl far fa-edit"></i></a>';
+                    let btn = '<a class="btn btn-icon" onClick="edit_permiso_modal(' + id_permiso + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
                     return btn;
                 }
             },

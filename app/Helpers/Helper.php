@@ -115,7 +115,7 @@ if(! function_exists('statusToString'))
                 $importancia = "Urgente";
                 break;
             case 3:
-                $importancia = "Extra Urgente";
+                $importancia = "Extra-Urgente";
                 break;
             case 4:
                 $importancia = "terminado";

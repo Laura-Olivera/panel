@@ -2,8 +2,8 @@
 	<!--begin::Brand-->
 	<div class="brand flex-column-auto" id="kt_brand">
 		<!--begin::Logo-->
-		<a href="{{ url('/') }}" class="brand-logo">
-			<img alt="Logo" src="assets/media/logos/logo-light.png" />
+		<a href="{{ url('/home') }}" class="brand-logo">
+			<img alt="Logo" src="{{ URL::asset('assets/media/logos/logo-light.png') }}" />
 		</a>
 		<!--end::Logo-->
 		<!--begin::Toggle-->
@@ -96,15 +96,20 @@
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
-							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Group.svg-->
+							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Clipboard.svg-->
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-							    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-							        <polygon points="0 0 24 0 24 24 0 24"/>
-							        <path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-							        <path d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>
-							    </g>
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24" />
+									<path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3" />
+									<path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000" />
+									<rect fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1" />
+									<rect fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1" />
+									<rect fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1" />
+									<rect fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1" />
+									<rect fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1" />
+									<rect fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1" />
+								</g>
 							</svg>
-							<!--end::Svg Icon-->
 						</span>
 						<span class="menu-text">Control</span>
 						<i class="menu-arrow"></i>
@@ -125,9 +130,9 @@
 									<span class="menu-text">Tareas</span>
 								</a>
 							</li>
-							@can('MenuBitacoraEmpleado')
+							@can('MenuBitacoraUsuarios')
 							<li class="menu-item" aria-haspopup="true">
-								<a href="{{ url('admin/perfiles') }}" class="menu-link">
+								<a href="{{ url('admin/bitacora_usuarios') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
 									</i>
@@ -137,7 +142,7 @@
 							@endcan
 							@can('MenuBitacoraCliente')
 							<li class="menu-item" aria-haspopup="true">
-								<a href="{{ url('admin/permisos') }}" class="menu-link">
+								<a href="{{ url('admin/bitacora_clientes') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
 									</i>
@@ -165,7 +170,7 @@
 					</a>
 				</li>
 				<li class="menu-item" aria-haspopup="true">
-					<a target="_blank" href="https://keenthemes.com/metronic/preview/demo1/builder.html" class="menu-link">
+					<a href="{{ url('admin/empresa') }}" class="menu-link">
 						<span class="svg-icon menu-icon">
 							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Home\Building.svg-->
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -262,16 +267,15 @@
 				<li class="menu-item" aria-haspopup="true">
 					<a target="_blank" href="https://keenthemes.com/metronic/preview/demo1/builder.html" class="menu-link">
 						<span class="svg-icon menu-icon">
-							<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Tools\Pantone.svg-->
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-									<rect x="0" y="0" width="24" height="24" />
-									<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z" fill="#000000" />
-									<rect fill="#000000" opacity="0.3" transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)" x="16.3255682" y="2.94551858" width="3" height="18" rx="1" />
-								</g>
-							</svg>
-							<!--end::Svg Icon-->
-						</span>
+							    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							        <polygon points="0 0 24 0 24 24 0 24"/>
+							        <path d="M22,15 L22,19 C22,20.1045695 21.1045695,21 20,21 L8,21 C5.790861,21 4,19.209139 4,17 C4,14.790861 5.790861,13 8,13 L20,13 C21.1045695,13 22,13.8954305 22,15 Z M7,19 C8.1045695,19 9,18.1045695 9,17 C9,15.8954305 8.1045695,15 7,15 C5.8954305,15 5,15.8954305 5,17 C5,18.1045695 5.8954305,19 7,19 Z" fill="#000000" opacity="0.3"/>
+							        <path d="M15.5421357,5.69999981 L18.3705628,8.52842693 C19.1516114,9.30947552 19.1516114,10.5758055 18.3705628,11.3568541 L9.88528147,19.8421354 C8.3231843,21.4042326 5.79052439,21.4042326 4.22842722,19.8421354 C2.66633005,18.2800383 2.66633005,15.7473784 4.22842722,14.1852812 L12.7137086,5.69999981 C13.4947572,4.91895123 14.7610871,4.91895123 15.5421357,5.69999981 Z M7,19 C8.1045695,19 9,18.1045695 9,17 C9,15.8954305 8.1045695,15 7,15 C5.8954305,15 5,15.8954305 5,17 C5,18.1045695 5.8954305,19 7,19 Z" fill="#000000" opacity="0.3"/>
+							        <path d="M5,3 L9,3 C10.1045695,3 11,3.8954305 11,5 L11,17 C11,19.209139 9.209139,21 7,21 C4.790861,21 3,19.209139 3,17 L3,5 C3,3.8954305 3.8954305,3 5,3 Z M7,19 C8.1045695,19 9,18.1045695 9,17 C9,15.8954305 8.1045695,15 7,15 C5.8954305,15 5,15.8954305 5,17 C5,18.1045695 5.8954305,19 7,19 Z" fill="#000000"/>
+							    </g>
+							</svg><!--end::Svg Icon--></span>
 						<span class="menu-text">Publicidad</span>
 					</a>
 				</li>

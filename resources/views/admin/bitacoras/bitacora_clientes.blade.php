@@ -11,7 +11,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Usuarios</h5> 
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Bitacora de clientes</h5> 
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -31,27 +31,20 @@
 					<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 				</div>
 				<div class="card-toolbar">
-					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="add_usuario_modal();" class="btn btn-light-primary font-weight-bolder">
-						<span class="svg-icon svg-icon-md">
-							<i class="icon-md fas fa-user-plus"></i>
-						</span>Nuevo usuario</a>
-					<!--end::Button-->
 				</div>
 			</div>
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin: Datatable-->
-                <table id="users-table" name="users-table" class="table table-striped- table-bordered table-hover table-checkable">
+                <table id="bitacora-table" name="bitacora-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Perfil</th>
-                            <th>Correo electrónico</th>
-                            <th>Telefono</th>
-                            <th>Estatus</th>
-                            <th>Acciones</th>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Accion</th>
+                            <th>Datos</th>
+                            <th>Fecha</th>
                         </tr>
                     </thead>
                 </table>
@@ -69,6 +62,6 @@
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('js/admin/usuarios.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/admin/bitacora-clientes.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

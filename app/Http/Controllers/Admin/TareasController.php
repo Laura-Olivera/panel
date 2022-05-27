@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Empleado;
 use App\Models\Admin\EmpleadoTarea;
 use App\Models\Admin\Tarea;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,23 +19,16 @@ class TareasController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all()->sortByDesc('createt_at');
-        return view('admin.tareas.lista_tareas', compact('tareas'));
-    }
-
-    public function listar_tareas()
-    {
-        /* $tareas = DB::table('tareas')->select('*')->addSelect('empleados.nombre as nombre')
-            ->leftJoin('empleados', 'empleados.id','=', DB::raw('(select empleado_id from empleado_tarea where empleado_tarea.tarea_id = tareas.id limit 1)')); */
-
-        $tareas = Tarea::all();
-        $concat = [];
+        $tareas = Tarea::all()->sortByDesc('id');
         foreach ($tareas as $tarea) {
-            $concat = $tarea->empleados()->pluck('nombre');
+            $tarea->created_at = Carbon::parse($tarea->created_at)->format('Y-m-d H:i');
+            if($tarea->updated_at != $tarea->created_at && $tarea->estatus != 4){
+                $tarea->updated_at = Carbon::parse($tarea->updated_at)->format('Y-m-d H:i');
+            }else{
+                $tarea->updated_at = null;
+            }
         }
-        dd($concat);
-
-        return DataTables::of($tareas)->toJson();
+        return view('admin.tareas.lista_tareas', compact('tareas'));
     }
 
     public function create()

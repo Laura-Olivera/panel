@@ -21,7 +21,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Modulo:</label>
-										<select class="form-control" id="modulo" name="modulo">
+										<select class="form-control task-select2" id="modulo" name="modulo">
      										<option value="1">Modulo 1</option>
 										</select>
 									</div>
@@ -39,7 +39,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Asignar a:</label>
-										<select class="select2" id="empleados" name="empleados[]" multiple="multiple">
+										<select class="form-control task-select2" id="empleados" name="empleados[]" multiple="multiple">
 											@foreach($empleados as $empleado)
      										<option value="{{ $empleado->id }}">{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
 											@endforeach
@@ -49,7 +49,7 @@
                                 <div class="col-md-6">
 									<div class="form-group">
 										<label>Estatus:</label>
-										<select class="form-control" id="estatus" name="estatus">
+										<select class="form-control task-select2" id="estatus" name="estatus">
      										<option value="1">Realizar</option>
                                             <option value="2">Urgente</option>
                                             <option value="3">Extra Urgente</option>
@@ -62,7 +62,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="store_tarea();">Registrar</button>
             </div>
         </div>

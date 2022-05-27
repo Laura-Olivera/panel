@@ -11,7 +11,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Usuarios</h5> 
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Empresa</h5>
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -32,30 +32,17 @@
 				</div>
 				<div class="card-toolbar">
 					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="add_usuario_modal();" class="btn btn-light-primary font-weight-bolder">
+					<a href="javascript:void(0);" onclick="edit_empresa_modal();" class="btn btn-light-primary font-weight-bolder">
 						<span class="svg-icon svg-icon-md">
-							<i class="icon-md fas fa-user-plus"></i>
-						</span>Nuevo usuario</a>
+							<i class="icon-md fas fa-edit"></i>
+						</span>Editar</a>
 					<!--end::Button-->
 				</div>
 			</div>
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
-				<!--begin: Datatable-->
-                <table id="users-table" name="users-table" class="table table-striped- table-bordered table-hover table-checkable">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Perfil</th>
-                            <th>Correo electrónico</th>
-                            <th>Telefono</th>
-                            <th>Estatus</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                </table>
-				<!--end: Datatable-->
+                
 			</div>
 			<!--end::Body-->
 		</div>
@@ -68,7 +55,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('js/admin/usuarios.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/admin/empresa.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

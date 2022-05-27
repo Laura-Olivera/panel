@@ -30,7 +30,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="store_permiso();">Registrar</button>
             </div>
         </div>

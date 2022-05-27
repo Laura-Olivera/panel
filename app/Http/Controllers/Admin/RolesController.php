@@ -13,7 +13,7 @@ class RolesController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Cliente')->get();
         return view('admin.roles.listar_roles')->with('roles', $roles);
     }
 
@@ -58,6 +58,7 @@ class RolesController extends Controller
 
     public function update(Request $request, $id)
     {
+        $usuario = session('empleado')->clave_empleado;
         $rol = Role::findOrFail($id);
         $rolData = $request->except(['permissions']);
         $permissions = $request['permissions'];
@@ -70,7 +71,7 @@ class RolesController extends Controller
             $perm = Permission::where('id', '=', $permission)->firstOrFail();
             $rol->givePermissionTo($perm);
         }
-        $accion = 'Actualizar perfil '.$rol->name;
+        $accion = 'El usuario '.$usuario.' actualizo el perfil '.$rol->name;
         Bitacora::admin(request(), $accion);
         return redirect('admin/perfiles');
     }

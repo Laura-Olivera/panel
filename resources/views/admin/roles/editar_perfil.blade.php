@@ -14,6 +14,11 @@
 			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Editar Perfil</h5>
 			<!--end::Title-->
 		</div>
+		<div class="d-flex align-items-center">
+            <!--begin::Actions-->
+            <button onClick="window.history.go(-1);" class="btn btn-primary font-weight-bolder">Regresar</button>
+            <!--end::Actions-->
+        </div>
 		<!--end::Details-->
 	</div>
 </div>
@@ -27,13 +32,6 @@
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
 				<div class="card-title">
 					<h3 class="card-label">Perfil {{ $rol->name }}</h3>
-				</div>
-				<div class="card-toolbar">
-					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="" class="btn btn-primary font-weight-bolder">
-					<span class="svg-icon svg-icon-md">
-					</span>Regresar</a>
-					<!--end::Button-->
 				</div>
 			</div>
 			<!--begin::Body-->

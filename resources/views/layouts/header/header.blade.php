@@ -314,7 +314,7 @@
 				</div>
 				<div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
 					<!--begin:Header-->
-					<div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url(assets/media/misc/bg-1.jpg)">
+					<div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url({{ URL::asset('assets/media/misc/bg-1.jpg') }})">
 						<h4 class="text-white font-weight-bold">{{ getCompleteName() }}</h4>
 						<span class="btn btn-success btn-sm font-weight-bold font-size-sm mt-2">{{ getClaveEmpleado() }}</span>
 					</div>

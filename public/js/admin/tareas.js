@@ -51,7 +51,10 @@ function add_tarea_modal()
                     placeholder: "Seleciona una o mas opciones",
                     allowClear: true,
                 });
-
+                $('.task-select2').select2({
+                    placeholder: "Seleciona una opcion",
+                    allowClear: true,
+                });
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -143,6 +146,10 @@ function edit_tarea_modal(id)
                 // multi select
                 $('#empleados').select2({
                     placeholder: "Seleciona una o mas opciones",
+                    allowClear: true,
+                });
+                $('.task-select2').select2({
+                    placeholder: "Seleciona una opcion",
                     allowClear: true,
                 });
 

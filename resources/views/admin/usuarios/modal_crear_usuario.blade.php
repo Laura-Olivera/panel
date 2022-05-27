@@ -83,7 +83,8 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Perfil:</label>
-										<select class="form-control" id="perfil" name="perfil">
+										<select class="form-control select2" id="perfil" name="perfil">
+											<option label="Label"></option>
 											@foreach($roles as $role)
      										<option value="{{ $role->id }}">{{ $role->name }}</option>
 											@endforeach
@@ -94,10 +95,9 @@
 						</div>
  					</div>
 				</form>
-				{{ session('user')->roles }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="store_usuario();">Registrar</button>
             </div>
         </div>

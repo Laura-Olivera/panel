@@ -84,7 +84,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Perfil:</label>
-										<select class="form-control" id="perfil" name="perfil">
+										<select class="form-control select2" id="perfil" name="perfil">
 											@foreach($roles as $role)
      										<option value="{{ $role->id }}" {{ ($role->id == $perfil->role_id) ? "selected" : "" }}>{{ $role->name }}</option>
 											@endforeach
@@ -95,7 +95,7 @@
 							<div class="col-md-12 text-right">
 								<label class="control-label">Habilitado</label>
 								<div class="form-group">
-									<span class="kt-switch kt-switch--icon">
+									<span class="switch switch-md switch-icon">
 										<label>
 											<input type="checkbox"  {{ ( $usuario->estatus == 1) ? 'checked' : ''}} name="estatus" id="estatus">
 											<span></span>
@@ -108,7 +108,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="update_usuario();">Registrar</button>
             </div>
         </div>

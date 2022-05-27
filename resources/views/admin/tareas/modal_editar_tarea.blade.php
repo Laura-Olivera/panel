@@ -16,14 +16,14 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label> Tarea: </label>
- 					   					<input type="text" class="form-control" value="{{ $tarea->tarea }}" placeholder="Nombre de la tarea" id="tarea" name="tarea" autocomplete="off"/>
+ 					   					<input type="text" class="form-control" value="{{ $tarea->tarea }}" placeholder="Nombre de la tarea" id="tarea" name="tarea" autocomplete="off" {{ ($tarea->estatus == 4) ? "disabled" : "" }}/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Modulo:</label>
-										<select class="form-control" id="modulo" name="modulo">
-     										<option value="1" {{ ($tarea->modulo = 1) ? "selected" : "" }}>Modulo 1</option>
+										<select class="form-control task-select2" id="modulo" name="modulo" {{ ($tarea->estatus == 4) ? "disabled" : "" }}>
+     										<option value="1" {{ ($tarea->modulo == 1) ? "selected" : "" }}>Modulo 1</option>
 										</select>
 									</div>
 								</div>
@@ -32,7 +32,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Descripción:</label>
-										<input type="text" class="form-control" value="{{ $tarea->descripcion }}" placeholder="Descripción de la tarea" id="descripcion" name="descripcion" autocomplete="off"/>
+										<input type="text" class="form-control" value="{{ $tarea->descripcion }}" placeholder="Descripción de la tarea" id="descripcion" name="descripcion" autocomplete="off" {{ ($tarea->estatus == 4) ? "disabled" : "" }}/>
 									</div>
 								</div>
 							</div>
@@ -40,7 +40,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Asignar a:</label>
-										<select class="js-example-basic-multiple" id="empleados" name="empleados[]" multiple="multiple">
+										<select class="form-control task-select2" id="empleados" name="empleados[]" multiple="multiple" {{ ($tarea->estatus == 4) ? "disabled" : "" }}>
 											@foreach($empleados as $empleado)
                                                 @foreach($empleadoTareas as $asignado)
                                                 <option value="{{ $empleado->id }}" {{ ($asignado->empleado_id == $empleado->id) ? "selected" : "" }}>{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
 									<div class="form-group">
 										<label>Estatus:</label>
-										<select class="form-control" id="estatus" name="estatus">
+										<select class="form-control task-select2" id="estatus" name="estatus" {{ ($tarea->estatus == 4) ? "disabled" : "" }}>
      										<option value="1" {{ ($tarea->estatus == 1) ? "selected" : ""}}>Realizar</option>
                                             <option value="2" {{ ($tarea->estatus == 2) ? "selected" : ""}}>Urgente</option>
                                             <option value="3" {{ ($tarea->estatus == 3) ? "selected" : ""}}>Extra Urgente</option>
@@ -66,7 +66,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">{{ ($tarea->estatus == 4) ? 'Cerrar' : 'Cancelar' }}</button>
+                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">{{ ($tarea->estatus == 4) ? 'Cerrar' : 'Cancelar' }}</button>
 				@if ($tarea->estatus != 4)
 				 <button type="button" class="btn btn-primary font-weight-bold" onclick="update_tarea();">Guardar</button>
 				@endif
