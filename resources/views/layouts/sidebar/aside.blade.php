@@ -122,6 +122,7 @@
 									<span class="menu-text">Control</span>
 								</span>
 							</li>
+							@can('MenuTareas')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/tareas') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -130,6 +131,7 @@
 									<span class="menu-text">Tareas</span>
 								</a>
 							</li>
+							@endcan
 							@can('MenuBitacoraUsuarios')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/bitacora_usuarios') }}" class="menu-link">
@@ -153,6 +155,7 @@
 						</ul>
 					</div>
 				</li>
+				@can('MenuClientes')
 				<li class="menu-item" aria-haspopup="true">
 					<a href="{{ url('admin/clientes') }}" class="menu-link">
 						<span class="svg-icon menu-icon">
@@ -169,6 +172,8 @@
 						<span class="menu-text">Clientes</span>
 					</a>
 				</li>
+				@endcan
+				@can('MenuEmpresa')
 				<li class="menu-item" aria-haspopup="true">
 					<a href="{{ url('admin/empresa') }}" class="menu-link">
 						<span class="svg-icon menu-icon">
@@ -186,14 +191,16 @@
 						<span class="menu-text">Empresa</span>
 					</a>
 				</li>
-
+				@endcan
 				@endcanany
 				<!-- aqui termina -->
 				<!-- aqui empieza -->
+				@can('MenuCatalogos')
 				<li class="menu-section">
 					<h4 class="menu-text">Catalogos</h4>
 					<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 				</li>
+				@endcan
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">

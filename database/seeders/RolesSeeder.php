@@ -29,7 +29,13 @@ class RolesSeeder extends Seeder
             'SuperAdmin',
             'MenuPerfiles',
             'MenuPermisos',
-            'MenuUsuarios',            
+            'MenuUsuarios',
+            'MenuBitacoraUsuarios',
+            'MenuBitacoraCliente',
+            'MenuTareas',
+            'MenuClientes',
+            'MenuEmpresa',
+            'MenuCatalogos'
         ]);
 
         $role_admin = Role::create([
@@ -44,6 +50,10 @@ class RolesSeeder extends Seeder
             'Dashboard',
             'Admin',
             'MenuUsuarios',
+            'MenuTareas',
+            'MenuClientes',
+            'MenuEmpresa',
+            'MenuCatalogos'
         ]);
 
         $role_cliente = Role::create([

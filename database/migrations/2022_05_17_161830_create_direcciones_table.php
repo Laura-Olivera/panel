@@ -15,7 +15,17 @@ class CreateDireccionesTable extends Migration
     {
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo_postal');
+            $table->string('estado');
+            $table->string('delg_mun');
+            $table->string('colonia');
+            $table->string('calle');
+            $table->unsignedBigInteger('created_user_id');
+            $table->unsignedBigInteger('updated_user_id');
             $table->timestamps();
+
+            $table->foreign('created_user_id')->references('id')->on('clientes');
+            $table->foreign('updated_user_id')->references('id')->on('clientes');
         });
     }
 

@@ -37,34 +37,6 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Calle:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[0] }}" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Municipio:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[1] }}" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Estado:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[2] }}" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>C.P:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[3] }}" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
 										<label>Telefono:</label>
                                     <input type="text" class="form-control" value="{{ $empresa->telefono }}" placeholder="Telefono" id="telefono" name="telefono" autocomplete="off"/>
 									</div>
