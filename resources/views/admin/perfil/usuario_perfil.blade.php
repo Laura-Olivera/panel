@@ -157,7 +157,13 @@
 								<!--begin::Body-->
 								<div class="card-body pt-0">
 									<!--begin::Item-->
-									@foreach ($tareas as $tarea)
+									@if(count($tareas) == 0)
+                                    <div class="alert alert-success mb-5 p-5" role="alert">
+                                        <h4 class="alert-heading">¡Has terminado!</h4>
+                                        <p>No hay tareas asignadas.</p>
+                                    </div>
+                                    @else
+                                    @foreach ($tareas as $tarea)
                                         @foreach ($tareaEmpleado as $asignado)
                                             @if ($asignado->tarea_id == $tarea->id)
                                             <div class="mb-6">
@@ -193,7 +199,8 @@
                                             @endif
                                         @endforeach
                                     @endforeach
-                                    {{-- end::item --}}
+                                    @endif
+                                    <!-- end::item -->
 								</div>
 								<!--end: Card Body-->
 							</div>

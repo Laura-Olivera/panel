@@ -21,11 +21,11 @@ class TareasController extends Controller
     {
         $tareas = Tarea::all()->sortByDesc('id');
         foreach ($tareas as $tarea) {
-            $tarea->created_at = Carbon::parse($tarea->created_at)->format('Y-m-d H:i');
-            if($tarea->updated_at != $tarea->created_at && $tarea->estatus != 4){
-                $tarea->updated_at = Carbon::parse($tarea->updated_at)->format('Y-m-d H:i');
-            }else{
+            $tarea->created_at = Carbon::parse($tarea->created_at)->format('Y-m-d');
+            if($tarea->updated_at == $tarea->created_at || $tarea->updated_at != $tarea->created_at && $tarea->estatus != 4){
                 $tarea->updated_at = null;
+            }else{
+                $tarea->updated_at = Carbon::parse($tarea->updated_at)->format('Y-m-d H:i');                
             }
         }
         return view('admin.tareas.lista_tareas', compact('tareas'));

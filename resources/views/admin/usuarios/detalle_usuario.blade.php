@@ -71,7 +71,7 @@
         <!--end::Card-->
         <!--begin::Row-->
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-xl-12">
                 <!--begin::Card-->
                 <div class="card card-custom gutter-b">
                     <div class="card-header h-auto py-3 border-0">

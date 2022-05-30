@@ -99,12 +99,22 @@ function store_tarea()
             success: function (respuesta) {
                 if (respuesta.success == true) {
                     $('#modal_nueva_tarea').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire("Exito!", respuesta.message, "success");
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                         $("#tareas-table").load(" #tareas-table");
                     });
                 } else {
                     $('#modal_nueva_tarea').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                         $("#tareas-table").load(" #tareas-table");
                     });
                 }
