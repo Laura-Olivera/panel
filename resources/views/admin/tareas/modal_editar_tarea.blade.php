@@ -42,10 +42,8 @@
 										<label>Asignar a:</label>
 										<select class="form-control task-select2" id="empleados" name="empleados[]" multiple="multiple" {{ ($tarea->estatus == 4) ? "disabled" : "" }}>
 											@foreach($empleados as $empleado)
-                                                @foreach($empleadoTareas as $asignado)
-                                                <option value="{{ $empleado->id }}" {{ ($asignado->empleado_id == $empleado->id) ? "selected" : "" }}>{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
-                                                @endforeach
-											@endforeach
+												<option value="{{ $empleado->id }}">{{ $empleado->nombre }} {{ $empleado->primer_apellido }} {{ $empleado->segundo_apellido }}</option>
+                                            @endforeach
 										</select>
 									</div>
 								</div>
