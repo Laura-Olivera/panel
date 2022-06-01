@@ -2,6 +2,7 @@
 
 @section('styles')
 <link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/plugins/custom/uppy/uppy.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -11,7 +12,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Tareas</h5>
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de proveedores</h5> 
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -32,10 +33,10 @@
 				</div>
 				<div class="card-toolbar">
 					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="add_tarea_modal();" class="btn btn-light-primary font-weight-bolder">
+					<a href="javascript:void(0);" onclick="add_proveedor_modal();" class="btn btn-light-primary font-weight-bolder">
 						<span class="svg-icon svg-icon-md">
-							<i class="icon-md fas fa-tasks"></i>
-						</span>Nuevo tarea</a>
+							<i class="icon-md far fa-id-badge"></i>
+						</span>Nuevo proveedor</a>
 					<!--end::Button-->
 				</div>
 			</div>
@@ -43,14 +44,12 @@
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin: Datatable-->
-                <table id="tareas-table" name="tareas-table" class="table table-striped- table-bordered table-hover table-checkable">
+                <table id="proveedores-table" name="proveedores-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
-                            <th>Tarea</th>
+                            <th>Clave</th>
+                            <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Responsable(s)</th>
-							<th>Inicio</th>
-							<th>Termino</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
@@ -70,6 +69,7 @@
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('js/admin/tareas.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('assets/js/pages/crud/file-upload/dropzonejs.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/catalogos/proveedores.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

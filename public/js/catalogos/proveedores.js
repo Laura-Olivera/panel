@@ -1,9 +1,9 @@
 "use strict";
 $(document).ready(function() {
-    $('.users-table').each(function () {
+    $('.proveedores-table').each(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
-    var tbUser = $('#users-table').DataTable({
+    var tbProveedores = $('#proveedores-table').DataTable({
         processing: true,
         serverSide: true,
         "ordering": true,
@@ -13,19 +13,13 @@ $(document).ready(function() {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
         },
         ajax: {
-            "url": "usuarios/lista_usuarios",
+            "url": "proveedores/listar_proveedores",
             "type": "GET",
         },
         columns: [
-            {   
-                "mRender": function ( data, type, row ) {
-                    let nombre = row.nombre+' '+row.primer_apellido+' '+row.segundo_apellido;
-                    return nombre;
-                }
-            },
-            { data: 'perfil', name: 'perfil' },
-            { data: 'email', name: 'email' },
-            { data: 'telefono', name: 'telefono' },
+            { data: 'clave_prov', name: 'clave_prov' },
+            { data: 'nombre', name: 'nombre' },
+            { data: 'descrip', name: 'descrip' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
@@ -34,8 +28,7 @@ $(document).ready(function() {
             {
                 "mRender": function (data, type, row) {
                     let id = row.id;
-                    let btn = '<a class="btn btn-icon" onClick="edit_usuario_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
-                    btn += '<a class="btn btn-icon" href="usuarios/detalle_usuario/'+ id +'" title="Ver detalle"><i class="icon-xl far fa-eye text-info"></i></a>';
+                    let btn = '<a class="btn btn-icon" onClick="edit_proveedor_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
                     return btn;
                 }
             },
@@ -44,18 +37,14 @@ $(document).ready(function() {
     });
 });
 
-function add_usuario_modal()
+function add_proveedor_modal()
 {
     $.ajax({
-        url: "usuarios/create",
+        url: "proveedores/create",
         datatype: 'GET',
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('#perfil').select2({
-                    placeholder: 'Seleccione...',
-                    allowClear: true,
-                });
 
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
@@ -78,20 +67,16 @@ function add_usuario_modal()
     });
 }
 
-function store_usuario(){
-    var form = $("#frm_nuevo_usuario");
-    var validarForm = validar(form);
-    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
+function store_proveedor(){
+    var form = $("#frm_nuevo_proveedor");
+    var validarForm = validar(form); 
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
-            primer: $('#pApellido').val(),
-            segundo: $('#sApellido').val(),
-            email: $('#email').val(),
-            password: $('#password').val(),
-            direccion: dir,
-            perfil: $('#perfil').val(),
-            telefono: $('#telefono').val(),
+            clave_prov: $('#clave_prov').val(),
+            descrip: $('#descrip').val(),
+            path: $('#path').val(),
+            slug: $('#slug').val(),
         };
         $.ajax({
             headers : {

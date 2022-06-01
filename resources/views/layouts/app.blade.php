@@ -23,7 +23,7 @@
 		<!-- begin::Page Theme Styles -->
 		@yield('styles')
 		<!-- end::Page Theme Styles -->
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{ URL::asset('assets/media/logos/favicon.ico') }}" />
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -33,7 +33,7 @@
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="index.html">
-				<img alt="Logo" src="assets/media/logos/logo-light.png" />
+				<img alt="Logo" src="{{ URL::asset('assets/media/logos/logo-light.png') }}" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->

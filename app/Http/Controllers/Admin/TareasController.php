@@ -19,16 +19,39 @@ class TareasController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all()->sortByDesc('id');
-        foreach ($tareas as $tarea) {
+        return view('admin.tareas.lista_tareas');
+    }
+
+    public function listar_tareas()
+    {
+        
+        $datos = DB::table('tareas')->select('*')->orderByDesc('id')->get();
+        $pivot = DB::table('empleado_tarea')->get();
+        $datos->map(function($dato){
+            $dato->nombres = "nombres";
+            $dato->label = "";
+        });
+        
+        foreach ($datos as $tarea) {
             $tarea->created_at = Carbon::parse($tarea->created_at)->format('Y-m-d');
             if($tarea->updated_at == $tarea->created_at || $tarea->updated_at != $tarea->created_at && $tarea->estatus != 4){
-                $tarea->updated_at = null;
+                $tarea->updated_at = "Sin finalizar";
             }else{
-                $tarea->updated_at = Carbon::parse($tarea->updated_at)->format('Y-m-d H:i');                
+                $tarea->updated_at = Carbon::parse($tarea->updated_at)->format('Y-m-d');                
             }
+            $tarea->estatus = $this->statusToString($tarea->estatus);
+            $tarea->label = $this->getLabelStatusTask($tarea->estatus);
+            $concat = [];
+            foreach ($pivot as $piv) {
+                if ($tarea->id == $piv->tarea_id) {
+                    $nom = DB::table('empleados')->select('nombre')->where('id', '=', $piv->empleado_id)->first();
+                    array_push($concat, $nom->nombre); 
+                }
+            }
+            $asignados = $this->getStringFromObject($concat, $separador = ", ");  
+            $tarea->nombres = $asignados;          
         }
-        return view('admin.tareas.lista_tareas', compact('tareas'));
+        return DataTables::of($datos)->toJson();
     }
 
     public function create()
@@ -82,8 +105,9 @@ class TareasController extends Controller
     {
         $tarea = Tarea::findOrFail($id);
         $empleados = Empleado::all();
-        $empleadoTareas = DB::table('empleado_tarea')->select('empleado_id')->where('tarea_id', '=', $id)->get();
-        return view('admin.tareas.modal_editar_tarea', compact('tarea', 'empleados', 'empleadoTareas'));
+        $empleadoTareas = DB::table('empleado_tarea')->where('tarea_id', '=', $id)->get();
+        $asignados = $empleadoTareas->pluck('empleado_id')->toArray();
+        return view('admin.tareas.modal_editar_tarea', compact('tarea', 'empleados', 'asignados'));
     }
 
     public function update(Request $request)
@@ -148,4 +172,48 @@ class TareasController extends Controller
         return implode($separador, $array);
     }
 
+    function statusToString($estatus)
+    {
+        switch ($estatus) {
+            case 1:
+                $importancia = "Realizar";
+                break;
+            case 2:
+                $importancia = "Urgente";
+                break;
+            case 3:
+                $importancia = "Extra-Urgente";
+                break;
+            case 4:
+                $importancia = "Terminado";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        return $importancia;
+    }
+
+    function getLabelStatusTask($estatus)
+    {
+        switch ($estatus) {
+            case "Realizar":
+                $etiqueta = "primary";
+                break;
+            case "Urgente":
+                $etiqueta = "warning";
+                break;
+            case "Extra-Urgente":
+                $etiqueta = "danger";
+                break;
+            case "Terminado":
+                $etiqueta = "success";
+                break;
+            default:
+                $etiqueta = "info";
+                break;
+        }
+        return $etiqueta;
+    }
 }
