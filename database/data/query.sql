@@ -290,4 +290,3 @@ INSERT INTO proveedores(nombre, descrip, path, slug, clave_prov, estatus, create
 ('Mars', 'International Operations', 'Qn2pvs.xls', 'Amazon.com', '042d893f-b3fe-49c8-93b9-e26d2aa15119', 1, 1, 1),
 ('Team Guard SRL', 'Personnel Department', 'F6KEW9.html', 'Biolife Grup', '4952206e-1df8-4118-8c2d-53a08cf5e1bb', 1, 1, 1),
 ('CarMax', 'Property department', 'tKI9kQ.java', 'It Smart Group', '21fcd520-4c18-4ddf-9e6f-9eb5d94db0ea', 1, 1, 1);
-
