@@ -69,7 +69,7 @@
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('assets/js/pages/crud/file-upload/dropzonejs.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('assets/js/pages/crud/file-upload/dropzonejs.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/catalogos/proveedores.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

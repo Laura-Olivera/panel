@@ -4,18 +4,18 @@ CREATE DATABASE
 
 CREATE TABLE codigo_postal (
     d_codigo INT,
-    d_asenta text,
-    d_tipo_asenta text,
-    d_mnpio text,
-    d_estado text,
-    d_ciudad text,
+    d_asenta VARCHAR(150),
+    d_tipo_asenta VARCHAR(150),
+    d_mnpio VARCHAR(150),
+    d_estado VARCHAR(150),
+    d_ciudad VARCHAR(150),
     d_cp INT,
     c_estado INT,
     c_oficina INT,
     c_tipo_asenta INT,
     c_mnpio INT,
     id_asent_cpcon INT,
-    d_zona text,
+    d_zona VARCHAR(150),
     c_cve_ciudad INT
 );
 

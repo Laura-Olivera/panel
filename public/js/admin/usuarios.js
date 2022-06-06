@@ -42,6 +42,35 @@ $(document).ready(function() {
 
         ],
     });
+
+    var codigo = $('#postal');
+
+    codigo.change(function(){
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
+            }, 
+            url: "usuarios/codigo_postal/" + this.value,
+            datatype: 'json',
+            success: function(datos){
+                console.log(datos);
+            },
+            error: function (xhr) {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    });
 });
 
 function add_usuario_modal()
@@ -81,7 +110,7 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
-    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
+    var dir = $('#calle').val() + '|' + $('#colonia').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
@@ -174,7 +203,7 @@ function edit_usuario_modal(id){
 }
 
 function update_usuario(id){  
-    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();
+    var dir = $('#calle').val() + '|' + $('#colonia').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();
     let data = {
         id_usuario: $('#id_usuario').val(),
         nombre: $('#nombre').val(),
@@ -231,6 +260,8 @@ function update_usuario(id){
     });
 }
 
+
+
 function validar(form){
     var validator = form.validate({
         rules: {
@@ -256,6 +287,10 @@ function validar(form){
                 minlength: 8
             },
             calle: {
+                required: true,
+                maxlength: 150
+            },
+            colonia: {
                 required: true,
                 maxlength: 150
             },
