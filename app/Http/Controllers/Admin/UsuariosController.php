@@ -203,7 +203,7 @@ class UsuariosController extends Controller
     public function codigo_postal($codigo)
     {
         $data = HTTP::get('http://localhost:8000/api/codigo_postal/'.$codigo);
-        $datos = $data;
+        $datos = json_decode($data);
         return $datos;
     }
 

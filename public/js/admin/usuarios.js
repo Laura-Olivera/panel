@@ -43,9 +43,12 @@ $(document).ready(function() {
         ],
     });
 
+    $('#colonia').select2({
+        placeholder: 'Seleccione...',
+        allowClear: true,
+    });
     var codigo = $('#postal');
-
-    codigo.change(function(){
+    codigo.change( function(){
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
@@ -54,6 +57,13 @@ $(document).ready(function() {
             datatype: 'json',
             success: function(datos){
                 console.log(datos);
+                $('#estado').val(datos.estado);
+                $('#estado').trigger('change');
+                $('#municipio').val(datos.mnpio);
+                $('#municipio').trigger('change');
+                array.forEach(element => {
+                    
+                });
             },
             error: function (xhr) {
                 Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
@@ -71,6 +81,8 @@ $(document).ready(function() {
             },
         });
     });
+
+
 });
 
 function add_usuario_modal()
