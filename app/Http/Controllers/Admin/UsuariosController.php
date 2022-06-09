@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Admin\Empleado;
@@ -198,13 +197,6 @@ class UsuariosController extends Controller
 
         $contactos = EmpleadoContacto::where('empleado_id', '=', $usuario->id)->get();
         return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion', 'tPendientes', 'tFinalizadas', 'empleadoTarea', 'contactos'));
-    }
-
-    public function codigo_postal($codigo)
-    {
-        $data = HTTP::get('http://localhost:8000/api/codigo_postal/'.$codigo);
-        $datos = json_decode($data);
-        return $datos;
     }
 
     public function generarClave($perfil, $empleado){

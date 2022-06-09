@@ -70,7 +70,9 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Colonia:</label>
-										<input type="text" class="form-control" placeholder="Colonia" id="colonia" name="colonia" autocomplete="off"/>
+										<select class="form-control select2" id="colonia" name="colonia">
+											<option label="Label"></option>
+										</select>
 									</div>
 								</div>
 							</div>

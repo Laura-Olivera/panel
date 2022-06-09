@@ -42,47 +42,6 @@ $(document).ready(function() {
 
         ],
     });
-
-    $('#colonia').select2({
-        placeholder: 'Seleccione...',
-        allowClear: true,
-    });
-    var codigo = $('#postal');
-    codigo.change( function(){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
-            }, 
-            url: "usuarios/codigo_postal/" + this.value,
-            datatype: 'json',
-            success: function(datos){
-                console.log(datos);
-                $('#estado').val(datos.estado);
-                $('#estado').trigger('change');
-                $('#municipio').val(datos.mnpio);
-                $('#municipio').trigger('change');
-                array.forEach(element => {
-                    
-                });
-            },
-            error: function (xhr) {
-                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
-            },
-            beforeSend: function () {
-                KTApp.blockPage({
-                    overlayColor: '#000000',
-                    type: 'v2',
-                    state: 'success',
-                    zIndex: 3000
-                });
-            },
-            complete: function () {
-                KTApp.unblockPage();
-            },
-        });
-    });
-
-
 });
 
 function add_usuario_modal()
@@ -97,7 +56,7 @@ function add_usuario_modal()
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
-
+                codigo_postal();
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -192,6 +151,7 @@ function edit_usuario_modal(id){
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
+                codigo_postal();
 
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
@@ -272,7 +232,52 @@ function update_usuario(id){
     });
 }
 
-
+function codigo_postal(){
+    
+    $('#colonia').select2({
+        placeholder: 'Seleccione...',
+        allowClear: true,
+    });
+    var codigo = $('#postal');
+    codigo.change( function(){
+        $('#colonia').empty();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
+            }, 
+            url: "codigo_postal/" + this.value,
+            datatype: 'json',
+            success: function(datos){
+                console.log(datos);
+                $('#estado').val(datos.estado);
+                $('#estado').trigger('change');
+                $('#municipio').val(datos.mnpio);
+                $('#municipio').trigger('change');
+                var asenta = datos.asenta;
+                for (let index = 0; index < asenta.length; index++) {
+                    let newOption = new Option(asenta[index], asenta[index])
+                    $('#colonia').append(newOption);
+                    $('#colonia').val(asenta[index]);
+                    console.log(asenta[index]);                    
+                };
+            },
+            error: function (xhr) {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    });
+}
 
 function validar(form){
     var validator = form.validate({

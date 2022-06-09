@@ -49,28 +49,38 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Calle:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[0] }}" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
+										<label>C.P:</label>
+										<input type="text" class="form-control" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Municipio:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[1] }}" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
+										<label>Estado:</label>
+										<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Estado:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[2] }}" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
+										<label>Municipio:</label>
+										<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>C.P:</label>
-                                    <input type="text" class="form-control" value="{{ $direccion[3] }}" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
+										<label>Colonia:</label>
+										<select class="form-control select2" id="colonia" name="colonia">
+											<option label="Label"></option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Calle:</label>
+										<input type="text" class="form-control" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
 									</div>
 								</div>
 							</div>

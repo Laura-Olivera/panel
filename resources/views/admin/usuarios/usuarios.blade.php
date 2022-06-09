@@ -57,7 +57,7 @@
                 </table>
 				<!--end: Datatable-->
 
-				<div class="form-group row">
+				{{-- <div class="form-group row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>C.P:</label>
@@ -86,7 +86,7 @@
 							</select>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 			</div>
 			<!--end::Body-->
 		</div>
