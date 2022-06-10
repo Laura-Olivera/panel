@@ -34,18 +34,31 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
+										<label> Usuario: </label>
+ 					   					<input type="text" class="form-control" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" disabled/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
 										<label>Correo electrónico:</label>
 										<input type="email" class="form-control" placeholder="Correo electrónico" id="email" name="email" autocomplete="off"/>
 									</div>
 								</div>
+							</div>
+							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Contraseña:</label>
 										<input type="password" class="form-control" placeholder="Contraseña" id="password" name="password" autocomplete="off"/>
 									</div>
 								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Confirmar contraseña:</label>
+										<input type="password" class="form-control" placeholder="Confirmar contraseña" id="rpassword" name="rpassword" autocomplete="off"/>
+									</div>
+								</div>
 							</div>
-							
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
@@ -56,7 +69,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Estado:</label>
-										<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
+										<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" disabled/>
 									</div>
 								</div>
 							</div>
@@ -64,7 +77,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Municipio:</label>
-										<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
+										<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" disabled/>
 									</div>
 								</div>
 								<div class="col-md-6">

@@ -10,8 +10,10 @@ class ServiciosController extends Controller
 {
     public function codigo_postal($codigo)
     {
-        $data = HTTP::get('http://localhost:8000/api/codigo_postal/'.$codigo);
+        $data = HTTP::get('http://localhost:8000/api/codigo_postal/show/'.$codigo);
         $datos = json_decode($data);
-        return $datos;
+        if (is_object($datos)) {
+            return $datos;
+        } 
     }
 }

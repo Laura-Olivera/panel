@@ -42,13 +42,21 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (respuesta) {
                 if (respuesta.success == true) {
-                    Swal.fire("Exito!", respuesta.message, "success");
                     $("#contacto-table").load(" #contacto-table");
                     $("#contacto-card").load(" #contacto-card");
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 } else {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
-                    $("#contacto-table").load(" #contacto-table");
-                    $("#contacto-card").load(" #contacto-card");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 }
             },
             error: function (xhr) { //xhr
@@ -122,15 +130,23 @@ function store_contacto(){
         success: function (respuesta) {
             if (respuesta.success == true) {
                 $('#modal_nuevo_contacto').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire("Exito!", respuesta.message, "success");
                     $("#contacto-table").load(" #contacto-table");
                     $("#contacto-card").load(" #contacto-card");
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             } else {
                 $('#modal_nuevo_contacto').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
-                    $("#contacto-table").load(" #contacto-table");
-                    $("#contacto-card").load(" #contacto-card");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             }
         },
@@ -204,13 +220,23 @@ function update_contacto(id){
         success: function (respuesta) {
             if (respuesta.success == true) {
                 $('#modal_editar_contacto').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire("Exito!", respuesta.message, "success");
                     $("#contacto-table").load(" #contacto-table");
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             } else {
                 $('#modal_editar_contacto').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
                     $("#contacto-table").load(" #contacto-table");
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             }
         },
@@ -286,11 +312,21 @@ function update_password()
             success: function (respuesta) {
                 if (respuesta.success == true) {
                     $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire("Exito!", respuesta.message, "success");
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 } else {
                     $('#modal_editar_password').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 }
             },

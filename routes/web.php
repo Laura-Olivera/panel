@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
         Route::post('/usuarios/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
         Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'viewUsuario']);
+        Route::get('/usuarios/user', [App\Http\Controllers\Admin\UsuariosController::class, 'user_name']);
         Route::get('codigo_postal/{id}', [\App\Http\Controllers\Servicios\ServiciosController::class, 'codigo_postal']);
         //RUTAS ROLES
         Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);

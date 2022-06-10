@@ -1,0 +1,59 @@
+CONTROLLER
+
+
+namespace App\Http\Controllers;
+
+use App\Models\CodigoPostal;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class CodigoPostalController extends Controller
+{
+    public function index()
+    {
+        $codigo = DB::table('d_codigo')->select('d_codigo', 'd_mnpio', 'd_estado', 'd_asenta.d_asenta')
+        ->join('d_asenta', 'd_codigo.id', '=', 'd_asenta.codigo_id')->get();
+        return response()->json($codigo);
+    }
+
+    public function show($id)
+    {
+        try {
+            $codigo = DB::table('d_codigo')->select('id','d_codigo', 'd_mnpio', 'd_estado')->where('d_codigo', '=', $id)->first();
+            $getAsenta = DB::table('d_asenta')->select('d_asenta')->where('codigo_id', '=', $codigo->id)->get();
+            $asenta = [];
+            foreach ($getAsenta as $data) {
+                array_push($asenta, $data->d_asenta);
+            }
+            return response()->json([
+                'codigo' => $codigo->d_codigo,
+                'mnpio' => $codigo->d_mnpio,
+                'estado' => $codigo->d_estado,
+                'asenta' => $asenta
+            ]);
+        } catch (\Throwable $th) {
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            return response()->json('Codigo postal no valido.');
+        }
+    }
+
+    public function getAsenta($id)
+    {
+        $codigo = DB::table('d_codigo')->select('id','d_codigo', 'd_mnpio', 'd_estado')->where('d_codigo', '=', $id)->first();
+        $getAsenta = DB::table('d_asenta')->select('d_asenta')->where('codigo_id', '=', $codigo->id)->get();
+        $asenta = [];
+        foreach ($getAsenta as $data) {
+            array_push($asenta, $data->d_asenta);
+        }
+        return response()->json( $asenta );
+    }
+}
+
+
+
+RUTAS
+
+
+Route::get('codigo_postal/show/{id}',[App\Http\Controllers\CodigoPostalController::class, 'show']);
+Route::get('codigo_postal/asenta/{id}',[App\Http\Controllers\CodigoPostalController::class, 'getAsenta']);

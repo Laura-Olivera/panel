@@ -297,7 +297,7 @@
                                                     <label class="col-4 col-form-label">Dirección:</label>
                                                     <div class="col-8">
                                                         <span class="form-control-plaintext">
-                                                        <span class="font-weight-bolder">{{ $direccion[0] }}. {{ $direccion[1] }}. {{ $direccion[2] }}. {{ $direccion[3] }}</span>
+                                                        <span class="font-weight-bolder">{{ $direccion }}</span>
                                                     </div>
                                                 </div>                        
                                             </div>

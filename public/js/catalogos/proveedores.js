@@ -89,13 +89,23 @@ function store_proveedor(){
             success: function (respuesta) {
                 if (respuesta.success == true) {
                     $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire("Exito!", respuesta.message, "success");
                         $('#users-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 } else {
                     $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
                         $('#users-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 }
             },
@@ -183,13 +193,23 @@ function update_usuario(id){
         success: function (respuesta) {
             if (respuesta.success == true) {
                 $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire("Exito!", respuesta.message, "success");
                     $('#users-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             } else {
                 $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
                     $('#users-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             }
         },

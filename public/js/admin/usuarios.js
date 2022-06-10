@@ -57,6 +57,7 @@ function add_usuario_modal()
                     allowClear: true,
                 });
                 codigo_postal();
+                user_name();
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -81,9 +82,10 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
-    var dir = $('#calle').val() + '|' + $('#colonia').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();    
+    var dir = $('#postal').val() + '|' + $('#estado').val() + '|' + $('#municipio').val() + '|' + $('#colonia').val() + '|' + $('#calle').val();    
     if(validarForm){
         let data = {
+            usuario: $('#usuario').val(),
             nombre: $('#nombre').val(),
             primer: $('#pApellido').val(),
             segundo: $('#sApellido').val(),
@@ -104,13 +106,23 @@ function store_usuario(){
             success: function (respuesta) {
                 if (respuesta.success == true) {
                     $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire("Exito!", respuesta.message, "success");
                         $('#users-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 } else {
                     $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
                         $('#users-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: respuesta.message,
+                            timer: 1500
+                        });
                     });
                 }
             },
@@ -175,14 +187,16 @@ function edit_usuario_modal(id){
 }
 
 function update_usuario(id){  
-    var dir = $('#calle').val() + '|' + $('#colonia').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();
+    var dir = $('#postal').val() + '|' + $('#estado').val() + '|' + $('#municipio').val() + '|' + $('#colonia').val() + '|' + $('#calle').val(); 
     let data = {
         id_usuario: $('#id_usuario').val(),
+        $usuario: $('#usuario').val(),
         nombre: $('#nombre').val(),
         primer: $('#pApellido').val(),
         segundo: $('#sApellido').val(),
         email: $('#email').val(),
         password: $('#password').val(),
+        rpassword: $('#rpassword').val(),
         direccion: dir,
         perfil: $('#perfil').val(),
         telefono: $('#telefono').val(),
@@ -201,11 +215,22 @@ function update_usuario(id){
                 $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
                     Swal.fire("Exito!", respuesta.message, "success");
                     $('#users-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             } else {
                 $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
                     $('#users-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    });
                 });
             }
         },
@@ -232,6 +257,51 @@ function update_usuario(id){
     });
 }
 
+function user_name(){
+    var user = $('#sApellido');
+
+    user.change( function(){
+        let data = {
+            nombre: $('#nombre').val(),
+            primer: $('#pApellido').val(),
+            segundo: this.value,
+        };
+        $.ajax({
+            headers: {
+                'X-CSFR-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'usuarios/user',
+            type: 'GET',
+            data: data,
+            success: function(response){
+                
+                if (response.success && response.data) {
+                    $('#usuario').val(response.data);
+                    $('#usuario').trigger('change');
+                    console.log(response);
+                } else {
+                    $('#usuario').prop('disabled', false);
+                    console.log('null');
+                }
+            },
+            error: function (xhr) {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    });
+}
+
 function codigo_postal(){
     
     $('#colonia').select2({
@@ -248,18 +318,30 @@ function codigo_postal(){
             url: "codigo_postal/" + this.value,
             datatype: 'json',
             success: function(datos){
-                console.log(datos);
-                $('#estado').val(datos.estado);
-                $('#estado').trigger('change');
-                $('#municipio').val(datos.mnpio);
-                $('#municipio').trigger('change');
-                var asenta = datos.asenta;
-                for (let index = 0; index < asenta.length; index++) {
-                    let newOption = new Option(asenta[index], asenta[index])
-                    $('#colonia').append(newOption);
-                    $('#colonia').val(asenta[index]);
-                    console.log(asenta[index]);                    
-                };
+                if (datos) {
+                    $('#estado').val(datos.estado);
+                    $('#estado').trigger('change');
+                    $('#municipio').val(datos.mnpio);
+                    $('#municipio').trigger('change');
+                    var asenta = datos.asenta;
+                    for (let index = 0; index < asenta.length; index++) {
+                        let newOption = new Option(asenta[index], asenta[index])
+                        $('#colonia').append(newOption);
+                        $('#colonia').val(asenta[index]);           
+                    };
+                } else {
+                    console.log('error');
+                    $('#estado').val(null);
+                    $('#estado').trigger('change');
+                    $('#municipio').val(null);
+                    $('#municipio').trigger('change');
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: 'El codigo postal no existe.',
+                        timer: 1500
+                    });
+                }
             },
             error: function (xhr) {
                 Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
@@ -302,6 +384,13 @@ function validar(form){
                 required: true,
                 maxlength: 150,
                 minlength: 8
+            },
+            rpassword: {
+                required: true,
+                equalTo: '#password'
+            },
+            user: {
+                required: true,
             },
             calle: {
                 required: true,

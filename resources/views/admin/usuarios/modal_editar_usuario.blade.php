@@ -35,14 +35,28 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>Correo electrónico:</label>
-                                    <input type="email" class="form-control" value=" {{ $usuario->email }}" placeholder="Correo electrónico" id="email" name="email" autocomplete="off"/>
+										<label> Usuario: </label>
+ 					   					<input type="text" class="form-control" value=" {{ $usuario->name }}" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" disabled/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
+										<label>Correo electrónico:</label>
+										<input type="email" class="form-control" value=" {{ $usuario->email }}" placeholder="Correo electrónico" id="email" name="email" autocomplete="off"/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6">
+									<div class="form-group">
 										<label>Contraseña:</label>
-										<input type="password" class="form-control" placeholder="Contraseña" id="password" name="password" autocomplete="off"/>
+										<input type="email" class="form-control" placeholder="Contraseña" id="password" name="password" autocomplete="off"/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Confirmar contraseña:</label>
+										<input type="password" class="form-control" placeholder="Confirmar contraseña" id="rpassword" name="rpassword" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -50,13 +64,13 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>C.P:</label>
-										<input type="text" class="form-control" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
+										<input type="text" class="form-control" value="{{ $cp }}" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Estado:</label>
-										<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
+										<input type="text" class="form-control" value="{{ $estado }}" placeholder="Estado" id="estado" name="estado" autocomplete="off" disabled/>
 									</div>
 								</div>
 							</div>
@@ -64,14 +78,16 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Municipio:</label>
-										<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
+										<input type="text" class="form-control" value="{{ $municipio }}" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off" disabled/>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Colonia:</label>
 										<select class="form-control select2" id="colonia" name="colonia">
-											<option label="Label"></option>
+											@for ($i = 0; $i < count($asenta); $i++)
+												<option value="{{$asenta[$i]}}" {{ ($asenta[$i] == $colonia ) ? "selected" : "" }}>{{$asenta[$i]}}</option>
+											@endfor
 										</select>
 									</div>
 								</div>
@@ -80,7 +96,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Calle:</label>
-										<input type="text" class="form-control" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
+										<input type="text" class="form-control" value="{{ $calle }}" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
 									</div>
 								</div>
 							</div>

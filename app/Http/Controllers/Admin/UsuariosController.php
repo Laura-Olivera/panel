@@ -14,6 +14,7 @@ use App\Helpers\Bitacora;
 use App\Models\Admin\EmpleadoContacto;
 use App\Models\Admin\Tarea;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class UsuariosController extends Controller
 {
@@ -53,7 +54,7 @@ class UsuariosController extends Controller
         try {
             DB::beginTransaction();
             $user = User::create([
-                'name' => $request->nombre,
+                'name' => strtolower($request->usuario),
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'estatus' => 1
@@ -76,7 +77,7 @@ class UsuariosController extends Controller
                 'segundo_apellido' => strtoupper($request->segundo),
                 'created_user_id' => $registro->id,
                 'updated_user_id' => $registro->id,
-                'direccion' => strtoupper($direccion),
+                'direccion' => $direccion,
                 'telefono' => $request->telefono,
                 'clave_empleado' => $clave,
             ]);
@@ -105,16 +106,27 @@ class UsuariosController extends Controller
         })->get();
         $usuario = DB::table('empleados')
                     ->join('users', 'empleados.user_id', '=', 'users.id')
-                    ->select('empleados.*','users.name', 'users.email','users.estatus', 'users.password')
+                    ->select('empleados.*','users.name', 'users.email','users.estatus')
                     ->where('empleados.id', '=', $id)
                     ->first();
         $direccion = explode('|', $usuario->direccion);
+        $cp = $direccion[0];
+        $estado = $direccion[1];
+        $municipio = $direccion[2];
+        $colonia = $direccion[3];
+        $calle = $direccion[4];
         $perfil = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
+        $asenta = json_decode(HTTP::get('http://localhost:8000/api/codigo_postal/asenta/'.$cp));
         return view('admin.usuarios.modal_editar_usuario')
             ->with(compact('usuario'))
-            ->with(compact('direccion'))
+            ->with(compact('cp'))
+            ->with(compact('estado'))
+            ->with(compact('municipio'))
+            ->with(compact('colonia'))
+            ->with(compact('calle'))
             ->with(compact('roles'))
-            ->with(compact('perfil'));
+            ->with(compact('perfil'))
+            ->with(compact('asenta'));
     }
 
     public function update(Request $request)
@@ -129,18 +141,20 @@ class UsuariosController extends Controller
             $usuario->primer_apellido = strtoupper($request->primer);
             $usuario->segundo_apellido = strtoupper($request->segundo);
             $usuario->telefono = $request->telefono;
-            $usuario->direccion = strtoupper($request->direccion);
+            $usuario->direccion = $request->direccion;
             $usuario->updated_user_id = $registro;
             $usuario->save();
             DB::commit();
 
             DB::beginTransaction();
             $user = User::findOrFail($usuario->user_id);
-            $user->name = strtolower($request->nombre);
+            $user->name = strtolower($request->usuario);
             $user->email = $request->email;
             if($request->password){
-                $pass = Hash::make($request->password);
-                $user->password = $pass;
+                if ($request->password == $request->rpassword) {
+                    $pass = Hash::make($request->password);
+                    $user->password = $pass;
+                }
             }
             $user->estatus = $request->estatus;
             $user->save();
@@ -178,7 +192,13 @@ class UsuariosController extends Controller
                     ->select('empleados.*','users.name', 'users.email','users.estatus', 'users.password')
                     ->where('empleados.id', '=', $id)
                     ->first();
-        $direccion = explode('|', $usuario->direccion);
+        $dir = explode('|', $usuario->direccion);
+        $cp = $dir[0];
+        $estado = $dir[1];
+        $municipio = $dir[2];
+        $colonia = $dir[3];
+        $calle = $dir[4];
+        $direccion = $calle.', '.$colonia.', '.$municipio.', '.$estado.'. '.$cp;
         $modHasRol = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->user_id)->first();
         $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
         $ultimaAccion = DB::table('bitacora')->where('user_id', '=', $usuario->user_id)->orderByDesc('created_at')->limit(5)->get();
@@ -197,6 +217,68 @@ class UsuariosController extends Controller
 
         $contactos = EmpleadoContacto::where('empleado_id', '=', $usuario->id)->get();
         return view('admin.usuarios.detalle_usuario',compact('usuario', 'perfil', 'direccion', 'ultimaAccion', 'tPendientes', 'tFinalizadas', 'empleadoTarea', 'contactos'));
+    }
+
+    public function user_name(Request $request){
+        try {
+            $nombre = explode(' ', $request->nombre);
+            $pApellido = explode(' ', $request->primer);
+            $sApellido = explode(' ', $request->segundo);
+            $n_array = [];
+            $primer = [];
+            $segundo = [];
+            $reservar = ['la', 'el', 'de', 'del', 'y'];
+
+            for ($i = 0; $i<count($nombre); $i++){
+                if(!in_array($nombre[$i], $reservar)){
+                    array_push($n_array, $nombre[$i]);
+                }
+            }
+            for ($i = 0; $i<count($pApellido); $i++){
+                if(!in_array($pApellido[$i], $reservar)){
+                    array_push($primer, $pApellido[$i]);
+                }
+            }
+            for ($i = 0; $i<count($sApellido); $i++){
+                if(!in_array($sApellido[$i], $reservar)){
+                    array_push($segundo, $sApellido[$i]);
+                }
+            }
+            $user = substr($n_array[0],0,1);
+            $user .= $pApellido[0];
+            $existe = DB::table('users')->where('name', '=', $user)->exists();
+            if ($existe) {
+                $user = null;
+                $user = substr($n_array[0],0,1);
+                $user .= $pApellido[0];
+                $user .= substr($sApellido[0],0,1);
+
+                $existe = DB::table('users')->where('name', '=', $user)->exists();
+                if ($existe) {
+                    $user = null;
+                    $user = substr($n_array[0],0,1);
+                    $user .= $sApellido[0];
+
+                    $existe = DB::table('users')->where('name', '=', $user)->exists();
+                    if ($existe) {
+                        $user = null;
+                        $user = substr($n_array[0],0,1);
+                        $user .= substr($pApellido[0],0,1);                        
+                        $user .= $sApellido[0];
+
+                        $existe = DB::table('users')->where('name', '=', $user)->exists();
+                        if ($existe) {
+                            $user = null;
+                        }
+                    }
+                }
+            }
+
+            return $reponse = ['success' => true, 'data' => strtolower($user)];
+        } catch (\Throwable $th) {
+            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            return $reponse = ['success' => false, 'data' => null];
+        }
     }
 
     public function generarClave($perfil, $empleado){
