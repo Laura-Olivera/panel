@@ -91,6 +91,7 @@ class UsuariosController extends Controller
             $response =['success' => true, 'message' => 'El usuario se registro correctamente'];
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th);
             \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
             $response = ['success' => false, 'message' => 'Error al crear un nuevo usuario'];
         }

@@ -34,6 +34,20 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
+										<label>CURP:</label>
+										<input type="text" class="form-control" placeholder="CURP" id="curp" name="curp" autocomplete="off"/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>RFC:</label>
+										<input type="text" class="form-control" placeholder="REF" id="rfc" name="rfc" disabled/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6">
+									<div class="form-group">
 										<label> Usuario: </label>
  					   					<input type="text" class="form-control" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" disabled/>
 									</div>
@@ -56,44 +70,6 @@
 									<div class="form-group">
 										<label>Confirmar contraseña:</label>
 										<input type="password" class="form-control" placeholder="Confirmar contraseña" id="rpassword" name="rpassword" autocomplete="off"/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>C.P:</label>
-										<input type="text" class="form-control" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Estado:</label>
-										<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" disabled/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Municipio:</label>
-										<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" disabled/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Colonia:</label>
-										<select class="form-control select2" id="colonia" name="colonia">
-											<option label="Label"></option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Calle:</label>
-										<input type="text" class="form-control" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
 									</div>
 								</div>
 							</div>

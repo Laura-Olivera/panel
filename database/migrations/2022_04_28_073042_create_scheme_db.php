@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateColoresTable extends Migration
+class CreateSchemeDb extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateColoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('colores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->string('rgb');
-            $table->string('hexa');
-            $table->timestamps();
-        });
+        $file = dirname(__DIR__,1)."/data/esquema.sql";
+
+        \DB::unprepared(\File::get($file));
+
+        dd('Check your DATABASE SCHEME =D');
     }
 
     /**
@@ -29,6 +27,6 @@ class CreateColoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colores');
+        
     }
 }
