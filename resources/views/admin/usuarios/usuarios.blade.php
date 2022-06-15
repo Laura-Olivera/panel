@@ -47,46 +47,17 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Perfil</th>
+							<th>Primer apellido</th>
+							<th>Segundo apellido</th>
+                            <th>Usuario</th>
                             <th>Correo electrónico</th>
-                            <th>Telefono</th>
+                            <th>Area</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
 				<!--end: Datatable-->
-
-				{{-- <div class="form-group row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>C.P:</label>
-							<input type="text" class="form-control" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Estado:</label>
-							<input type="text" class="form-control" placeholder="Estado" id="estado" name="estado" autocomplete="off"/>
-						</div>
-					</div>
-				</div>
-				<div class="form-group row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Municipio:</label>
-							<input type="text" class="form-control" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off"/>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Colonia:</label>
-							<select class="form-control select2" id="colonia" name="colonia">
-								<option label="Label"></option>
-							</select>
-						</div>
-					</div>
-				</div> --}}
 			</div>
 			<!--end::Body-->
 		</div>
@@ -99,7 +70,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/admin/usuarios.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

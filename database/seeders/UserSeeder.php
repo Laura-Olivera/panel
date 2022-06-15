@@ -19,10 +19,14 @@ class UserSeeder extends Seeder
         \DB::table('users')->delete();
         $userSuperadmin = User::create(
             array (
-                'name' => 'superadmin',
-                'email' => 'superadmin@correo.com',
+                'nombre' => 'admin',
+                'primer_apellido' => 'panel',
+                'cve_usuario' => '0000000001',
+                'usuario' => 'admin',
+                'email' => 'correo@correo.com',
                 'password' => Hash::make('12345678'),
-                'estatus' => 1,
+                'cambiar_password' => false,
+                'estatus' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             )
@@ -30,17 +34,5 @@ class UserSeeder extends Seeder
 
         $userSuperadmin->assignRole('SuperAdmin');
 
-        $userCliente = User::create(
-            array(
-                'name' => 'cliente',
-                'email' => 'cliente@correo.com',
-                'password' => Hash::make('12345678'),
-                'estatus' => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-            )
-        );
-
-        $userCliente->assignRole('Cliente');
     }
 }

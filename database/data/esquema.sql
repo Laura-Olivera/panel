@@ -1,4 +1,5 @@
 
+DROP SEQUENCE IF EXISTS public.users_id_seq;
 CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -6,6 +7,55 @@ CREATE SEQUENCE public.users_id_seq
     NO MAXVALUE
     CACHE 1;
 
+DROP SEQUENCE IF EXISTS public.permissions_id_seq;
+CREATE SEQUENCE public.permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.roles_id_seq;
+CREATE SEQUENCE public.roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.areas_id_seq;
+CREATE SEQUENCE public.areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.bitacora_usuarios_id_seq;
+CREATE SEQUENCE public.bitacora_usuarios_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.bitacora_log_id_seq;
+CREATE SEQUENCE public.bitacora_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.users_monitorings_id_seq;
+CREATE SEQUENCE public.users_monitorings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP TABLE IF EXISTS public.users;
 CREATE TABLE public.users (
     id BIGINT NOT NULL,
     nombre CHARACTER VARYING(100) NOT NULL,
@@ -13,10 +63,10 @@ CREATE TABLE public.users (
     segundo_apellido CHARACTER VARYING(100),
     curp CHARACTER VARYING(18),
     rfc CHARACTER VARYING(13),
-    cve_usuario CHARACTER VARYING(20),
+    cve_usuario CHARACTER VARYING(20) NOT NULL,
     telefono CHARACTER VARYING(10),
     area CHARACTER VARYING(100),
-    name CHARACTER VARYING(50) UNIQUE NOT NULL,
+    usuario CHARACTER VARYING(50) UNIQUE NOT NULL,
     email CHARACTER VARYING(150) NOT NULL,
     password CHARACTER VARYING(150) NOT NULL,
     cambiar_password BOOLEAN DEFAULT true NOT NULL,
@@ -26,13 +76,7 @@ CREATE TABLE public.users (
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
-CREATE SEQUENCE public.permissions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.permissions;
 CREATE TABLE public.permissions (
     id BIGINT NOT NULL,
     name CHARACTER VARYING(200) UNIQUE NOT NULL,
@@ -42,46 +86,37 @@ CREATE TABLE public.permissions (
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
-CREATE SEQUENCE public.roles_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.roles;
 CREATE TABLE public.roles (
     id BIGINT NOT NULL,
     name CHARACTER VARYING(200) UNIQUE NOT NULL,
     guard_name CHARACTER VARYING(100) NOT NULL,
-    decrip CHARACTER VARYING(250),
+    descrip CHARACTER VARYING(250),
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
+DROP TABLE IF EXISTS public.role_has_permissions;
 CREATE TABLE public.role_has_permissions (
     permission_id BIGINT NOT NULL,
     role_id BIGINT NOT NULL
 );
 
+DROP TABLE IF EXISTS public.model_has_permissions;
 CREATE TABLE public.model_has_permissions(
     permission_id BIGINT NOT NULL,
     model_type CHARACTER VARYING(250) NOT NULL,
     model_id BIGINT NOT NULL
 );
 
+DROP TABLE IF EXISTS public.model_has_roles;
 CREATE TABLE public.model_has_roles(
     role_id BIGINT NOT NULL,
     model_type CHARACTER VARYING(250) NOT NULL,
     model_id BIGINT NOT NULL
 );
 
-CREATE SEQUENCE public.areas_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.areas;
 CREATE TABLE public.areas (
     id BIGINT NOT NULL,
     nombre CHARACTER VARYING(150) NOT NULL,
@@ -93,13 +128,7 @@ CREATE TABLE public.areas (
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
-CREATE SEQUENCE public.bitacora_usuarios_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.bitacora_usuarios;
 CREATE TABLE public.bitacora_usuarios (
     id BIGINT NOT NULL,
     session JSON,
@@ -114,13 +143,7 @@ CREATE TABLE public.bitacora_usuarios (
     created_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
-CREATE SEQUENCE public.bitacora_log_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.bitacora_log;
 CREATE TABLE public.bitacora_log (
     id BIGINT,
     class CHARACTER VARYING(100),
@@ -132,13 +155,7 @@ CREATE TABLE public.bitacora_log (
     created_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
 
-CREATE SEQUENCE public.users_monitorings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
+DROP TABLE IF EXISTS public.users_monitorings;
 CREATE TABLE public.users_monitorings (
     id BIGINT NOT NULL,
     ip CHARACTER VARYING(20),
@@ -220,3 +237,5 @@ ALTER TABLE ONLY public.areas
 
 ALTER TABLE ONLY public.bitacora_usuarios
     ADD CONSTRAINT bitacora_usuarios_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+COMMIT;

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Schema;
 
 class CreateSchemeDb extends Migration
@@ -15,7 +17,7 @@ class CreateSchemeDb extends Migration
     {
         $file = dirname(__DIR__,1)."/data/esquema.sql";
 
-        \DB::unprepared(\File::get($file));
+        DB::unprepared(FacadesFile::get($file));
 
         dd('Check your DATABASE SCHEME =D');
     }

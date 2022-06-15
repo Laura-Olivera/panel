@@ -25,47 +25,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role_superadmin->givePermissionTo([
-            'Dashboard',
-            'SuperAdmin',
-            'MenuPerfiles',
-            'MenuPermisos',
-            'MenuUsuarios',
-            'MenuBitacoraUsuarios',
-            'MenuBitacoraCliente',
-            'MenuTareas',
-            'MenuClientes',
-            'MenuEmpresa',
-            'MenuCatalogos'
-        ]);
-
-        $role_admin = Role::create([
-            'name' => 'Administrador General',
-            'guard_name' =>'web',
-            'descrip' => 'Perfil con permisos de administrador general.',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        $role_admin->givePermissionTo([
-            'Dashboard',
-            'Admin',
-            'MenuUsuarios',
-            'MenuTareas',
-            'MenuClientes',
-            'MenuEmpresa',
-            'MenuCatalogos'
-        ]);
-
-        $role_cliente = Role::create([
-            'name' => 'Cliente',
-            'guard_name' => 'web',
-            'descrip' => 'Perfil con permisos de cliente general',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $role_cliente->givePermissionTo([
-            'PermisosCliente'
+            'SuperAdmin'
         ]);
     }
 }
