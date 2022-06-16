@@ -35,8 +35,22 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
+										<label>CURP:</label>
+										<input type="text" class="form-control" value=" {{ $usuario->curp }}" placeholder="CURP" id="curp" name="curp" autocomplete="off"/>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>RFC:</label>
+										<input type="text" class="form-control" value=" {{ $usuario->rfc }}" placeholder="REF" id="rfc" name="rfc" autocomplete="off"/>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6">
+									<div class="form-group">
 										<label> Usuario: </label>
- 					   					<input type="text" class="form-control" value=" {{ $usuario->name }}" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" disabled/>
+ 					   					<input type="text" class="form-control" value=" {{ $usuario->usuario }}" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -63,46 +77,6 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label>C.P:</label>
-										<input type="text" class="form-control" value="{{ $cp }}" placeholder="Codigo Postal" id="postal" name="postal" autocomplete="off"/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Estado:</label>
-										<input type="text" class="form-control" value="{{ $estado }}" placeholder="Estado" id="estado" name="estado" autocomplete="off" disabled/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Municipio:</label>
-										<input type="text" class="form-control" value="{{ $municipio }}" placeholder="Municipio" id="municipio" name="municipio" autocomplete="off" disabled/>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Colonia:</label>
-										<select class="form-control select2" id="colonia" name="colonia">
-											@for ($i = 0; $i < count($asenta); $i++)
-												<option value="{{$asenta[$i]}}" {{ ($asenta[$i] == $colonia ) ? "selected" : "" }}>{{$asenta[$i]}}</option>
-											@endfor
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Calle:</label>
-										<input type="text" class="form-control" value="{{ $calle }}" placeholder="Calle" id="calle" name="calle" autocomplete="off"/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="form-group">
 										<label>Telefono:</label>
                                     <input type="text" class="form-control" value="{{ $usuario->telefono }}" placeholder="Telefono" id="telefono" name="telefono" autocomplete="off"/>
 									</div>
@@ -118,12 +92,25 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Area:</label>
+										<select class="form-control select2" id="area" name="area">
+											<option label="Label"></option>
+											@foreach($areas as $area)
+     										<option value="{{ $area->nombre }}" {{ ($area->nombre == $usuario->area) ? "selected" : "" }}>{{ $area->nombre }} - {{ $area->cve_area }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+							</div>
 							<div class="col-md-12 text-right">
 								<label class="control-label">Habilitado</label>
 								<div class="form-group">
 									<span class="switch switch-md switch-icon">
 										<label>
-											<input type="checkbox"  {{ ( $usuario->estatus == 1) ? 'checked' : ''}} name="estatus" id="estatus">
+											<input type="checkbox"  {{ ( $usuario->estatus == true) ? 'checked' : ''}} name="estatus" id="estatus">
 											<span></span>
 										</label>
 									</span>

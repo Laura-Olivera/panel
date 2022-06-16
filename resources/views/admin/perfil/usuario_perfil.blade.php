@@ -44,11 +44,11 @@
                             <div class="d-flex flex-column flex-grow-1 pr-8">
                                 <div class="d-flex flex-wrap mb-4">
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <i class="flaticon2-new-email mr-2 font-size-lg"></i>{{ Auth::user()->email }}</a>
+                                    <i class="flaticon2-new-email mr-2 font-size-lg"></i></a>
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <i class="flaticon2-calendar-3 mr-2 font-size-lg"></i>{{ getSessionPerfil() }}</a>
+                                    <i class="flaticon2-calendar-3 mr-2 font-size-lg"></i></a>
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold">
-                                    <i class="flaticon2-placeholder mr-2 font-size-lg"></i>{{ getClaveEmpleado() }}</a>
+                                    <i class="flaticon2-placeholder mr-2 font-size-lg"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -157,20 +157,15 @@
 								<!--begin::Body-->
 								<div class="card-body pt-0">
 									<!--begin::Item-->
-									@if(count($tareas) == 0)
                                     <div class="alert alert-success mb-5 p-5" role="alert">
                                         <h4 class="alert-heading">¡Has terminado!</h4>
                                         <p>No hay tareas asignadas.</p>
                                     </div>
-                                    @else
-                                    @foreach ($tareas as $tarea)
-                                        @foreach ($tareaEmpleado as $asignado)
-                                            @if ($asignado->tarea_id == $tarea->id)
                                             <div class="mb-6">
                                                 <!--begin::Content-->
                                                 <div class="d-flex align-items-center flex-grow-1">
                                                     <!--begin::Bullet-->
-                                                    <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                    <span class="bullet bullet-bar bg-success align-self-stretch"></span>
                                                     <!--end::Bullet-->
                                                     <!--begin::Checkbox-->
                                                     <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
@@ -180,26 +175,22 @@
                                                         <!--begin::Info-->
                                                         <div class="d-flex flex-column align-items-cente py-2 w-75">
                                                             <!--begin::Title-->
-                                                            <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                            <a href="javascript:void(0);"  class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1"></a>
                                                             <!--end::Title-->
                                                             <!--begin::Data-->
-                                                            <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
-                                                            <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                            <span class="text-muted font-weight-bold"></span>
+                                                            <span class="text-muted font-weight-bold"></span>
                                                             <!--end::Data-->
                                                         </div>
                                                         <!--end::Info-->
                                                         <!--begin::Label-->
-                                                        <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                        <span class="label label-lg label-light-success label-inline font-weight-bold py-4"></span>
                                                         <!--end::Label-->
                                                     </div>
                                                     <!--end::Section-->
                                                 </div>
                                                 <!--end::Content-->
                                             </div>
-                                            @endif
-                                        @endforeach
-                                    @endforeach
-                                    @endif
                                     <!-- end::item -->
 								</div>
 								<!--end: Card Body-->
@@ -245,19 +236,19 @@
                                 <div class="form-group row my-2">
                                     <label class="col-4 col-form-label">Correo electrónico:</label>
                                     <div class="col-8">
-                                        <span class="form-control-plaintext font-weight-bolder">{{ getUser()->email }}</span>
+                                        <span class="form-control-plaintext font-weight-bolder"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row my-2">
                                     <label class="col-4 col-form-label">Telefono:</label>
                                     <div class="col-8">
-                                        <span class="form-control-plaintext font-weight-bolder">{{ getEmpleado()->telefono }}</span>
+                                        <span class="form-control-plaintext font-weight-bolder"></span>
                                     </div>
                                 </div>         
                                 <div class="form-group row my-2">
                                     <label class="col-4 col-form-label">Dirección:</label>
                                     <div class="col-8">
-                                        <span class="form-control-plaintext font-weight-bolder">{{ toString(getEmpleado()->direccion) }}</span>
+                                        <span class="form-control-plaintext font-weight-bolder"></span>
                                     </div>
                                 </div>                 
                             </div>
@@ -272,10 +263,9 @@
                                     <h3 class="card-label">
                                     <span class="d-block text-muted pt-2 font-size-md">Informacion de contacto</span></h3>
                                 </div>
-                                @if( count($contactos) < 2)
                                 <div class="card-toolbar"  id="contacto-card" name="contacto-card">
                                     <!--begin::Button-->
-		                			<a href="javascript:void(0);" onclick="add_contacto_modal();" class="btn btn-success btn-sm">
+		                			<a href="javascript:void(0);" class="btn btn-success btn-sm">
                                         <span class="svg-icon svg-icon-md">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -289,7 +279,6 @@
                                         </span>Nuevo contacto</a>
                                         <!--end::Button-->
                                 </div>
-                                @endif
                             </div>
                             <!--end::Header-->
                             <!--begin::Body-->
@@ -304,16 +293,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($contactos as $contacto)
                                         <tr>
-                                            <td>{{ $contacto->nombre }}</td>
-                                            <td>{{ $contacto->telefono }}</td>
-                                            <td>{{ $contacto->direccion }}</td>
-                                            <td><a href="javascript:void(0);" onclick="edit_contacto_modal({{$contacto->id}});" class="btn btn-elevate kt-font-brand" style="margin-right: 3px;"><i class="icon-xl far fa-edit"></i></a>
-                                                <a href="javascript:void(0);" data-id="{{$contacto->id}}" class="btn btn-elevate kt-font-brand eliminar" style="margin-right: 3px;"><i class="icon-xl far fa-trash-alt"></i></a>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><a href="javascript:void(0);" class="btn btn-elevate kt-font-brand" style="margin-right: 3px;"><i class="icon-xl far fa-edit"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-elevate kt-font-brand eliminar" style="margin-right: 3px;"><i class="icon-xl far fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
-                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

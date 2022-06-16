@@ -20,18 +20,8 @@ var KTLoginGeneral = function() {
         alert.find('span').html(msg);
     }
 
-    // Private Functions
-    var displaySignUpForm = function() {
-        login.removeClass('login-forgot-on');
-        login.removeClass('login-signin-on');
-
-        login.addClass('login-signup-on');
-        KTUtil.animateClass(login.find('.login-signup')[0], 'flipInX animated');
-    }
-
     var displaySignInForm = function() {
         login.removeClass('login-forgot-on');
-        login.removeClass('login-signup-on');
 
         login.addClass('login-signin-on');
         KTUtil.animateClass(login.find('.login-signin')[0], 'flipInX animated');
@@ -40,7 +30,6 @@ var KTLoginGeneral = function() {
 
     var displayForgotForm = function() {
         login.removeClass('login-signin-on');
-        login.removeClass('login-signup-on');
 
         login.addClass('login-forgot-on');
         //login.find('.login-forgot-on').animateClass('flipInX animated');
@@ -58,16 +47,6 @@ var KTLoginGeneral = function() {
             e.preventDefault();
             displaySignInForm();
         });
-
-        $('#kt_login_signup').click(function(e) {
-            e.preventDefault();
-            displaySignUpForm();
-        });
-
-        $('#kt_login_signup_cancel').click(function(e) {
-            e.preventDefault();
-            displaySignInForm();
-        });
     }
 
     var handleSignInFormSubmit = function() {
@@ -80,7 +59,6 @@ var KTLoginGeneral = function() {
                 rules: {
                     username: {
                         required: true,
-                        email: true
                     },
                     password: {
                         required: true
@@ -104,90 +82,14 @@ var KTLoginGeneral = function() {
                 success: function(data) {
                     if(data.success == true){
                         console.log('confirmar');
-                        window.location.href = "/";
+                        window.location.href = "/home";
                     }else{
                         // similate 2s delay
                 	    setTimeout(function() {
 	                        btn.removeClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', false);
-	                        showErrorMsg(form, 'danger', 'Correo electrónico o contraseña incorrecto. Intenta de nuevo.');
+	                        showErrorMsg(form, 'danger', 'Usuario y/o contraseña incorrectos. Comprueba tus credenciales.');
                         }, 1000);
                     }                	
-                }
-            });
-        });
-    }
-
-    var handleSignUpFormSubmit = function() {
-        $('#kt_login_signup_submit').click(function(e) {
-            e.preventDefault();
-
-            var btn = $(this);
-            var form = $(this).closest('form');
-
-            form.validate({
-                rules: {
-                    usuario: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    telefono:{
-                        required: true,
-                        minlength: 10,
-                        maxlength: 10
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8
-                    },
-                    rpassword: {
-                        required: true,
-                        minlength: 8
-                    },
-                    agree: {
-                        required: true
-                    }
-                }
-            });
-
-            if (!form.valid()) {
-                return;
-            }
-
-            btn.addClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', true);
-
-            form.ajaxSubmit({
-                headers : {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "register",
-                type: 'POST',
-                success: function(data) {
-                    if(data.success == true){
-                        // similate 2s delay
-                	    setTimeout(function() {
-	                        btn.removeClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', false);
-	                        form.clearForm();
-	                        form.validate().resetForm();
-
-	                        // display signup form
-	                        displaySignInForm();
-	                        var signInForm = login.find('.login-signin form');
-	                        signInForm.clearForm();
-	                        signInForm.validate().resetForm();
-
-	                        showErrorMsg(signInForm, 'success', 'Tu registro se realizo correctamente.');
-	                    }, 1000);
-                    }else{
-                        // similate 2s delay
-                	    setTimeout(function() {
-	                        btn.removeClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', false);
-	                        showErrorMsg(form, 'danger', 'EL correo electrónico ya ha sido registrado.');
-                        }, 1000);
-                    }
-                	
                 }
             });
         });
@@ -208,7 +110,6 @@ var KTLoginGeneral = function() {
                     },
                     username: {
                         required: true,
-                        email: true
                     }
                 }
             });
@@ -247,7 +148,6 @@ var KTLoginGeneral = function() {
         init: function() {
             handleFormSwitch();
             handleSignInFormSubmit();
-            handleSignUpFormSubmit();
             handleForgotFormSubmit();
         }
     };

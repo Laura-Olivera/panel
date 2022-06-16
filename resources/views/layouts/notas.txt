@@ -57,3 +57,181 @@ RUTAS
 
 Route::get('codigo_postal/show/{id}',[App\Http\Controllers\CodigoPostalController::class, 'show']);
 Route::get('codigo_postal/asenta/{id}',[App\Http\Controllers\CodigoPostalController::class, 'getAsenta']);
+
+
+login.js | crear cuenta
+
+var handleSignUpFormSubmit = function() {
+    $('#kt_login_signup_submit').click(function(e) {
+        e.preventDefault();
+        var btn = $(this);
+        var form = $(this).closest('form');
+        form.validate({
+            rules: {
+                usuario: {
+                    required: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                telefono:{
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                password: {
+                    required: true,
+                    minlength: 8
+                },
+                rpassword: {
+                    required: true,
+                    minlength: 8
+                },
+                agree: {
+                    required: true
+                }
+            }
+        });
+        if (!form.valid()) {
+            return;
+        }
+        btn.addClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', true);
+        form.ajaxSubmit({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "register",
+            type: 'POST',
+            success: function(data) {
+                if(data.success == true){
+                    // similate 2s delay
+            	    setTimeout(function() {
+                        btn.removeClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', false);
+                        form.clearForm();
+                        form.validate().resetForm();
+                        // display signup form
+                        displaySignInForm();
+                        var signInForm = login.find('.login-signin form');
+                        signInForm.clearForm();
+                        signInForm.validate().resetForm();
+                        showErrorMsg(signInForm, 'success', 'Tu registro se realizo correctamente.');
+                    }, 1000);
+                }else{
+                    // similate 2s delay
+            	    setTimeout(function() {
+                        btn.removeClass('spinner spinner-right pr-12 spinner-sm spinner-white').attr('disabled', false);
+                        showErrorMsg(form, 'danger', 'EL correo electrónico ya ha sido registrado.');
+                    }, 1000);
+                }
+            	
+            }
+        });
+    });
+}
+
+usuarios.js | codigo_postal, nombre_usuario
+
+function user_name(){
+    var user = $('#sApellido');
+
+    user.change( function(){
+        let data = {
+            nombre: $('#nombre').val(),
+            primer: $('#pApellido').val(),
+            segundo: this.value,
+        };
+        $.ajax({
+            headers: {
+                'X-CSFR-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'usuarios/user',
+            type: 'GET',
+            data: data,
+            success: function(response){
+                
+                if (response.success && response.data) {
+                    $('#usuario').val(response.data);
+                    $('#usuario').trigger('change');
+                    console.log(response);
+                } else {
+                    $('#usuario').prop('disabled', false);
+                    console.log('null');
+                }
+            },
+            error: function (xhr) {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    });
+}
+
+function codigo_postal(){
+    
+    $('#colonia').select2({
+        placeholder: 'Seleccione...',
+        allowClear: true,
+    });
+    var codigo = $('#postal');
+    codigo.change( function(){
+        $('#colonia').empty();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
+            }, 
+            url: "codigo_postal/" + this.value,
+            datatype: 'json',
+            success: function(datos){
+                if (datos) {
+                    $('#estado').val(datos.estado);
+                    $('#estado').trigger('change');
+                    $('#municipio').val(datos.mnpio);
+                    $('#municipio').trigger('change');
+                    var asenta = datos.asenta;
+                    for (let index = 0; index < asenta.length; index++) {
+                        let newOption = new Option(asenta[index], asenta[index])
+                        $('#colonia').append(newOption);
+                        $('#colonia').val(asenta[index]);           
+                    };
+                } else {
+                    console.log('error');
+                    $('#estado').val(null);
+                    $('#estado').trigger('change');
+                    $('#municipio').val(null);
+                    $('#municipio').trigger('change');
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: 'El codigo postal no existe.',
+                        timer: 1500
+                    });
+                }
+            },
+            error: function (xhr) {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    });
+}

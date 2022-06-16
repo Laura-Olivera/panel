@@ -3,16 +3,25 @@
 if(! function_exists('getCompleteName')){
 
     function getCompleteName(){
-        $fullname = session('empleado')->nombre.' '.session('empleado')->primer_apellido.' ' .session('empleado')->segundo_apellido;
+        $fullname = session('usuario')->nombre.' '.session('usuario')->primer_apellido.' ' .session('usuario')->segundo_apellido;
         return $fullname;
     }
 
 }
 
-if(! function_exists('getClaveEmpleado')){
+if(! function_exists('getPrefijo')){
 
-    function getClaveEmpleado(){
-        $clave = session('empleado')->clave_empleado;
+    function getPrefijo(){
+        $prefijo = strtoupper(substr(Auth::user()->nombre,0,1).substr(Auth::user()->primer_apellido,0,1));
+        return $prefijo;
+    }
+
+}
+
+if(! function_exists('getClaveUsuario')){
+
+    function getClaveUsuario(){
+        $clave = session('usuario')->cve_usuario;
         return $clave;
     }
 
@@ -34,18 +43,8 @@ if(! function_exists('getSessionPerfil')){
 if(! function_exists('getUser')){
 
     function getUser(){
-        $user = session('user');
+        $user = session('usuario');
         return $user;
-    }
-
-}
-
-if(! function_exists('getEmpleado'))
-{
-
-    function getempleado(){
-        $empleado = session('empleado');
-        return $empleado;
     }
 
 }

@@ -15,17 +15,21 @@ use Illuminate\Support\Facades\DB;
 class User extends Authenticatable
 {
     use HasApiTokens, HasRoles, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    
     protected $fillable = [
-        'name',
+        'nombre',
+        'primer_apellido',
+        'segundo_apellido',
+        'curp',
+        'rfc',
+        'cve_usuario',
+        'telefono',
+        'area',
+        'usuario',
         'email',
         'password',
         'estatus',
+        'intentos',
     ];
 
     /**
@@ -47,11 +51,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function empleado(){
-        return $this->hasOne(Empleado::class);
-    }
-
-    public function cliente(){
-        return $this->hasOne(Cliente::class);
-    }
 }

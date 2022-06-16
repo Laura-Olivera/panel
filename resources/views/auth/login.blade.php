@@ -49,7 +49,7 @@
 							</div>
 							<form class="form" method="POST">
 								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Correo electronico" name="username" autocomplete="off" />
+									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Usuario" name="username" autocomplete="off" />
 								</div>
 								<div class="form-group mb-5">
 									<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Contraseña" name="password" id="pass_login" />
@@ -62,48 +62,8 @@
 								</div>
 								<button id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Entrar</button>
 							</form>
-							<div class="mt-10">
-								<span class="opacity-70 mr-4">Aun no tienes una cuenta?</span>
-								<a href="javascript:;" id="kt_login_signup" class="text-muted text-hover-primary font-weight-bold">Registrate!</a>
-							</div>
 						</div>
 						<!--end::Login Sign in form-->
-						<!--begin::Login Sign up form-->
-						<div class="login-signup">
-							<div class="mb-20">
-								<h3>Registrar</h3>
-								<div class="text-muted font-weight-bold">Ingresa los datos para crear tu cuenta</div>
-							</div>
-							<form class="form">
-								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Nombre(s) y apellidos" name="usuario" autocomplete="off" />
-								</div>
-								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="email" placeholder="Correo electronico" name="email" autocomplete="off" />
-								</div>
-								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Telefono" name="telefono" autocomplete="off" />
-								</div>
-								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Contraseña" name="password" />
-								</div>
-								<div class="form-group mb-5">
-									<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Confirmar contraseña" name="rpassword" />
-								</div>
-								<div class="form-group mb-5 text-left">
-									<label class="checkbox m-0">
-									<input type="checkbox" name="agree" />Estoy de acuerdo con los
-									<a href="#" class="font-weight-bold">terminos y condiciones</a>.
-									<span></span></label>
-									<div class="form-text text-muted text-center"></div>
-								</div>
-								<div class="form-group d-flex flex-wrap flex-center mt-10">
-									<button id="kt_login_signup_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-2">Crear cuenta</button>
-									<button id="kt_login_signup_cancel" class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-2">Cancelar</button>
-								</div>
-							</form>
-						</div>
-						<!--end::Login Sign up form-->
 						<!--begin::Login forgot password form-->
 						<div class="login-forgot">
 							<div class="mb-20">

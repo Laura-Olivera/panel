@@ -306,9 +306,9 @@
 				<div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
 					<div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2">
 						<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Bienvenido,</span>
-						<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ Auth::user()->name }}</span>
+						<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ Auth::user()->nombre }}</span>
 						<span class="symbol symbol-35 symbol-light-success">
-							<span class="symbol-label font-size-h5 font-weight-bold">{{ strtoupper(substr(Auth::user()->name,0,1)) }}</span>
+							<span class="symbol-label font-size-h5 font-weight-bold">{{ getPrefijo() }}</span>
 						</span>
 					</div>
 				</div>
@@ -316,7 +316,7 @@
 					<!--begin:Header-->
 					<div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url({{ URL::asset('assets/media/misc/bg-1.jpg') }})">
 						<h4 class="text-white font-weight-bold">{{ getCompleteName() }}</h4>
-						<span class="btn btn-success btn-sm font-weight-bold font-size-sm mt-2">{{ getClaveEmpleado() }}</span>
+						<span class="btn btn-success btn-sm font-weight-bold font-size-sm mt-2">{{ getClaveUsuario() }}</span>
 					</div>
 					<!--end:Header-->
 					<!--begin:Nav-->

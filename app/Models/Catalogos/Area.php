@@ -1,24 +1,21 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models\Catalogos;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Empresa extends Model
+class Area extends Model
 {
-    protected $table = 'empresa';
+    protected $table = 'areas';
     protected $primarykey = 'id';
     public $timestamps = true;
     protected $fillable = [
         'nombre',
-        'email',
-        'telefono',
-        'direccion',
-        'logo',
-        'color',
+        'cve_area',
         'estatus',
         'created_user_id',
         'updated_user_id',
     ];
+
 }

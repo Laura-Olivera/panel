@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Bitacora;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Bitacora;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
@@ -45,58 +46,41 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $user = $request->input('username');
-        $remember = ($request->input('remember')) ? true : false;        
-        $existe = User::where('email', '=', $user)->where('estatus', '=', 1)->exists();
-        if($existe){
-            $validar = Auth::attempt(['email' => $user, 'password' => $request->input('password'), 'estatus' => 1], $remember);
-            if($validar == true){
-                $datos = request();
-                $datos['password'] = 'xxxxxxxx';
-                $usuario = Auth::user();
-                $modHasRol = DB::table('model_has_roles')->where('model_id', '=', $usuario->id)->first();
-                $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
-                session(['user' => $usuario]);
-                if($perfil->name == 'Cliente'){
-                    $cliente = $usuario->cliente;
-                    session(['cliente' => $cliente]);
-                    $accion = 'Inicio de sesión cliente '.$cliente->clave_cliente;
-                    Bitacora::cliente($datos, $accion);
+        try {
+            $user = $request->input('username');
+            $remember = ($request->input('remember')) ? true : false;        
+            $existe = User::where('usuario', '=', $user)->where('estatus', '=', true)->exists();
+            if($existe){
+                $validar = Auth::attempt(['usuario' => $user, 'password' => $request->input('password'), 'estatus' => true], $remember);
+                if($validar == true){
+                    $usuario = Auth::user();
+                    session(['usuario' => $usuario]);
+                    $datos = request();
+                    $datos['password'] = 'xxxxxxxx';
+                    $accion = 'login';
+                    Bitacora::usersMonitoring($datos, $accion);
+                    $response = ['success' => true];
                 }else{
-                    $empleado = $usuario->empleado;
-                    session(['empleado' => $empleado]);
-                    $accion = 'Inicio de sesión empleado '.$empleado->clave_empleado;
-                    Bitacora::admin($datos, $accion);
+                    $response = ['success' => false];
                 }
-                $response = ['success' => true];
             }else{
                 $response = ['success' => false];
             }
-        }else{
-            $response = ['success' => false];
-        }
 
-        return $response;
+            return $response;
+        } catch (\Throwable $th) {
+            Bitacora::log('App\Http\Controllers\Auth','LoginController::login', $th->getLine(), $th->getMessage(), '', 'warning');
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            $response = ['success' => false];
+            return $response;
+        }
     }
 
     public function logout()
     {
-        $usuario = Auth::user();
         $datos = request();
-        $modHasRol = DB::table('model_has_roles')->where('model_id', '=', $usuario->id)->first();
-        $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();
-        session(['user' => $usuario]);
-        if($perfil->name == 'Cliente'){
-            $cliente = $usuario->cliente;
-            session(['cliente' => $cliente]);
-            $accion = 'Cerrar sesión cliente '.$cliente->clave_cliente;
-            Bitacora::cliente($datos, $accion);
-        }else{
-            $empleado = $usuario->empleado;
-            session(['empleado' => $empleado]);
-            $accion = 'Cerrar sesión empleado '.$empleado->clave_empleado;
-            Bitacora::admin($datos, $accion);
-        }
+        $accion = 'logout';
+        Bitacora::usersMonitoring($datos, $accion);
         session()->flush();
         return redirect('/');
     }

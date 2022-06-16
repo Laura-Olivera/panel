@@ -41,7 +41,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>RFC:</label>
-										<input type="text" class="form-control" placeholder="REF" id="rfc" name="rfc" disabled/>
+										<input type="text" class="form-control" placeholder="REF" id="rfc" name="rfc" autocomplete="off"/>
 									</div>
 								</div>
 							</div>
@@ -49,7 +49,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label> Usuario: </label>
- 					   					<input type="text" class="form-control" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" disabled/>
+ 					   					<input type="text" class="form-control" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off"/>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -87,6 +87,19 @@
 											<option label="Label"></option>
 											@foreach($roles as $role)
      										<option value="{{ $role->id }}">{{ $role->name }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Area:</label>
+										<select class="form-control select2" id="area" name="area">
+											<option label="Label"></option>
+											@foreach($areas as $area)
+     										<option value="{{ $area->nombre }}">{{ $area->nombre }} - {{ $area->cve_area }}</option>
 											@endforeach
 										</select>
 									</div>

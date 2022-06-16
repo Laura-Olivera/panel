@@ -7,7 +7,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         "ordering": true,
-        order: [1],
+        order: [0],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
@@ -17,15 +17,12 @@ $(document).ready(function() {
             "type": "GET",
         },
         columns: [
-            {   
-                "mRender": function ( data, type, row ) {
-                    let nombre = row.nombre+' '+row.primer_apellido+' '+row.segundo_apellido;
-                    return nombre;
-                }
-            },
-            { data: 'perfil', name: 'perfil' },
+            { data: 'nombre', name: 'nombre' },
+            { data: 'primer_apellido', name: 'primer_apellido' },
+            { data: 'segundo_apellido', name: 'segundo_apellido' },
+            { data: 'usuario', name: 'usuario' },
             { data: 'email', name: 'email' },
-            { data: 'telefono', name: 'telefono' },
+            { data: 'area', name: 'area' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
@@ -56,8 +53,10 @@ function add_usuario_modal()
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
-                codigo_postal();
-                user_name();
+                $('#area').select2({
+                    placeholder: 'Seleccione...',
+                    allowClear: true,
+                });
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -82,7 +81,7 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
-    var dir = $('#postal').val() + '|' + $('#estado').val() + '|' + $('#municipio').val() + '|' + $('#colonia').val() + '|' + $('#calle').val();    
+    
     if(validarForm){
         let data = {
             usuario: $('#usuario').val(),
@@ -91,9 +90,11 @@ function store_usuario(){
             segundo: $('#sApellido').val(),
             email: $('#email').val(),
             password: $('#password').val(),
-            direccion: dir,
             perfil: $('#perfil').val(),
             telefono: $('#telefono').val(),
+            rfc: $('#rfc').val(),
+            curp: $('#curp').val(),
+            area: $('#area').val(),
         };
         $.ajax({
             headers : {
@@ -163,8 +164,10 @@ function edit_usuario_modal(id){
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
-                codigo_postal();
-
+                $('#area').select2({
+                    placeholder: 'Seleccione...',
+                    allowClear: true,
+                });
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -187,20 +190,20 @@ function edit_usuario_modal(id){
 }
 
 function update_usuario(id){  
-    var dir = $('#postal').val() + '|' + $('#estado').val() + '|' + $('#municipio').val() + '|' + $('#colonia').val() + '|' + $('#calle').val(); 
     let data = {
         id_usuario: $('#id_usuario').val(),
-        $usuario: $('#usuario').val(),
+        usuario: $('#usuario').val(),
         nombre: $('#nombre').val(),
         primer: $('#pApellido').val(),
         segundo: $('#sApellido').val(),
         email: $('#email').val(),
         password: $('#password').val(),
-        rpassword: $('#rpassword').val(),
-        direccion: dir,
         perfil: $('#perfil').val(),
         telefono: $('#telefono').val(),
-        estatus: $('#estatus').is(':checked') ? 1 : 0,
+        rfc: $('#rfc').val(),
+        curp: $('#curp').val(),
+        area: $('#area').val(),
+        estatus: $('#estatus').is(':checked') ? true : false,
     };
     $.ajax({
         headers : {
@@ -257,110 +260,6 @@ function update_usuario(id){
     });
 }
 
-function user_name(){
-    var user = $('#sApellido');
-
-    user.change( function(){
-        let data = {
-            nombre: $('#nombre').val(),
-            primer: $('#pApellido').val(),
-            segundo: this.value,
-        };
-        $.ajax({
-            headers: {
-                'X-CSFR-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: 'usuarios/user',
-            type: 'GET',
-            data: data,
-            success: function(response){
-                
-                if (response.success && response.data) {
-                    $('#usuario').val(response.data);
-                    $('#usuario').trigger('change');
-                    console.log(response);
-                } else {
-                    $('#usuario').prop('disabled', false);
-                    console.log('null');
-                }
-            },
-            error: function (xhr) {
-                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
-            },
-            beforeSend: function () {
-                KTApp.blockPage({
-                    overlayColor: '#000000',
-                    type: 'v2',
-                    state: 'success',
-                    zIndex: 3000
-                });
-            },
-            complete: function () {
-                KTApp.unblockPage();
-            },
-        });
-    });
-}
-
-function codigo_postal(){
-    
-    $('#colonia').select2({
-        placeholder: 'Seleccione...',
-        allowClear: true,
-    });
-    var codigo = $('#postal');
-    codigo.change( function(){
-        $('#colonia').empty();
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
-            }, 
-            url: "codigo_postal/" + this.value,
-            datatype: 'json',
-            success: function(datos){
-                if (datos) {
-                    $('#estado').val(datos.estado);
-                    $('#estado').trigger('change');
-                    $('#municipio').val(datos.mnpio);
-                    $('#municipio').trigger('change');
-                    var asenta = datos.asenta;
-                    for (let index = 0; index < asenta.length; index++) {
-                        let newOption = new Option(asenta[index], asenta[index])
-                        $('#colonia').append(newOption);
-                        $('#colonia').val(asenta[index]);           
-                    };
-                } else {
-                    console.log('error');
-                    $('#estado').val(null);
-                    $('#estado').trigger('change');
-                    $('#municipio').val(null);
-                    $('#municipio').trigger('change');
-                    Swal.fire({
-                        icon: "warning",
-                        title: "¡Alerta!",
-                        text: 'El codigo postal no existe.',
-                        timer: 1500
-                    });
-                }
-            },
-            error: function (xhr) {
-                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
-            },
-            beforeSend: function () {
-                KTApp.blockPage({
-                    overlayColor: '#000000',
-                    type: 'v2',
-                    state: 'success',
-                    zIndex: 3000
-                });
-            },
-            complete: function () {
-                KTApp.unblockPage();
-            },
-        });
-    });
-}
-
 function validar(form){
     var validator = form.validate({
         rules: {
@@ -369,10 +268,6 @@ function validar(form){
                 maxlength: 150
             },
             pApellido: {
-                required: true,
-                maxlength: 150
-            },
-            sApellido: {
                 required: true,
                 maxlength: 150
             },
@@ -392,33 +287,11 @@ function validar(form){
             user: {
                 required: true,
             },
-            calle: {
-                required: true,
-                maxlength: 150
-            },
-            colonia: {
-                required: true,
-                maxlength: 150
-            },
-            municipio: {
-                required: true,
-                maxlength: 150
-            },
-            estado: {
-                required: true,
-                maxlength: 150
-            },
-            postal: {
-                required: true,
-                maxlength: 5,
-                minlength: 5
-            },
-            telefono: {
-                required: true,
-                maxlength: 10,
-                minlength: 10
-            },
             perfil: {
+                required: true,
+                maxlength: 150
+            },
+            area: {
                 required: true,
                 maxlength: 150
             }

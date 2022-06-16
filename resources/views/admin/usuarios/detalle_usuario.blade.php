@@ -83,7 +83,6 @@
                         </div>
                     </div>
                     <div class="card-body pt-0">
-                        @foreach ($ultimaAccion as $accion)
                         <div class="mb-6">
                             <!--begin::Content-->
                             <div class="d-flex align-items-center flex-grow-1">
@@ -92,19 +91,18 @@
                                     <!--begin::Info-->
                                     <div class="d-flex flex-column align-items-cente py-2 w-75">
                                         <!--begin::Title-->
-                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1">{{ $accion->accion }}</span>
+                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1"></span>
                                         <!--end::Title-->
                                     </div>
                                     <!--end::Info-->
                                     <!--begin::Label-->
-                                    <span class="label label-lg label-light-dark label-inline font-weight-bold py-4">{{ $accion->created_at }}</span>
+                                    <span class="label label-lg label-light-dark label-inline font-weight-bold py-4"></span>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Section-->
                             </div>
                             <!--end::Content-->
                         </div>
-                        @endforeach
                     </div>
                 </div>
                 <!--end::Card-->
@@ -140,15 +138,12 @@
                                     <div class="card card-custom card-stretch gutter-b">
                                         <!--begin::Body-->
                                         <div class="card-body pt-0">
-                                            <!--begin::Item-->
-                                            @foreach ($tPendientes as $tarea)
-                                                @foreach ($empleadoTarea as $asignado)
-                                                    @if ($asignado->tarea_id == $tarea->id)                                                  
+                                            <!--begin::Item-->                                                
                                                     <div class="mb-6">
                                                         <!--begin::Content-->
                                                         <div class="d-flex align-items-center flex-grow-1">
                                                             <!--begin::Bullet-->
-                                                            <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
                                                             <!--end::Bullet-->
                                                             <!--begin::Checkbox-->
                                                             <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
@@ -158,25 +153,22 @@
                                                                 <!--begin::Info-->
                                                                 <div class="d-flex flex-column align-items-cente py-2 w-75">
                                                                     <!--begin::Title-->
-                                                                    <span class="text-dark-75 font-weight-bold font-size-lg mb-1">{{ $tarea->tarea }}</span>
+                                                                    <span class="text-dark-75 font-weight-bold font-size-lg mb-1"></span>
                                                                     <!--end::Title-->
                                                                     <!--begin::Data-->
-                                                                    <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
-                                                                    <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                                    <span class="text-muted font-weight-bold"></span>
+                                                                    <span class="text-muted font-weight-bold"></span>
                                                                     <!--end::Data-->
                                                                 </div>
                                                                 <!--end::Info-->
                                                                 <!--begin::Label-->
-                                                                <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                                <span class="label label-lg label-light-success label-inline font-weight-bold py-4"></span>
                                                                 <!--end::Label-->
                                                             </div>
                                                             <!--end::Section-->
                                                         </div>
                                                         <!--end::Content-->
-                                                    </div>                                                    
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
+                                                    </div>   
                                             {{-- end::item --}}
                                         </div>
                                         {{-- {{ $tPendientes->links() }} --}}
@@ -192,15 +184,12 @@
                                     <div class="card card-custom card-stretch gutter-b">
                                         <!--begin::Body-->
                                         <div class="card-body pt-0">
-                                            <!--begin::Item-->
-                                            @foreach ($tFinalizadas as $tarea)
-                                                @foreach ($empleadoTarea as $asignado)
-                                                    @if ($asignado->tarea_id == $tarea->id)                                                    
+                                            <!--begin::Item-->                                                   
                                                     <div class="mb-6">
                                                         <!--begin::Content-->
                                                         <div class="d-flex align-items-center flex-grow-1">
                                                             <!--begin::Bullet-->
-                                                            <span class="bullet bullet-bar bg-{{ getLabelStatusTask($tarea->estatus) }} align-self-stretch"></span>
+                                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
                                                             <!--end::Bullet-->
                                                             <!--begin::Checkbox-->
                                                             <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
@@ -210,25 +199,22 @@
                                                                 <!--begin::Info-->
                                                                 <div class="d-flex flex-column align-items-cente py-2 w-75">
                                                                     <!--begin::Title-->
-                                                                    <a href="javascript:void(0);" onclick="edit_tarea_modal({{ $tarea->id }});" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{ $tarea->tarea }}</a>
+                                                                    <a href="javascript:void(0);" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1"></a>
                                                                     <!--end::Title-->
                                                                     <!--begin::Data-->
-                                                                    <span class="text-muted font-weight-bold">{{ $tarea->descripcion }}</span>
-                                                                    <span class="text-muted font-weight-bold">{{ $tarea->created_at }}</span>
+                                                                    <span class="text-muted font-weight-bold"></span>
+                                                                    <span class="text-muted font-weight-bold"></span>
                                                                     <!--end::Data-->
                                                                 </div>
                                                                 <!--end::Info-->
                                                                 <!--begin::Label-->
-                                                                <span class="label label-lg label-light-{{ getLabelStatusTask($tarea->estatus) }} label-inline font-weight-bold py-4">{{ statusToString($tarea->estatus) }}</span>
+                                                                <span class="label label-lg label-light-success label-inline font-weight-bold py-4"></span>
                                                                 <!--end::Label-->
                                                             </div>
                                                             <!--end::Section-->
                                                         </div>
                                                         <!--end::Content-->
-                                                    </div>                                                    
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
+                                                    </div>       
                                             {{-- end::item --}}
                                         </div>
                                         <!--end: Card Body-->
@@ -297,7 +283,7 @@
                                                     <label class="col-4 col-form-label">Dirección:</label>
                                                     <div class="col-8">
                                                         <span class="form-control-plaintext">
-                                                        <span class="font-weight-bolder">{{ $direccion }}</span>
+                                                        <span class="font-weight-bolder"></span>
                                                     </div>
                                                 </div>                        
                                             </div>
@@ -316,37 +302,32 @@
                                         <!--begin::Body-->
                                         <div class="card-body pt-0">
                                             <!--begin::Item-->
-                                            @if (count($contactos) < 1)
                                             <div class="card-body py-4">
                                                 <div class="form-group row my-2">
                                                     <span class="form-control-plaintext font-weight-bolder">No se encontraron registros.</span>
                                                 </div>                      
                                             </div>
-                                            @else
-                                            @foreach ($contactos as $contacto)
                                             <div class="card-body py-4">
                                                 <div class="form-group row my-2">
                                                     <label class="col-4 col-form-label">Nombre:</label>
                                                     <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder">{{ $contacto->nombre }}</span>
+                                                        <span class="form-control-plaintext font-weight-bolder"></span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row my-2">
                                                     <label class="col-4 col-form-label">Telefono:</label>
                                                     <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder">{{ $contacto->telefono }}</span>
+                                                        <span class="form-control-plaintext font-weight-bolder"></span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row my-2">
                                                     <label class="col-4 col-form-label">Dirección:</label>
                                                     <div class="col-8">
                                                         <span class="form-control-plaintext">
-                                                        <span class="font-weight-bolder">{{ $contacto->direccion }}</span>
+                                                        <span class="font-weight-bolder"></span>
                                                     </div>
                                                 </div>                        
                                             </div>
-                                            @endforeach
-                                            @endif
                                             {{-- end::item --}}
                                         </div>
                                         <!--end: Card Body-->

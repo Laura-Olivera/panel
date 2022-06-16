@@ -22,14 +22,8 @@ class PerfilController extends Controller
 
     public function empleadoPerfil()
     {
-        $user = session('empleado');
-        $contactos = EmpleadoContacto::where('empleado_id', '=', $user->id)->get();
-        $tareas = DB::table('tareas')->orderByDesc('created_at')->get();
-        $tareaEmpleado = DB::table('empleado_tarea')->select('tarea_id')->where('empleado_id', '=', $user->id)->get();
-        foreach ($tareas as $tarea) {
-            $tarea->created_at = Carbon::parse($tarea->created_at)->diffForHumans();
-        }
-        return view('admin.perfil.usuario_perfil', compact('contactos', 'tareas', 'tareaEmpleado'));
+        
+        return view('admin.perfil.usuario_perfil');
     }
 
     public function crearContacto()
