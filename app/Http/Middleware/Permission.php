@@ -22,7 +22,7 @@ class Permission
 
         if (! $request->user()->can($permission)) {
             if ($request->ajax()) {
-               //$mesage='No tiene permisos para acceder, contacte con su administrador';
+               $mesage='No tiene permisos para acceder, contacte con su administrador';
                 ajaxError();
             }else{
             $error=403;

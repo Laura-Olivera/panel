@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -18,7 +19,7 @@ class PermisosController extends Controller
 
     public function lista_permisos()
     {
-        $permisos = Permission::where('name', '!=', 'PermisosCliente')->get();
+        $permisos = Permission::all();
         return DataTables::of($permisos)->toJson();
     }
 
@@ -39,15 +40,16 @@ class PermisosController extends Controller
                     'descrip' => $request->descrip
                 ]);
                 DB::commit();
-                $accion = 'Registro nuevo permiso '.$permiso->name;
-                Bitacora::admin(request(), $accion);
+                $accion = 'Registro nuevo permiso.';
+                Bitacora::usuarios(request(), $accion);
                 $response = ['success' => true, 'message' => 'El permiso se registro correctamente.'];
             }else{
                 $response = ['success' => false, 'message' => 'El permiso ya existe.'];
             }
         } catch (\Throwable $th) {
             DB::rollback();
-            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear permiso', 'warning');
             $response = ['success' => false, 'message' => 'Error al crear un nuevo permiso.'];
         }
         return $response;
@@ -65,12 +67,13 @@ class PermisosController extends Controller
             $getData = $request->all();
             $permiso = Permission::findOrFail($request->id);
             $permiso->fill($getData)->save();
-            $accion = 'Actualizar permiso '.$permiso->name;
-            Bitacora::admin(request(), $accion);
+            $accion = 'Actualizacion de permiso.';
+            Bitacora::usuarios(request(), $accion);
             $response = ['success' => true, 'message' => 'El permiso se actualizo correctamente.'];
         } catch (\Throwable $th) {
             DB::rollback();
-            \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar permiso', 'warning');
             $response = ['success' => false, 'message' => 'Error al actualizar el permiso.'];
         }
         return $response;

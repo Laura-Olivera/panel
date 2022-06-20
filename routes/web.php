@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes();
@@ -39,54 +39,40 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('admin')->group(function(){
-        //RUTAS USUARIOS
-        Route::get('/usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'index']);
-        Route::get('/usuarios/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
-        Route::get('/usuarios/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
-        Route::post('/usuarios/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
-        Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
-        Route::post('/usuarios/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
-        Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'viewUsuario']);
-        Route::get('/usuarios/user', [App\Http\Controllers\Admin\UsuariosController::class, 'user_name']);
-        Route::get('codigo_postal/{id}', [\App\Http\Controllers\Servicios\ServiciosController::class, 'codigo_postal']);
-        //RUTAS ROLES
-        Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);
-        Route::get('/perfiles/create', [\App\Http\Controllers\Admin\RolesController::class, 'create']);
-        Route::post('/perfiles/store', [\App\Http\Controllers\Admin\RolesController::class, 'store']);
-        Route::get('/perfiles/editar_perfil/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
-        Route::post('/perfiles/update/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'update']);
-        //RUTAS PERMISOS
-        Route::get('/permisos', [\App\Http\Controllers\Admin\PermisosController::class, 'index']);
-        Route::get('/permisos/lista_permisos', [App\Http\Controllers\Admin\PermisosController::class, 'lista_permisos']);
-        Route::get('/permisos/create', [\App\Http\Controllers\Admin\PermisosController::class, 'create']);
-        Route::post('/permisos/store', [\App\Http\Controllers\Admin\PermisosController::class, 'store']);
-        Route::get('/permisos/edit/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'edit']);
-        Route::post('/permisos/update/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'update']);
-        //RUTAS CLIENTES 
-        Route::get('/clientes', [App\Http\Controllers\Admin\ClientesController::class,'index']);
-        Route::get('/clientes/lista_clientes', [App\Http\Controllers\Admin\ClientesController::class, 'lista_clientes']);
-        Route::get('/clientes/detalle_cliente/{id}', [App\Http\Controllers\Admin\ClientesController::class, 'show']);
-        //RUTAS TAREAS
-        Route::get('/tareas', [App\Http\Controllers\Admin\TareasController::class, 'index']);
-        Route::get('/tareas/listar_tareas', [App\Http\Controllers\Admin\TareasController::class, 'listar_tareas']);
-        Route::get('/tareas/create', [App\Http\Controllers\Admin\TareasController::class, 'create']);
-        Route::post('/tareas/store', [App\Http\Controllers\Admin\TareasController::class, 'store']);
-        Route::get('tareas/edit/{id}', [App\Http\Controllers\Admin\TareasController::class, 'edit']);
-        Route::post('tareas/update/{id}', [App\Http\Controllers\Admin\TareasController::class, 'update']);
-        //RUTAS BITACORA USUARIOS
-        Route::get('/bitacora_usuarios', [App\Http\Controllers\Admin\BitacoraEmpleadosController::class, 'index']);
-        Route::get('/bitacora_usuarios/listar_bitacora', [App\Http\Controllers\Admin\BitacoraEmpleadosController::class, 'listar_bitacora']);
-        //RUTAS BITACORA CLIENTES
-        Route::get('/bitacora_clientes', [App\Http\Controllers\Admin\BitacoraClientesController::class, 'index']);
-        Route::get('/bitacora_clientes/listar_bitacora', [App\Http\Controllers\Admin\BitacoraClientesController::class, 'listar_bitacora']);
-        //RUTAS EMPRESA
-        Route::get('/empresa', [App\Http\Controllers\Admin\EmpresaController::class, 'index']);
-        Route::get('/empresa/edit/{id}', [App\Http\Controllers\Admin\EmpresaController::class, 'edit']);
-        Route::post('/empresa/update/{id}', [App\Http\Controllers\Admin\EmpresaController::class, 'update']);
+        Route::group(['middleware' => ['role:SuperAdmin']], function () {
+            //RUTAS USUARIOS
+            Route::get('/usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'index']);
+            Route::get('/usuarios/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
+            Route::get('/usuarios/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
+            Route::post('/usuarios/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
+            Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
+            Route::post('/usuarios/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
+            Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'viewUsuario']);
+            //RUTAS ROLES
+            Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);
+            Route::get('/perfiles/create', [\App\Http\Controllers\Admin\RolesController::class, 'create']);
+            Route::post('/perfiles/store', [\App\Http\Controllers\Admin\RolesController::class, 'store']);
+            Route::get('/perfiles/editar_perfil/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
+            Route::post('/perfiles/update/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'update']);
+            //RUTAS PERMISOS
+            Route::get('/permisos', [\App\Http\Controllers\Admin\PermisosController::class, 'index']);
+            Route::get('/permisos/lista_permisos', [App\Http\Controllers\Admin\PermisosController::class, 'lista_permisos']);
+            Route::get('/permisos/create', [\App\Http\Controllers\Admin\PermisosController::class, 'create']);
+            Route::post('/permisos/store', [\App\Http\Controllers\Admin\PermisosController::class, 'store']);
+            Route::get('/permisos/edit/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'edit']);
+            Route::post('/permisos/update/{id}', [\App\Http\Controllers\Admin\PermisosController::class, 'update']);
+        });
     });
 
     //RUTAS CATALOGOS
     Route::prefix('catalogos')->group(function (){
+        //RUTAS AREAS      
+        Route::get('/areas', [App\Http\Controllers\Catalogos\AreasController::class, 'index']);
+        Route::get('/areas/lista_areas', [App\Http\Controllers\Catalogos\AreasController::class, 'listar_areas']);
+        Route::get('/areas/create', [App\Http\Controllers\Catalogos\AreasController::class, 'create']);
+        Route::post('/areas/store', [App\Http\Controllers\Catalogos\AreasController::class, 'store']);
+        Route::get('/areas/edit/{id}', [App\Http\Controllers\Catalogos\AreasController::class,'edit']);
+        Route::post('/areas/update/{id}',[App\Http\Controllers\Catalogos\AreasController::class, 'update']);
         //RUTAS CATEGORIAS        
         Route::get('/categorias', [App\Http\Controllers\Catalogos\CategoriasController::class, 'index']);
         Route::get('/categorias/lista_categorias', [App\Http\Controllers\Catalogos\CategoriasController::class, 'listar_categorias']);
@@ -98,6 +84,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'index']);
         Route::get('/proveedores/listar_proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'listar_proveedores']);
         Route::get('/proveedores/create', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'create']);
+        Route::post('/proveedores/store', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'store']);
+        Route::get('/proveedores/edit/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'edit']);
+        Route::post('/proveedores/update/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'update']);
     });
 
 });

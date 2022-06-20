@@ -13,6 +13,7 @@
         <link href="{{ URL::asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+		<link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<!--end::Global Theme Styles-->			
 		<!--begin::Layout Themes(used by all pages)-->
 		<link href="{{ URL::asset('assets/css/themes/layout/header/base/light.css')}}" rel="stylesheet" type="text/css" />

@@ -17,12 +17,18 @@ $(document).ready(function() {
             "type": "GET",
         },
         columns: [
-            { data: 'clave_prov', name: 'clave_prov' },
+            { data: 'cve_prov', name: 'cve_prov' },
             { data: 'nombre', name: 'nombre' },
-            { data: 'descrip', name: 'descrip' },
+            { data: 'Telefono', name: 'Telefono', "mRender": function(data, type, row){
+                    let tel = row.telefono + ' - ' + row.extension;
+                    return tel;
+                }
+            },
+            { data: 'email', name: 'email' },
+            { data: 'direccion', name: 'direccion' },
             {   
                 "mRender": function ( data, type, row ) {
-                    return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';
+                    return '<span class="label label-lg label-light-'+((row.estatus) ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ ((row.estatus) ? 'Activo' : 'Inactivo') +'</span>';
                 }
             },
             {
@@ -73,23 +79,25 @@ function store_proveedor(){
     if(validarForm){
         let data = {
             nombre: $('#nombre').val(),
-            clave_prov: $('#clave_prov').val(),
-            descrip: $('#descrip').val(),
-            path: $('#path').val(),
-            slug: $('#slug').val(),
+            clave: $('#clave').val(),
+            telefono: $('#telefono').val(),
+            extension: $('#extension').val(),
+            email: $('#email').val(),
+            direccion: $('#direccion').val(),
+            estatus: $('#estatus').is(':checked') ? true : false,
         };
         $.ajax({
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "usuarios/store",
+            url: "proveedores/store",
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function (respuesta) {
                 if (respuesta.success == true) {
-                    $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        $('#users-table').DataTable().ajax.reload();
+                    $('#modal_nuevo_proveedor').modal('hide').on('hidden.bs.modal', function () {
+                        $('#proveedores-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "success",
                             title: "¡Exito!",
@@ -98,8 +106,8 @@ function store_proveedor(){
                         });
                     });
                 } else {
-                    $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        $('#users-table').DataTable().ajax.reload();
+                    $('#modal_nuevo_proveedor').modal('hide').on('hidden.bs.modal', function () {
+                        $('#proveedor-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "warning",
                             title: "¡Alerta!",
@@ -135,17 +143,13 @@ function store_proveedor(){
     }
 }
 
-function edit_usuario_modal(id){
+function edit_proveedor_modal(id){
     $.ajax({
-        url: "usuarios/edit/" + id,
+        url: "proveedores/edit/" + id,
         datatype: 'html',
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('#perfil').select2({
-                    placeholder: 'Seleccione...',
-                    allowClear: true,
-                });
 
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
@@ -169,31 +173,28 @@ function edit_usuario_modal(id){
 }
 
 function update_usuario(id){  
-    var dir = $('#calle').val() + '|' + $('#municipio').val() + '|' + $('#estado').val() + '|' + $('#postal').val();
     let data = {
-        id_usuario: $('#id_usuario').val(),
+        id: $('#id').val(),
         nombre: $('#nombre').val(),
-        primer: $('#pApellido').val(),
-        segundo: $('#sApellido').val(),
-        email: $('#email').val(),
-        password: $('#password').val(),
-        direccion: dir,
-        perfil: $('#perfil').val(),
+        clave: $('#clave').val(),
         telefono: $('#telefono').val(),
-        estatus: $('#estatus').is(':checked') ? 1 : 0,
+        extension: $('#extension').val(),
+        email: $('#email').val(),
+        direccion: $('#direccion').val(),
+        estatus: $('#estatus').is(':checked') ? true : false,
     };
     $.ajax({
         headers : {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: "usuarios/update/" + id,
+        url: "proveedores/update/" + id,
         type: 'POST',
         data: data,
         dataType: 'json',
         success: function (respuesta) {
             if (respuesta.success == true) {
-                $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    $('#users-table').DataTable().ajax.reload();
+                $('#modal_editar_proveedor').modal('hide').on('hidden.bs.modal', function () {
+                    $('#proveedor-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "success",
                         title: "¡Exito!",
@@ -202,8 +203,8 @@ function update_usuario(id){
                     });
                 });
             } else {
-                $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    $('#users-table').DataTable().ajax.reload();
+                $('#modal_editar_proveedor').modal('hide').on('hidden.bs.modal', function () {
+                    $('#proveedor-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",
@@ -243,46 +244,23 @@ function validar(form){
                 required: true,
                 maxlength: 150
             },
-            pApellido: {
+            clave: {
                 required: true,
                 maxlength: 150
             },
-            sApellido: {
+            telefono: {
                 required: true,
-                maxlength: 150
+                maxlength: 12
+            },
+            extension: {
+                required: true,
+                maxlength: 10
             },
             email: {
                 required: true,
                 maxlength: 150
             },
-            password: {
-                required: true,
-                maxlength: 150,
-                minlength: 8
-            },
-            calle: {
-                required: true,
-                maxlength: 150
-            },
-            municipio: {
-                required: true,
-                maxlength: 150
-            },
-            estado: {
-                required: true,
-                maxlength: 150
-            },
-            postal: {
-                required: true,
-                maxlength: 5,
-                minlength: 5
-            },
-            telefono: {
-                required: true,
-                maxlength: 10,
-                minlength: 10
-            },
-            perfil: {
+            direccion: {
                 required: true,
                 maxlength: 150
             }

@@ -1,9 +1,9 @@
 'use strict';
 $(document).ready(function(){
-    $('.categorias-table').each(function () {
+    $('.areas-table').each(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
-    var tbCatgoria = $('#categorias-table').DataTable({
+    var tbCatgoria = $('#areas-table').DataTable({
         processing: true,
         serverSide: true,
         "ordering": true,
@@ -12,11 +12,11 @@ $(document).ready(function(){
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
         },
         ajax: {
-            "url": "categorias/lista_categorias",
+            "url": "areas/lista_areas",
             "type": "GET",
         },
         columns: [
-            { data: 'cve_cat', name: 'cve_cat'},
+            { data: 'cve_area', name: 'cve_area'},
             { data: 'nombre', name: 'nombre' },
             {   
                 "mRender": function ( data, type, row ) {
@@ -26,7 +26,7 @@ $(document).ready(function(){
             {
                 "mRender": function (data, type, row) {
                     let id = row.id;
-                    let btn = '<a class="btn btn-icon" onClick="edit_categoria_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
+                    let btn = '<a class="btn btn-icon" onClick="edit_area_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>'
                     return btn;
                 }
             },
@@ -35,10 +35,10 @@ $(document).ready(function(){
     });
 });
 
-function add_categoria_modal()
+function add_area_modal()
 {
     $.ajax({
-        url: "categorias/create",
+        url: "areas/create",
         datatype: 'GET',
         success: function(data){
             var modal = data;
@@ -65,8 +65,8 @@ function add_categoria_modal()
     });
 }
 
-function store_categoria(){
-    var form = $("#frm_nueva_categoria");
+function store_area(){
+    var form = $("#frm_nueva_area");
     var validarForm = validar(form);   
     if(validarForm){
         let data = {
@@ -78,14 +78,14 @@ function store_categoria(){
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "categorias/store",
+            url: "areas/store",
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function (respuesta) {
                 if (respuesta.success == true) {
-                    $('#modal_nueva_categoria').modal('hide').on('hidden.bs.modal', function () {
-                        $('#categorias-table').DataTable().ajax.reload();
+                    $('#modal_nueva_area').modal('hide').on('hidden.bs.modal', function () {
+                        $('#categoria-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "success",
                             title: "¡Exito!",
@@ -94,8 +94,8 @@ function store_categoria(){
                         });
                     });
                 } else {
-                    $('#modal_nueva_categoria').modal('hide').on('hidden.bs.modal', function () {
-                        $('#categorias-table').DataTable().ajax.reload();
+                    $('#modal_nueva_area').modal('hide').on('hidden.bs.modal', function () {
+                        $('#categoria-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "warning",
                             title: "¡Alerta!",
@@ -131,16 +131,14 @@ function store_categoria(){
     }
 }
 
-function edit_categoria_modal(id){
+function edit_area_modal(id){
     $.ajax({
-        url: "categorias/edit/" + id,
+        url: "areas/edit/" + id,
         datatype: 'html',
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('.selectKeyword').select2({
-                    placeholder: 'Seleccione...',
-                });
+                
 
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
@@ -163,9 +161,8 @@ function edit_categoria_modal(id){
     });
 }
 
-function update_categoria(id){  
+function update_area(id){  
     let data = {
-        id: $('#id').val(),
         nombre: $('#nombre').val(),
         clave: $('#clave').val(),
         estatus: $('#estatus').is(':checked') ? true : false,
@@ -174,14 +171,14 @@ function update_categoria(id){
         headers : {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: "categorias/update/" + id,
+        url: "areas/update/" + id,
         type: 'POST',
         data: data,
         dataType: 'json',
         success: function (respuesta) {
             if (respuesta.success == true) {
-                $('#modal_editar_categoria').modal('hide').on('hidden.bs.modal', function () {
-                    $('#categorias-table').DataTable().ajax.reload();
+                $('#modal_editar_area').modal('hide').on('hidden.bs.modal', function () {
+                    $('#users-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "success",
                         title: "¡Exito!",
@@ -190,8 +187,8 @@ function update_categoria(id){
                     });
                 });
             } else {
-                $('#modal_editar_categoria').modal('hide').on('hidden.bs.modal', function () {
-                    $('#categorias-table').DataTable().ajax.reload();
+                $('#modal_editar_area').modal('hide').on('hidden.bs.modal', function () {
+                    $('#users-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",

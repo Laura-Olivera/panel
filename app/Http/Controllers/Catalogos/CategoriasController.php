@@ -37,27 +37,23 @@ class CategoriasController extends Controller
                 $response = ['success' => false, 'message' => 'La categoria ya existe.'];
             }else{
                 $user = Auth::user()->id;
-                $empleado = session('empleado')->clave_empleado;
                 DB::beginTransaction();
                 $categoria = Categoria::create([
                     'nombre' => $request->nombre,
-                    'descripcion' => $request->descripcion,
-                    'path' => $request->path,
-                    'slug' => $request->slug,
-                    'clave_cat' => $request->clave,
-                    'estatus' => 1,
+                    'cve_cat' => $request->clave,
+                    'estatus' => $request->estatus,
                     'created_user_id' => $user,
-                    'updated_user_id' => $user
                 ]);
                 DB::commit();
                 $data = request();
-                $accion = 'EL usuario '.$empleado.' creo la categoria '.$categoria->nombre;
-                Bitacora::admin($data, $accion);
+                $accion = 'Registro nueva categoria';
+                Bitacora::usuarios($data, $accion);
                 $response = ['success' => true, 'message' => 'La categoria se registro correctamente.'];
             }
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear categoria', 'warning');
             $response = ['success' => false, 'message' => 'Error al registrar la categoria.'];
         }
         return $response;
@@ -74,12 +70,8 @@ class CategoriasController extends Controller
         try {
             $categoria = Categoria::findOrFail($request->id);
             $user = Auth::user()->id;
-            $empleado = session('empleado')->clave_empleado;
             DB::beginTransaction();
             $categoria->nombre = $request->nombre;
-            $categoria->descripcion = $request->descripcion;
-            $categoria->path = $request->path;
-            $categoria->slug = $request->slug;
             $categoria->estatus = $request->estatus;
             $categoria->updated_user_id = $user;
             $categoria->save();
@@ -87,12 +79,13 @@ class CategoriasController extends Controller
                 DB::commit();
             }
             $datos = request();
-            $accion = 'El usuario '.$empleado.' actualizo la categoria '.$categoria->nombre;
-            Bitacora::admin($datos, $accion);
+            $accion = 'Actualizacion de categoria';
+            Bitacora::usuarios($datos, $accion);
             $response = ['success' => true, 'message' => 'La categoria se actualizo correctamente.'];
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar categoria', 'warning');
             $response = ['success' => false, 'message' => 'Error al actualizar la categoria.'];
         }
         return $response;

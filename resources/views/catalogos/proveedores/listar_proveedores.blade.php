@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('assets/plugins/custom/uppy/uppy.bundle.css')}}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('content')
@@ -49,7 +48,9 @@
                         <tr>
                             <th>Clave</th>
                             <th>Nombre</th>
-                            <th>Descripción</th>
+                            <th>Telefono</th>
+							<th>Correo electronico</th>
+							<th>Direccion</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
@@ -68,8 +69,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('assets/js/pages/crud/file-upload/dropzonejs.min.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/catalogos/proveedores.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

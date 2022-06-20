@@ -85,6 +85,114 @@
 						</ul>
 					</div>
 				</li>
+				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+					<a href="javascript:;" class="menu-link menu-toggle">
+						<span class="svg-icon menu-icon">
+							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Group.svg-->
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24"/>
+									<path d="M4.5,21 L21.5,21 C22.3284271,21 23,20.3284271 23,19.5 L23,8.5 C23,7.67157288 22.3284271,7 21.5,7 L11,7 L8.43933983,4.43933983 C8.15803526,4.15803526 7.77650439,4 7.37867966,4 L4.5,4 C3.67157288,4 3,4.67157288 3,5.5 L3,19.5 C3,20.3284271 3.67157288,21 4.5,21 Z" fill="#000000" opacity="0.3"/>
+									<path d="M2.5,19 L19.5,19 C20.3284271,19 21,18.3284271 21,17.5 L21,6.5 C21,5.67157288 20.3284271,5 19.5,5 L9,5 L6.43933983,2.43933983 C6.15803526,2.15803526 5.77650439,2 5.37867966,2 L2.5,2 C1.67157288,2 1,2.67157288 1,3.5 L1,17.5 C1,18.3284271 1.67157288,19 2.5,19 Z" fill="#000000"/>
+								</g>
+							</svg>
+							<!--end::Svg Icon-->
+						</span>
+						<span class="menu-text">Catalogos</span>
+						<i class="menu-arrow"></i>
+					</a>
+					<div class="menu-submenu">
+						<i class="menu-arrow"></i>
+						<ul class="menu-subnav">
+							<li class="menu-item menu-item-parent" aria-haspopup="true">
+								<span class="menu-link">
+									<span class="menu-text">Catalogos</span>
+								</span>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('catalogos/areas') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Areas</span>
+								</a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('catalogos/categorias') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Categorias</span>
+								</a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('catalogos/proveedores') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Proveedores</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<!-- aqui termina -->
+				<!-- aqui empieza -->
+				<li class="menu-section">
+					<h4 class="menu-text">Áreas</h4>
+					<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+				</li>
+				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+					<a href="javascript:;" class="menu-link menu-toggle">
+						<span class="svg-icon menu-icon">
+							<!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Group.svg-->
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect x="0" y="0" width="24" height="24"/>
+									<rect fill="#000000" opacity="0.3" x="4" y="4" width="4" height="4" rx="1"/>
+									<path d="M5,10 L7,10 C7.55228475,10 8,10.4477153 8,11 L8,13 C8,13.5522847 7.55228475,14 7,14 L5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,7 C14,7.55228475 13.5522847,8 13,8 L11,8 C10.4477153,8 10,7.55228475 10,7 L10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,10 L13,10 C13.5522847,10 14,10.4477153 14,11 L14,13 C14,13.5522847 13.5522847,14 13,14 L11,14 C10.4477153,14 10,13.5522847 10,13 L10,11 C10,10.4477153 10.4477153,10 11,10 Z M17,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,7 C20,7.55228475 19.5522847,8 19,8 L17,8 C16.4477153,8 16,7.55228475 16,7 L16,5 C16,4.44771525 16.4477153,4 17,4 Z M17,10 L19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 L17,14 C16.4477153,14 16,13.5522847 16,13 L16,11 C16,10.4477153 16.4477153,10 17,10 Z M5,16 L7,16 C7.55228475,16 8,16.4477153 8,17 L8,19 C8,19.5522847 7.55228475,20 7,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,17 C4,16.4477153 4.44771525,16 5,16 Z M11,16 L13,16 C13.5522847,16 14,16.4477153 14,17 L14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 L10,17 C10,16.4477153 10.4477153,16 11,16 Z M17,16 L19,16 C19.5522847,16 20,16.4477153 20,17 L20,19 C20,19.5522847 19.5522847,20 19,20 L17,20 C16.4477153,20 16,19.5522847 16,19 L16,17 C16,16.4477153 16.4477153,16 17,16 Z" fill="#000000"/>
+								</g>
+							</svg>
+							<!--end::Svg Icon-->
+						</span>
+						<span class="menu-text">Inventario</span>
+						<i class="menu-arrow"></i>
+					</a>
+					<div class="menu-submenu">
+						<i class="menu-arrow"></i>
+						<ul class="menu-subnav">
+							<li class="menu-item menu-item-parent" aria-haspopup="true">
+								<span class="menu-link">
+									<span class="menu-text">Inventario</span>
+								</span>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('admin/usuarios') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Productos</span>
+								</a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('admin/perfiles') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Entradas</span>
+								</a>
+							</li>
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('admin/permisos') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Salidas</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
 				<!-- aqui termina -->
 			</ul>
 			<!--end::Menu Nav-->

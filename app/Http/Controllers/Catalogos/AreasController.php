@@ -20,10 +20,10 @@ class AreasController extends Controller
      */
     public function index()
     {
-        return view('catalogos.areas.listar_areas');
+        return view('catalogos.areas.lista_areas');
     }
 
-    public function listarAreas()
+    public function listar_areas()
     {
         $areas = Area::all();
         return DataTables::of($areas)->toJson();
@@ -36,7 +36,7 @@ class AreasController extends Controller
      */
     public function create()
     {
-        return view('catatlogos.areas.crear_area_modal');
+        return view('catalogos.areas.modal_crear_area');
     }
 
     /**
@@ -65,7 +65,7 @@ class AreasController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            Bitacora::log('App\Http\Controllers\Catalogos','AreasController::store', $th->getLine(), $th->getMessage(), '', 'warning');
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear area', 'warning');
             $response = ['success' => false, 'message' => 'Error al registrar area.'];
         }
 
@@ -92,7 +92,7 @@ class AreasController extends Controller
     public function edit($id)
     {
         $area = Area::findOrFail($id);
-        return view('catalogos.areas.editar_area_modal', compact('area'));
+        return view('catalogos.areas.modal_editar_area', compact('area'));
     }
 
     /**
@@ -106,10 +106,31 @@ class AreasController extends Controller
     {
         try {
             $area = Area::findOrfail($request->id);
+
             DB::beginTransaction();
+            $area->nombre = $request->nombre;
+            $area->cve_area = $request->cve_area;
+            $area->estatus = $request->estatus;
+            $area->updated_user_id = Auth::user()->id;
+            $area->save();
+            DB::commit();
+
+            $data = request();
+            $accion = 'Actualizacion de area';
+            Bitacora::usuarios($data, $accion);
+
+            $response = ['success' => true, 'message' => 'El area se actualizo correctamente.'];
+
         } catch (\Throwable $th) {
-            //throw $th;
+            
+            DB::rollBack();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar area', 'warning');
+            $response = ['success' => false, 'message' => 'Error al actualizar area.'];
+
         }
+
+        return $response;
     }
 
     /**

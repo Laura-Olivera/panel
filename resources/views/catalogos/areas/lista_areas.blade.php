@@ -10,7 +10,7 @@
 		<!--begin::Details-->
 		<div class="d-flex align-items-center flex-wrap mr-2">
 			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Categorias</h5> 
+			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Areas</h5> 
 			<!--end::Title-->
 		</div>
 		<!--end::Details-->
@@ -31,7 +31,7 @@
 				</div>
 				<div class="card-toolbar">
 					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="add_categoria_modal();" class="btn btn-primary font-weight-bolder">
+					<a href="javascript:void(0);" onclick="add_area_modal();" class="btn btn-primary font-weight-bolder">
 					<span class="svg-icon svg-icon-md">
 						<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -42,7 +42,7 @@
 						    </g>
 						</svg>
 						<!--end::Svg Icon-->
-					</span>Nueva categoria</a>
+					</span>Nueva area</a>
 					<!--end::Button-->
 				</div>
 			</div>
@@ -50,11 +50,11 @@
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin: Datatable-->
-                <table id="categorias-table" name="categorias-table" class="table table-striped- table-bordered table-hover table-checkable">
+                <table id="areas-table" name="areas-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
-                            <th>Clave</th>
                             <th>Nombre</th>
+                            <th>Clave</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
@@ -73,6 +73,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('js/catalogos/categorias.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/catalogos/areas.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

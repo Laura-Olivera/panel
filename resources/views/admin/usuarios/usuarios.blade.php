@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')

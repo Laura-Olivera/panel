@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -65,7 +64,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/admin/permisos.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

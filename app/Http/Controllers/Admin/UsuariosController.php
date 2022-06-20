@@ -74,7 +74,7 @@ class UsuariosController extends Controller
         } catch (\Throwable $th) {
             DB::rollback();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            Bitacora::log('App\Http\Controllers\Admin','UsuariosController::store', $th->getLine(), $th->getMessage(), '', 'warning');
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear proveedor', 'warning');
             $response = ['success' => false, 'message' => 'Error al crear un nuevo usuario'];
         }
 
@@ -134,14 +134,14 @@ class UsuariosController extends Controller
             }
             $datos = request();
             $datos['password'] = 'xxxxxxxx';
-            $accion = 'Actualizacion de datos';
+            $accion = 'Actualizacion de usuario';
             Bitacora::usuarios($datos, $accion);
 
             $response = ['success' => true, 'message' => 'El usuario se actualizó correctamente'];
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            Bitacora::log('App\Http\Controllers\Admin','UsuariosController::update', $th->getLine(), $th->getMessage(), '', 'warning');
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar usuario', 'warning');
             $response = ['success' => false, 'message' => 'Error al actualizar usuario'];
         }
         return $response;

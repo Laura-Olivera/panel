@@ -71,6 +71,7 @@ class LoginController extends Controller
         } catch (\Throwable $th) {
             Bitacora::log('App\Http\Controllers\Auth','LoginController::login', $th->getLine(), $th->getMessage(), '', 'warning');
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al iniciar sesion', 'warning');
             $response = ['success' => false];
             return $response;
         }

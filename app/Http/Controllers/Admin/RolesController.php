@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -13,7 +14,7 @@ class RolesController extends Controller
 {
     public function index()
     {
-        $roles = Role::where('name', '!=', 'Cliente')->get();
+        $roles = Role::all();
         return view('admin.roles.listar_roles')->with('roles', $roles);
     }
 
@@ -35,11 +36,12 @@ class RolesController extends Controller
                 ]);
                 $response = ['success' => true, 'message' => 'El perfil se registro correctamente'];
                 DB::commit();
-                $accion = 'Registrar nuevo perfil '.$rol->name;
-                Bitacora::admin(request(), $accion);
+                $accion = 'Registro nuevo perfil.';
+                Bitacora::usuarios(request(), $accion);
             } catch (\Throwable $th) {
                 DB::rollback();
-                \Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+                Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+                Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear rol', 'warning');
                 $response = ['success' => false, 'message' => 'Error al crear un nuevo perfil'];
             }
         }else{
@@ -58,22 +60,28 @@ class RolesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $usuario = session('empleado')->clave_empleado;
-        $rol = Role::findOrFail($id);
-        $rolData = $request->except(['permissions']);
-        $permissions = $request['permissions'];
-        $rol->fill($rolData)->save();
-        $permisosTabla = Permission::all();
-        foreach ($permisosTabla as $permiso) {
-            $rol->revokePermissionTo($permiso);
+        try {
+            $rol = Role::findOrFail($id);
+            $rolData = $request->except(['permissions']);
+            $permissions = $request['permissions'];
+            $rol->fill($rolData)->save();
+            $permisosTabla = Permission::all();
+            foreach ($permisosTabla as $permiso) {
+                $rol->revokePermissionTo($permiso);
+            }
+            foreach ($permissions as $permission) {
+                $perm = Permission::where('id', '=', $permission)->firstOrFail();
+                $rol->givePermissionTo($perm);
+            }
+            $accion = 'Actualizacion de perfil.';
+            Bitacora::usuarios(request(), $accion);
+            return redirect('admin/perfiles');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar rol', 'warning');
+            return redirect('admin/perfiles');
         }
-        foreach ($permissions as $permission) {
-            $perm = Permission::where('id', '=', $permission)->firstOrFail();
-            $rol->givePermissionTo($perm);
-        }
-        $accion = 'El usuario '.$usuario.' actualizo el perfil '.$rol->name;
-        Bitacora::admin(request(), $accion);
-        return redirect('admin/perfiles');
     }
 
 }
