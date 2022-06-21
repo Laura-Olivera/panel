@@ -34,6 +34,7 @@
 					<h4 class="menu-text">Administración</h4>
 					<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 				</li>
+				@canany(['SuperAdmin', 'MenuUsuarios', 'MenuPerfiles', 'MenuPermisos'])
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
@@ -58,6 +59,7 @@
 									<span class="menu-text">Usuarios</span>
 								</span>
 							</li>
+							@can('MenuUsuarios')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/usuarios') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -65,7 +67,9 @@
 									</i>
 									<span class="menu-text">Listar usuarios</span>
 								</a>
-							</li>
+							</li>	
+							@endcan
+							@can('MenuPerfiles')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/perfiles') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -73,7 +77,9 @@
 									</i>
 									<span class="menu-text">Perfiles</span>
 								</a>
-							</li>
+							</li>	
+							@endcan
+							@can('MenuPermisos')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/permisos') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -81,10 +87,13 @@
 									</i>
 									<span class="menu-text">Permisos</span>
 								</a>
-							</li>
+							</li>	
+							@endcan
 						</ul>
 					</div>
-				</li>
+				</li>	
+				@endcanany
+				@canany(['SuperAdmin', 'CatalogoAreas', 'CatalogoCategorias', 'CatalogoProductos', 'CatalogoProveedores'])
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
@@ -109,6 +118,7 @@
 									<span class="menu-text">Catalogos</span>
 								</span>
 							</li>
+							@can('CatalogoAreas')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('catalogos/areas') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -116,7 +126,9 @@
 									</i>
 									<span class="menu-text">Areas</span>
 								</a>
-							</li>
+							</li>	
+							@endcan
+							@can('CatalogoCategorias')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('catalogos/categorias') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -124,7 +136,19 @@
 									</i>
 									<span class="menu-text">Categorias</span>
 								</a>
-							</li>
+							</li>	
+							@endcan
+							@can('CatalogoProductos')
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('catalogos/productos') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Productos</span>
+								</a>
+							</li>	
+							@endcan
+							@can('CatalogoProveedores')
 							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('catalogos/proveedores') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
@@ -132,16 +156,19 @@
 									</i>
 									<span class="menu-text">Proveedores</span>
 								</a>
-							</li>
+							</li>	
+							@endcan							
 						</ul>
 					</div>
-				</li>
+				</li>	
+				@endcanany				
 				<!-- aqui termina -->
 				<!-- aqui empieza -->
 				<li class="menu-section">
 					<h4 class="menu-text">Áreas</h4>
 					<i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 				</li>
+				@canany(['MenuEntradas', 'MenuSalidas'])
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
@@ -167,14 +194,6 @@
 								</span>
 							</li>
 							<li class="menu-item" aria-haspopup="true">
-								<a href="{{ url('admin/usuarios') }}" class="menu-link">
-									<i class="menu-bullet menu-bullet-dot">
-										<span></span>
-									</i>
-									<span class="menu-text">Productos</span>
-								</a>
-							</li>
-							<li class="menu-item" aria-haspopup="true">
 								<a href="{{ url('admin/perfiles') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
@@ -192,7 +211,9 @@
 							</li>
 						</ul>
 					</div>
-				</li>
+				</li>	
+				@endcanany
+				
 				<!-- aqui termina -->
 			</ul>
 			<!--end::Menu Nav-->

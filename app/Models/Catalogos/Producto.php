@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Inventario;
+namespace App\Models\Catalogos;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,4 +26,14 @@ class Producto extends Model
         'created_user_id',
         'updated_user_id',
     ];
+
+    public function categorias()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    public function proveedores()
+    {
+        return $this->belongsTo(Proveedor::class);
+    }
 }

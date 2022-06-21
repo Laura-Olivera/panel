@@ -31,7 +31,7 @@
 				</div>
 				<div class="card-toolbar">
 					<!--begin::Button-->
-					<a href="javascript:void(0);" onclick="add_producto_modal();" class="btn btn-primary font-weight-bolder">
+					<a href="{{ URL::to('catalogos/productos/create') }}" class="btn btn-primary font-weight-bolder">
 					<span class="svg-icon svg-icon-md">
 						<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -43,6 +43,7 @@
 						</svg>
 						<!--end::Svg Icon-->
 					</span>Nuevo producto</a>
+					{!! Form::close() !!}
 					<!--end::Button-->
 				</div>
 			</div>
@@ -50,7 +51,7 @@
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin: Datatable-->
-                <table id="categorias-table" name="categorias-table" class="table table-striped- table-bordered table-hover table-checkable">
+                <table id="productos-table" name="productos-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
                             <th>Codigo</th>
@@ -77,6 +78,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('js/catalogos/categorias.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/catalogos/productos/productos.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

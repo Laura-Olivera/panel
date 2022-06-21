@@ -22,4 +22,9 @@ class Proveedor extends Model
         'created_user_id',
         'updated_user_id',
     ];
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
 }

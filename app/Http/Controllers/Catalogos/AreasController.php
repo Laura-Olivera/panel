@@ -51,7 +51,7 @@ class AreasController extends Controller
             DB::beginTransaction();
             $area = Area::create([
                 'nombre' => $request->nombre,
-                'cve_area' => $request->cve_area,
+                'cve_area' => $request->clave,
                 'estatus' => $request->estatus,
                 'created_user_id' => Auth::user()->id
             ]);
@@ -109,7 +109,7 @@ class AreasController extends Controller
 
             DB::beginTransaction();
             $area->nombre = $request->nombre;
-            $area->cve_area = $request->cve_area;
+            $area->cve_area = $request->clave;
             $area->estatus = $request->estatus;
             $area->updated_user_id = Auth::user()->id;
             $area->save();

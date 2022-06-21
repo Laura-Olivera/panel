@@ -24,6 +24,78 @@ class PermissionsSeeder extends Seeder
                 'descrip' => 'Todos los permisos.',
                 'created_at' => now(),
                 'updated_at' => now(),     
+            ),
+            2 => 
+            array (
+                'name' =>'MenuUsuarios',
+                'guard_name' =>'web',
+                'descrip' => 'Menu de usuario.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            3 => 
+            array (
+                'name' =>'MenuPerfiles',
+                'guard_name' =>'web',
+                'descrip' => 'Menu de perfiles.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            4 => 
+            array (
+                'name' =>'MenuPermisos',
+                'guard_name' =>'web',
+                'descrip' => 'Menu de permisos.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            5 => 
+            array (
+                'name' =>'CatalogoAreas',
+                'guard_name' =>'web',
+                'descrip' => 'Catalogo de areas.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            6 => 
+            array (
+                'name' =>'CatalogoCategorias',
+                'guard_name' =>'web',
+                'descrip' => 'Catalogo de categorias.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            7 => 
+            array (
+                'name' =>'CatalogoProveedores',
+                'guard_name' =>'web',
+                'descrip' => 'Catalogo de proveedores.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            8 => 
+            array (
+                'name' =>'CatalogoProductos',
+                'guard_name' =>'web',
+                'descrip' => 'Catalogo de productos.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            9 => 
+            array (
+                'name' =>'MenuEntradas',
+                'guard_name' =>'web',
+                'descrip' => 'Menu de inventario entradas.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            10 => 
+            array (
+                'name' =>'MenuSalidas',
+                'guard_name' =>'web',
+                'descrip' => 'Menu de inventario salidas.',
+                'created_at' => now(),
+                'updated_at' => now(),     
             )
 
         )); 

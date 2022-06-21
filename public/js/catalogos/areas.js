@@ -85,7 +85,7 @@ function store_area(){
             success: function (respuesta) {
                 if (respuesta.success == true) {
                     $('#modal_nueva_area').modal('hide').on('hidden.bs.modal', function () {
-                        $('#categoria-table').DataTable().ajax.reload();
+                        $('#areas-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "success",
                             title: "¡Exito!",
@@ -95,7 +95,7 @@ function store_area(){
                     });
                 } else {
                     $('#modal_nueva_area').modal('hide').on('hidden.bs.modal', function () {
-                        $('#categoria-table').DataTable().ajax.reload();
+                        $('#areas-table').DataTable().ajax.reload();
                         Swal.fire({
                             icon: "warning",
                             title: "¡Alerta!",
@@ -178,7 +178,7 @@ function update_area(id){
         success: function (respuesta) {
             if (respuesta.success == true) {
                 $('#modal_editar_area').modal('hide').on('hidden.bs.modal', function () {
-                    $('#users-table').DataTable().ajax.reload();
+                    $('#areas-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "success",
                         title: "¡Exito!",
@@ -188,7 +188,7 @@ function update_area(id){
                 });
             } else {
                 $('#modal_editar_area').modal('hide').on('hidden.bs.modal', function () {
-                    $('#users-table').DataTable().ajax.reload();
+                    $('#areas-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",

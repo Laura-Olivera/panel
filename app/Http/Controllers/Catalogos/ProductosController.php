@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Inventario;
+namespace App\Http\Controllers\Catalogos;
 
 use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Models\Catalogos\Categoria;
-use App\Models\Inventario\Producto;
+use App\Models\Catalogos\Producto;
+use App\Models\Catalogos\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,19 +17,23 @@ class ProductosController extends Controller
 {
     public function index()
     {
-        return view('inventario.productos.listar_productos');
+        return view('catalogos.productos.listar_productos');
     }
 
     public function listar_productos()
     {
-        $productos = Producto::all();
+        $productos = DB::table('productos')->select('productos.*', 'categorias.nombre as categoria', 'proveedores.nombre as proveedor')
+            ->join('categorias','categorias.id', '=', 'productos.categoria_id')
+            ->join('proveedores','proveedores.id', '=', 'productos.proveedor_id')
+            ->get();
         return DataTables::of($productos)->toJson();
     }
 
     public function create()
     {
         $categorias = Categoria::all();
-        return view('inventario.productos.modal_crear_producto', compact('categorias'));
+        $proveedores = Proveedor::all();
+        return view('catalogos.productos.modal_crear_producto', compact('categorias', 'proveedores'));
     }
 
     public function store(Request $request)
@@ -70,7 +75,7 @@ class ProductosController extends Controller
     public function edit($id)
     {
         $producto = Producto::findOrFail($id);
-        return view('inventario.productos.modal_editar_producto', compact('producto'));
+        return view('catalogos.productos.modal_editar_producto', compact('producto'));
     }
 
     public function update(Request $request)

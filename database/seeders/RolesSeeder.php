@@ -25,7 +25,16 @@ class RolesSeeder extends Seeder
         ]);
 
         $role_superadmin->givePermissionTo([
-            'SuperAdmin'
+            'SuperAdmin',
+            'MenuUsuarios',
+            'MenuPerfiles',
+            'MenuPermisos',
+            'CatalogoAreas',
+            'CatalogoCategorias',
+            'CatalogoProveedores',
+            'CatalogoProductos',
+            'MenuEntradas',
+            'MenuSalidas',
         ]);
     }
 }

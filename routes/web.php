@@ -80,6 +80,11 @@ Route::middleware('auth')->group(function(){
         Route::post('/categorias/store', [App\Http\Controllers\Catalogos\CategoriasController::class, 'store']);
         Route::get('/categorias/edit/{id}', [App\Http\Controllers\Catalogos\CategoriasController::class,'edit']);
         Route::post('/categorias/update/{id}',[App\Http\Controllers\Catalogos\CategoriasController::class, 'update']);
+        //RUTAS PRODUCTOS
+        Route::get('/productos', [App\Http\Controllers\Catalogos\ProductosController::class, 'index']);
+        Route::get('/productos/listar_productos', [App\Http\Controllers\Catalogos\ProductosController::class, 'listar_productos']);
+        Route::get('/productos/create', [\App\Http\Controllers\Catalogos\ProductosController::class, 'create']);
+        Route::post('productos/store', [App\Http\Controllers\Catalogos\ProductosController::class, 'store']);
         //RUTAS PROVEEDORES
         Route::get('/proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'index']);
         Route::get('/proveedores/listar_proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'listar_proveedores']);

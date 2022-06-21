@@ -87,7 +87,7 @@ CREATE SEQUENCE public.inventario_entradas_id_seq
     NO MAXVALUE
     CACHE 1;
 
-DROP SEQUENCE IF EXISTS prublic.inventario_salidas_id_seq;
+DROP SEQUENCE IF EXISTS public.inventario_salidas_id_seq;
 CREATE SEQUENCE public.inventario_salidas_id_seq
     START WITH 1
     INCREMENT BY 1
