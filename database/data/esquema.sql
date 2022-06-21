@@ -219,7 +219,7 @@ CREATE TABLE public.proveedores (
     updated_user_id BIGINT,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
-)
+);
 
 DROP TABLE IF EXISTS public.categorias;
 CREATE TABLE public.categorias (
@@ -270,7 +270,7 @@ CREATE TABLE public.inventario_entradas (
 
 DROP TABLE IF EXISTS public.inventario_entradas_productos;
 CREATE TABLE public.inventario_entradas_productos (
-    entradas_id BIGINT,
+    entrada_id BIGINT,
     producto_id BIGINT,
     catidad SMALLINT,
     costo_unit DECIMAL(10,2),
@@ -279,7 +279,7 @@ CREATE TABLE public.inventario_entradas_productos (
 );
 
 -------------------------------------------
---------ADD SEQUENCE TABLE.ID--------------
+--------ADD SEQUENCE TABLE ID--------------
 -------------------------------------------
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
