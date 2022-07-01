@@ -4,19 +4,6 @@
 @endsection
 
 @section('content')
-<!--begin::Subheader-->
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-	<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-		<!--begin::Details-->
-		<div class="d-flex align-items-center flex-wrap mr-2">
-			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Control de Areas</h5> 
-			<!--end::Title-->
-		</div>
-		<!--end::Details-->
-	</div>
-</div>
-<!--end::Subheader-->
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<!--begin::Container-->
@@ -24,10 +11,10 @@
 		<!--begin::Card-->
 		<div class="card card-custom">
 			<!--begin::Header-->
-			<div class="card-header flex-wrap border-0 pt-6 pb-0">
-				<div class="card-title">
+			<div class="card-header align-items-center border-0 mt-4">
+				<div class="card-title align-items-start flex-column">
 					<h3 class="card-label">
-					<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
+					<span class="font-weight-bolder text-dark">Control de Areas</span></h3>
 				</div>
 				<div class="card-toolbar">
 					<!--begin::Button-->
@@ -53,8 +40,8 @@
                 <table id="areas-table" name="areas-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
                             <th>Clave</th>
+                            <th>Nombre</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>

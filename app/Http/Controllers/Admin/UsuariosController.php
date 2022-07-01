@@ -53,7 +53,7 @@ class UsuariosController extends Controller
                 'rfc' => $request->rfc,
                 'cve_usuario' => '',
                 'telefono' => $request->telefono,
-                'area' => 'area',
+                'area' => $request->area,
                 'usuario' => $request->usuario,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -110,6 +110,7 @@ class UsuariosController extends Controller
             $usuario->rfc = strtoupper($request->rfc);
             $usuario->telefono = $request->telefono;
             $usuario->usuario = strtolower($request->usuario);
+            $usuario->area = $request->area;
             $usuario->email = $request->email;
             if($request->password){
                 $pass = Hash::make($request->password);

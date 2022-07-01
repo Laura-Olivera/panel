@@ -163,6 +163,7 @@ function edit_area_modal(id){
 
 function update_area(id){  
     let data = {
+        id: $('#id').val(),
         nombre: $('#nombre').val(),
         clave: $('#clave').val(),
         estatus: $('#estatus').is(':checked') ? true : false,

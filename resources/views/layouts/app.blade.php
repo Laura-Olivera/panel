@@ -28,7 +28,7 @@
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+	<body id="kt_body" class="header-fixed header-mobile-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
         <!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
@@ -121,6 +121,7 @@
     <script src="{{ URL::asset('assets/vendors/general/jquery_validation/dist/jquery.validate.min.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/select2.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 	<!--end::Global Theme Bundle-->
 	<!-- begin::Page Scripts -->
 	@yield('scripts')

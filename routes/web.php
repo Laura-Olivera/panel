@@ -84,7 +84,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/productos', [App\Http\Controllers\Catalogos\ProductosController::class, 'index']);
         Route::get('/productos/listar_productos', [App\Http\Controllers\Catalogos\ProductosController::class, 'listar_productos']);
         Route::get('/productos/create', [\App\Http\Controllers\Catalogos\ProductosController::class, 'create']);
-        Route::post('productos/store', [App\Http\Controllers\Catalogos\ProductosController::class, 'store']);
+        Route::post('/productos/store', [App\Http\Controllers\Catalogos\ProductosController::class, 'store']);
+        Route::get('/productos/edit/{id}', [App\Http\Controllers\Catalogos\ProductosController::class, 'edit']);
+        Route::post('/productos/edit/update', [App\Http\Controllers\Catalogos\ProductosController::class,'update']);
         //RUTAS PROVEEDORES
         Route::get('/proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'index']);
         Route::get('/proveedores/listar_proveedores', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'listar_proveedores']);
@@ -92,6 +94,14 @@ Route::middleware('auth')->group(function(){
         Route::post('/proveedores/store', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'store']);
         Route::get('/proveedores/edit/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'edit']);
         Route::post('/proveedores/update/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'update']);
+    });
+
+    Route::prefix('inventario')->group(function (){
+        //RUTAS ENTRADAS
+        Route::get('/entradas', [App\Http\Controllers\Inventario\EntradasController::class, 'index']);
+        Route::get('/entradas/listar_entradas',[App\Http\Controllers\Inventario\EntradasController::class, 'listar_entradas']);
+        Route::get('/entradas/create', [App\Http\Controllers\Inventario\EntradasController::class, 'create']);
+        Route::post('/entradas/store', [App\Http\Controllers\Inventario\EntradasController::class, 'store']);
     });
 
 });

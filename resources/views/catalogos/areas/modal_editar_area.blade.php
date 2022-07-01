@@ -9,6 +9,7 @@
             </div>
             <div class="modal-body">
 				<form class="form" id="frm_editar_area" name="frm_editar_area">
+					<input type="hidden" value="{{ $area->id }}" id="id" name="id"/>
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">

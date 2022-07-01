@@ -194,7 +194,7 @@
 								</span>
 							</li>
 							<li class="menu-item" aria-haspopup="true">
-								<a href="{{ url('admin/perfiles') }}" class="menu-link">
+								<a href="{{ url('inventario/entradas') }}" class="menu-link">
 									<i class="menu-bullet menu-bullet-dot">
 										<span></span>
 									</i>

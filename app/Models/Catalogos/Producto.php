@@ -20,6 +20,7 @@ class Producto extends Model
         'proveedor_id',
         'codigo',
         'costo',
+        'precio_venta',
         'cantidad',
         'categoria_id',
         'estatus',
@@ -35,5 +36,10 @@ class Producto extends Model
     public function proveedores()
     {
         return $this->belongsTo(Proveedor::class);
+    }
+
+    public function entradas()
+    {
+        return $this->belongsToMany(Entradas::class);
     }
 }

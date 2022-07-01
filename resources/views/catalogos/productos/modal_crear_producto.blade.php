@@ -10,7 +10,6 @@
 	<div class="container">
 		<!--begin::Card-->
 		<div class="card card-custom">
-			
 			<!--begin::Body-->
 			<div class="card-body">
 				<!--begin::Card-->
@@ -63,13 +62,17 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <label>Costo unitario:</label>
-                                    <input type="text" class="form-control" placeholder="Costo unitario del producto" id="costo" name="costo" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="00.00" placeholder="Costo unitario del producto" id="costo" name="costo" autocomplete="off"/>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <label>Costo venta:</label>
+                                    <input type="text" class="form-control" value="00.00" placeholder="Precio de venta del producto" id="venta" name="venta" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4">
                                     <label>Cantidad:</label>
-                                    <input type="text" class="form-control" placeholder="Cantidad total del producto" id="cantidad" name="cantidad" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="000" placeholder="Cantidad total del producto" id="cantidad" name="cantidad" autocomplete="off"/>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -80,7 +83,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-12">
-                                    <label for="">Descripcion tecnica/detallada: </label>
+                                    <label>Descripcion tecnica/detallada: </label>
                                     <br>
                                     <div id="kt-ckeditor-1-toolbar"></div>
 						            <div id="kt-ckeditor-1">
@@ -117,7 +120,7 @@
 	<!--end::Container-->
 </div>
 <!--end::Entry-->
-<div class="initial-data">
+<div class="d-none" id="initial-data">
     <h1>Quick and simple CKEditor 5 Integration</h1>
 	<p>Here goes the
 	<a href="#">Minitial content of the editor</a>. Lorem Ipsum is simply dummy text of the
@@ -138,6 +141,6 @@
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
 <script src="{{ URL::asset('assets/plugins/custom/ckeditor/ckeditor-document.bundle.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('js/catalogos/productos/nuevoProducto.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('js/catalogos/productos/editor-producto.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
 @endsection

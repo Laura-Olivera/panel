@@ -49,6 +49,7 @@ class ProductosController extends Controller
                 'proveedor_id' => $request->proveedor,
                 'codigo' => $request->codigo,
                 'costo' => $request->costo,
+                'precio_venta' => $request->venta,
                 'cantidad' => $request->cantidad,
                 'categoria_id' => $request->categoria,
                 'estatus' => $request->estatus,
@@ -75,7 +76,9 @@ class ProductosController extends Controller
     public function edit($id)
     {
         $producto = Producto::findOrFail($id);
-        return view('catalogos.productos.modal_editar_producto', compact('producto'));
+        $categorias = Categoria::all();
+        $proveedores = Proveedor::all();
+        return view('catalogos.productos.modal_editar_producto', compact('producto', 'categorias', 'proveedores'));
     }
 
     public function update(Request $request)
@@ -92,10 +95,12 @@ class ProductosController extends Controller
             $producto->proveedor_id = $request->proveedor;
             $producto->codigo = $request->codigo;
             $producto->costo = $request->costo;
+            $producto->precio_venta = $request->venta;
             $producto->cantidad = $request->cantidad;
             $producto->categoria_id = $request->categoria;
             $producto->estatus = $request->estatus;
             $producto->updated_user_id = Auth::user()->id;
+            $producto->save();
             DB::commit();
 
             $data = request();

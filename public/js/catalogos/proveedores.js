@@ -172,7 +172,7 @@ function edit_proveedor_modal(id){
     });
 }
 
-function update_usuario(id){  
+function update_proveedor(id){  
     let data = {
         id: $('#id').val(),
         nombre: $('#nombre').val(),
@@ -194,7 +194,7 @@ function update_usuario(id){
         success: function (respuesta) {
             if (respuesta.success == true) {
                 $('#modal_editar_proveedor').modal('hide').on('hidden.bs.modal', function () {
-                    $('#proveedor-table').DataTable().ajax.reload();
+                    $('#proveedores-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "success",
                         title: "¡Exito!",
@@ -204,7 +204,7 @@ function update_usuario(id){
                 });
             } else {
                 $('#modal_editar_proveedor').modal('hide').on('hidden.bs.modal', function () {
-                    $('#proveedor-table').DataTable().ajax.reload();
+                    $('#proveedores-table').DataTable().ajax.reload();
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",

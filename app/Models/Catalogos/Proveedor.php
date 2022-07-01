@@ -15,7 +15,7 @@ class Proveedor extends Model
         'nombre',
         'cve_prov',
         'telefono',
-        'extencion',
+        'extension',
         'direccion',
         'email',
         'estatus',
@@ -26,5 +26,10 @@ class Proveedor extends Model
     public function productos()
     {
         return $this->hasMany(Producto::class);
+    }
+
+    public function entradas()
+    {
+        return $this->hasMany(Entrada::class);
     }
 }

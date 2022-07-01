@@ -93,7 +93,7 @@
 				<div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
 					<form>
 						<!--begin::Header-->
-						<div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url(assets/media/misc/bg-1.jpg)">
+						<div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url({{ URL::asset('assets/media/misc/bg-1.jpg') }})">
 							<!--begin::Title-->
 							<h4 class="d-flex flex-center rounded-top">
 								<span class="text-white">Notificaciones</span>
@@ -212,7 +212,7 @@
 				<!--begin::Dropdown-->
 				<div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
 					<!--begin:Header-->
-					<div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url(assets/media/misc/bg-1.jpg)">
+					<div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top" style="background-image: url({{ URL::asset('assets/media/misc/bg-1.jpg') }})">
 						<h4 class="text-white font-weight-bold">Quick Actions</h4>
 						<span class="btn btn-success btn-sm font-weight-bold font-size-sm mt-2">23 tasks pending</span>
 					</div>

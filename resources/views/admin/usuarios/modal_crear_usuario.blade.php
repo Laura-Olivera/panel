@@ -99,7 +99,7 @@
 										<select class="form-control select2" id="area" name="area">
 											<option label="Label"></option>
 											@foreach($areas as $area)
-     										<option value="{{ $area->nombre }}">{{ $area->nombre }} - {{ $area->cve_area }}</option>
+     										<option value="{{ $area->cve_area }}">{{ $area->nombre }} - {{ $area->cve_area }}</option>
 											@endforeach
 										</select>
 									</div>

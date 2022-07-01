@@ -30,7 +30,7 @@
                               <div class="col-md-6">
                                   <div class="form-group">
                                       <label>Correo electronico:</label>
-                                      <input type="email" value=" {{ $proveedor->email }} " class="form-control" placeholder="Correo electronico" id="clave" name="clave" autocomplete="off"/>
+                                      <input type="email" value=" {{ $proveedor->email }} " class="form-control" placeholder="Correo electronico" id="email" name="email" autocomplete="off"/>
                                   </div>
                               </div>
                               <div class="col-md-3">

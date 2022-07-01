@@ -290,3 +290,23 @@ INSERT INTO proveedores(nombre, descrip, path, slug, clave_prov, estatus, create
 ('Mars', 'International Operations', 'Qn2pvs.xls', 'Amazon.com', '042d893f-b3fe-49c8-93b9-e26d2aa15119', 1, 1, 1),
 ('Team Guard SRL', 'Personnel Department', 'F6KEW9.html', 'Biolife Grup', '4952206e-1df8-4118-8c2d-53a08cf5e1bb', 1, 1, 1),
 ('CarMax', 'Property department', 'tKI9kQ.java', 'It Smart Group', '21fcd520-4c18-4ddf-9e6f-9eb5d94db0ea', 1, 1, 1);
+
+
+('PROVEEDOR UNO', 'PROV000001', '1234567890', 'correo@correo.com', TRUE, 1),
+('PROVEEDOR DOS', 'PROV000002', '1234567890', 'correo@correo.com', TRUE, 1),
+('PROVEEDOR TRES', 'PROV000003', '1234567890', 'correo@correo.com', TRUE, 1),
+('PROVEEDOR CUATRO', 'PROV000004', '1234567890', 'correo@correo.com', TRUE, 1),
+('PROVEEDOR CINCO', 'PROV000005', '1234567890', 'correo@correo.com', TRUE, 1);
+
+
+('CATEGORIA UNO', 'CAT0000001', TRUE, 1),
+('CATEGORIA DOS', 'CAT0000002', TRUE, 1),
+('CATEGORIA TRES', 'CAT0000003', TRUE, 1),
+('CATEGORIA CUATRO', 'CAT0000004', TRUE, 1),
+('CATEGORIA CINCO', 'CAT0000005', TRUE, 1);
+
+('AREA UNO', 'AU00000001', TRUE, 1),
+('AREA DOS', 'AD00000002', TRUE, 1),
+('AREA TRES', 'AT00000003', TRUE, 1),
+('AREA CUATRO', 'AC00000004', TRUE, 1),
+('AREA CINCO', 'ACI0000005', TRUE, 1);

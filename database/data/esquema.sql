@@ -95,6 +95,14 @@ CREATE SEQUENCE public.inventario_salidas_id_seq
     NO MAXVALUE
     CACHE 1;
 
+DROP SEQUENCE IF EXISTS public.inventario_entradas_facturas_seq;
+CREATE SEQUENCE public.inventario_entradas_facturas_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 DROP TABLE IF EXISTS public.users;
 CREATE TABLE public.users (
     id BIGINT NOT NULL,
@@ -244,6 +252,7 @@ CREATE TABLE public.productos (
     proveedor_id BIGINT,
     codigo CHARACTER VARYING(255) UNIQUE NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
+    precio_venta DECIMAL(10,2) NOT NULL,
     cantidad SMALLINT,
     categoria_id BIGINT,
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
@@ -256,11 +265,27 @@ CREATE TABLE public.productos (
 DROP TABLE IF EXISTS public.inventario_entradas;
 CREATE TABLE public.inventario_entradas (
     id BIGINT NOT NULL,
+    cve_entrada CHARACTER VARYING(255) UNIQUE NOT NULL,
     proveedor_id BIGINT,
-    factura CHARACTER VARYING(255),
+    factura CHARACTER VARYING(255) UNIQUE,
+    fac_fecha DATE,
     fac_path CHARACTER VARYING(255),
     fac_total DECIMAL(10,2) NOT NULL,
+    fac_notas TEXT,
     notas TEXT,
+    estatus SMALLINT NOT NULL DEFAULT 1,
+    created_user_id BIGINT,
+    updated_user_id BIGINT,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE,
+    updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+);
+
+DROP TABLE IF EXISTS public.inventario_entradas_facturas;
+CREATE TABLE public inventario_entradas_facturas (
+    id BIGINT NOT NULL,
+    entrada_id BIGINT,
+    nombre CHARACTER VARYING(255),
+    path CHARACTER VARYING(255),
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
     created_user_id BIGINT,
     updated_user_id BIGINT,
@@ -272,7 +297,7 @@ DROP TABLE IF EXISTS public.inventario_entradas_productos;
 CREATE TABLE public.inventario_entradas_productos (
     entrada_id BIGINT,
     producto_id BIGINT,
-    catidad SMALLINT,
+    cantidad SMALLINT,
     costo_unit DECIMAL(10,2),
     costo_total DECIMAL(10,2),
     comentario TEXT
