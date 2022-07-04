@@ -7,7 +7,7 @@ $(document).ready(function(){
         processing: true,
         serverSide: true,
         "ordering": true,
-        order: [[2, 'DESC']],
+        order: [[0, 'DESC']],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
@@ -20,7 +20,9 @@ $(document).ready(function(){
             {
                 "mRender": function (data, type, row) {
                     let id = row.id;
-                    let btn = '<a class="btn btn-icon" href="" title="Ver detalle"><i class="icon-xl fa fa-eye text-primary"></i></a>';
+                    let btn= '';
+                    btn += '<div>'+row.cve_entrada+'</div>';
+                    btn += '<div><a class="btn btn-icon" href="" title="Ver detalle"><i class="icon-xl fa fa-eye text-primary"></i></a></div>';
                     return btn;
                 }
             },
@@ -29,7 +31,22 @@ $(document).ready(function(){
             { data: 'fac_total', name: 'fac_total' },
             {   
                 "mRender": function ( data, type, row ) {
-                    return '<span class="label label-lg label-light-'+((row.estatus) ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ ((row.estatus) ? 'Activo' : 'Inactivo') +'</span>';
+                    var estado = '';
+                    switch (row.estatus) {
+                        case 1:
+                            estado = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4"> PAGADO </span>';
+                            break;
+                        case 2:
+                            estado = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4"> POR PAGAR </span>';
+                            break;
+                        case 3:
+                            estado = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4"> CANCELADO </span>';
+                            break;                    
+                        default:
+                            estado = '<span class="label label-lg label-light-info label-inline font-weight-bold py-4"> SIN ESTATUS </span>';
+                            break;
+                    }
+                    return estado;
                 }
             },
             { data: 'notas', name: 'notas' },

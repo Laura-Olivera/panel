@@ -113,7 +113,7 @@ CREATE TABLE public.users (
     rfc CHARACTER VARYING(13),
     cve_usuario CHARACTER VARYING(20) NOT NULL,
     telefono CHARACTER VARYING(10),
-    area CHARACTER VARYING(100),
+    area CHARACTER VARYING(100) NOT NULL,
     usuario CHARACTER VARYING(50) UNIQUE NOT NULL,
     email CHARACTER VARYING(150) NOT NULL,
     password CHARACTER VARYING(150) NOT NULL,
@@ -249,12 +249,12 @@ CREATE TABLE public.productos (
     descrip_tec TEXT,
     modelo CHARACTER VARYING(255),
     marca CHARACTER VARYING(255),
-    proveedor_id BIGINT,
+    proveedor_id BIGINT NOT NULL,
     codigo CHARACTER VARYING(255) UNIQUE NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
     precio_venta DECIMAL(10,2) NOT NULL,
     cantidad SMALLINT,
-    categoria_id BIGINT,
+    categoria_id BIGINT NOT NULL,
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
     created_user_id BIGINT,
     updated_user_id BIGINT,
@@ -273,7 +273,8 @@ CREATE TABLE public.inventario_entradas (
     fac_total DECIMAL(10,2) NOT NULL,
     fac_notas TEXT,
     notas TEXT,
-    estatus SMALLINT NOT NULL DEFAULT 1,
+    estatus CHARACTER VARYING(100) NOT NULL,
+    consecutivo SMALLINT UNIQUE NOT NULL,
     created_user_id BIGINT,
     updated_user_id BIGINT,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
@@ -281,7 +282,7 @@ CREATE TABLE public.inventario_entradas (
 );
 
 DROP TABLE IF EXISTS public.inventario_entradas_facturas;
-CREATE TABLE public inventario_entradas_facturas (
+CREATE TABLE public.inventario_entradas_facturas (
     id BIGINT NOT NULL,
     entrada_id BIGINT,
     nombre CHARACTER VARYING(255),
@@ -304,7 +305,7 @@ CREATE TABLE public.inventario_entradas_productos (
 );
 
 -------------------------------------------
---------ADD SEQUENCE TABLE ID--------------
+--------ADD SEQUENCE TO ID--------------
 -------------------------------------------
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
@@ -352,7 +353,7 @@ SELECT pg_catalog.setval('public.productos_id_seq', 1, false);
 SELECT pg_catalog.setval('public.inventario_entradas_id_seq', 1, false);
 
 -------------------------------------------
---------ADD PRIMARY KEY TABLE.ID-----------
+--------ADD PRIMARY KEY TO ID-----------
 -------------------------------------------
 
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_pkey PRIMARY KEY (id);

@@ -7,7 +7,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         "ordering": true,
-        order: [1],
+        order: [0, 'DESC'],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'

@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="form" id="frm_nueva_entrada" name="frm_nueva_entrada">
+                        {{ Form::open(['url' => 'foo/bar','method' => 'POST','name'=>'frm_nueva_entrada','id'=>'frm_nueva_entrada','files' => true, 'class' => 'form']) }}
                             <div class="form-group row">
                                 <div class="col-lg-12">
                                     <label>Proveedor:</label>
@@ -40,7 +40,7 @@
                                 <div class="col-lg-6">
                                     <label>Fecha de facturación:</label>
                                     <div class="input-group date">                                        
-                                        <input type="text" class="form-control" id="fac_fecha" readonly="readonly" placeholder="Seleccione la fecha de facturacion" />
+                                        <input type="text" class="form-control" id="fac_fecha" name="fac_fecha" placeholder="Seleccione la fecha de facturacion" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="la la-calendar-check-o"></i>
@@ -58,9 +58,9 @@
                                     <label>Estatus de la factura:</label>
                                     <select class="form-control select2" name="estatus" id="estatus">
                                         <option value=""></option>
-                                        <option value="1">PAGADA</option>
-                                        <option value="2">POR PAGAR</option>
-                                        <option value="3">CANCELADA</option>
+                                        <option value="PAGADA">PAGADA</option>
+                                        <option value="POR PAGAR">POR PAGAR</option>
+                                        <option value="CANCELADA">CANCELADA</option>
                                     </select>
                                 </div>
                             </div>                            
@@ -68,7 +68,7 @@
                                 <div class="col-lg-6">
                                     <label for="">Factura digital:</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="fac_path" aria-describedby="fac_path" accept="pdf">
+                                        <input type="file" class="custom-file-input" id="fac_path" name="fac_path" accept="pdf">
                                         <label class="custom-file-label" for="fac_path">Seleccione la factura digital</label>
                                     </div>
                                 </div>
@@ -97,12 +97,13 @@
                                     </button>
                                 </div>
 
-                            </div> --}}
-                        </form>                        
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-danger font-weight-bold" onClick="window.history.go(-1);">Cancelar</button>
-                            <button type="button" class="btn btn-primary font-weight-bold" onclick="store_producto();">Registrar</button>
-                        </div>                        
+                            </div> --}}                     
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-danger font-weight-bold" onClick="window.history.go(-1);">Cancelar</button>
+                                <button type="button" class="btn btn-primary font-weight-bold" name="registrar" id="registrar">Registrar</button>
+                            </div>      
+                        
+                        {!! Form::close() !!}                    
                     </div>
                 </div>
                 <!--end::Card-->

@@ -36,10 +36,10 @@
                         <tr>
                             <th>Entrada</th>
                             <th>Proveedor</th>
-                            <th>Total</th>
-							<th>Notas</th>
+                            <th>Fecha</th>
+							<th>Total</th>
                             <th>Estatus</th>
-                            <th>Acciones</th>
+                            <th>Notas</th>
                         </tr>
                     </thead>
                 </table>

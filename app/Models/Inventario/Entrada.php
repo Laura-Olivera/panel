@@ -12,13 +12,16 @@ class Entrada extends Model
     public $timestamps = true;
     protected $fillable = [
         'id',
+        'cve_entrada',
         'proveedor_id',
         'factura',
         'fac_fecha',
         'fac_path',
         'fac_total',
+        'fac_notas',
         'notas',
         'estatus',
+        'consecutivo',
         'created_user_id',
         'updated_user_id',
     ];

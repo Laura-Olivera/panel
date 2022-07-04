@@ -20,7 +20,7 @@ $(document).ready(function (){
 		todayHighlight: true,
 		autoclose: true,
 		format: 'yyyy-mm-dd',
-        language: 'en'
+        language: 'es'
     });
 
     $('#fac_fecha').val(today);
@@ -33,33 +33,82 @@ $(document).ready(function (){
         var parent = $(this).parents().get(0);
         $(parent).remove();
     });
+
+    $("#registrar").on('click', function() {
+        var form = $('#frm_nueva_entrada');
+        var validarForm = validar(form);
+        if(validarForm){
+            $.ajax({
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },                
+				contentType: false,
+				processData: false,          
+                url: "store",
+                type: 'POST',
+                data: new FormData($('#frm_nueva_entrada')[0]),
+                dataType: 'json',
+                success: function (respuesta) {
+                    if (respuesta.success == true) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: respuesta.message,
+                            timer: 1500
+                        }).then((result) => {
+                            //window.location = '/inventario/entradas/ver_entrada';
+
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: respuesta.message,
+                            timer: 1500
+                        }).then((result) => {
+                            console.log(result);
+
+                        });
+                    }
+                },
+                error: function (xhr) { //xhr
+                    if (xhr.responseJSON) {
+                        if (xhr.responseJSON.errors) {
+                            imprimirMensajesDeError(xhr.responseJSON.errors);
+                        }
+                    } else {
+                        Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+                    }
+                },
+                beforeSend: function () {
+                    KTApp.blockPage({
+                        overlayColor: '#000000',
+                        type: 'v2',
+                        state: 'success',
+                        zIndex: 3000
+                    });
+                },
+                complete: function () {
+                    KTApp.unblockPage();
+                },
+            });
+        }else{
+            return false;
+        }
+    });
 });
 
-function store_producto(){
-    var form = $('#frm_nuevo_producto');
+function store_entrada(){
+    var form = $('#frm_nueva_entrada');
     var validarForm = validar(form);
     if(validarForm){
-        let data = {
-            nombre: $('#nombre').val(),
-            codigo: $('#codigo').val(),
-            modelo: $('#modelo').val(),
-            marca: $('#marca').val(),
-            proveedor: $('#proveedor').val(),
-            categoria: $('#categoria').val(),
-            costo: $('#costo').val(),
-            venta: $('#venta').val(),
-            cantidad: $('#cantidad').val(),
-            general: $('#general').val(),
-            tecnica: texto.getData(),
-            estatus: $('#estatus').is(':checked') ? true : false,
-        };
         $.ajax({
             headers : {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             url: "store",
             type: 'POST',
-            data: data,
+            data: new FormData($('#frm_nueva_entrada')[0]),
             dataType: 'json',
             success: function (respuesta) {
                 if (respuesta.success == true) {
@@ -69,7 +118,7 @@ function store_producto(){
                         text: respuesta.message,
                         timer: 1500
                     }).then((result) => {
-                        window.location = '/catalogos/productos';
+                        //window.location = '/inventario/entradas/ver_entrada';
 
                     });
                 } else {
@@ -110,21 +159,17 @@ function store_producto(){
     }
 }
 
-function update_producto(){
+function update_entrada(){
     let data = {
         id: $('#id').val(),
-        nombre: $('#nombre').val(),
-        codigo: $('#codigo').val(),
-        modelo: $('#modelo').val(),
-        marca: $('#marca').val(),
         proveedor: $('#proveedor').val(),
-        categoria: $('#categoria').val(),
-        costo: $('#costo').val(),
-        venta: $('#venta').val(),
-        cantidad: $('#cantidad').val(),
-        general: $('#general').val(),
-        tecnica: texto.getData(),
-        estatus: $('#estatus').is(':checked') ? true : false,
+        factura: $('#factura').val(),
+        fac_fecha: $('#fac_fecha').val(),
+        fac_total: $('#fac_total').val(),
+        estatus: $('#estatus').val(),
+        fac_path: $('#fac_path'),
+        fac_notas: $('#fac_notas').val(),
+        notas: $('#notas').val(),
     };
     $.ajax({
         headers : {
@@ -142,7 +187,7 @@ function update_producto(){
                     text: respuesta.message,
                     timer: 1500
                 }).then((result) => {
-                    window.location = '/catalogos/productos';
+                    //window.location = '/inventario/entradas/ver_entrada';
 
                 });
             } else {
@@ -200,6 +245,8 @@ function validar(form){
             },
             fac_path: {
                 required: true,
+                extension: "pdf",
+                //maxsize: $max_upload_facturas_size,
             },
             fac_notas: {
                 required: true,
