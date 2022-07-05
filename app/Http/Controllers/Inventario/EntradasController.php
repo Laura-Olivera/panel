@@ -40,6 +40,7 @@ class EntradasController extends Controller
         try {
             $user = Auth::user()->id;
             $year = date('Y');
+            dd($request->all());
             $consecutivo = DB::table('inventario_entradas')->select('consecutivo')->orderBy('consecutivo', 'desc')->first();
             $conse = ($consecutivo) ? $consecutivo->consecutivo + 1 : 1;
             $folio = $this->folioEntrada($year, $conse, 'ENTRADA');
@@ -64,6 +65,14 @@ class EntradasController extends Controller
                 'consecutivo' => $conse,
                 'created_user_id' => $user,
             ]);
+            if ($entrada) {
+                if ($request->input('agregar_modelo')) {
+                    $modelos = $request->input('modelo');
+                    foreach ($modelos as $modelo) {
+                       
+                    }
+                }
+            }
             DB::commit();
             $response = ['success' => true, 'message' => 'Entrada registrada correctamente.'];
         } catch (\Throwable $th) {

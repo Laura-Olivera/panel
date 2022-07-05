@@ -26,7 +26,24 @@ $(document).ready(function (){
     $('#fac_fecha').val(today);
 
     $("#adicional").on('click', function() {
-        $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
+        var cve_prod = $("#cve_prod").val();
+        var cant_prod = $("#cant_prod").val();
+        var pre_prod = $("#pre_prod").val();
+        var nota_prod = $("#nota_prod").val();
+        let append = '<tr class="fila-fija">'+
+                         '<td><input id="cve_prod" name="cve_prod[]" placeholder="Clave del producto"'+
+                                 'class="form-control" type="text" value= "'+ cve_prod +'" disabled/></td>' +                                               
+                         '<td><input id="pre_prod" name="pre_prod[]" placeholder="Precio total"' +
+                             'class="form-control" type="text" value= "'+ cant_prod +'" disabled /></td>' +
+                         '<td><input id="cant_prod" name="cant_prod[]" placeholder="Cantidad total"' +
+                                 'class="form-control" type="text" value= "'+ pre_prod +'" disabled /></td>' +
+                         '<td><input id="nota_prod" name="nota_prod[]" placeholder="Observaciones"' +
+                             'class="form-control" type="text" value= "'+ nota_prod +'" disabled /></td>' +
+                         '<td class="eliminar" id="delete-row"><button type="button" class="btn btn-danger">-</button></td>' +
+                     '</tr>';
+
+        $(append).appendTo("#tabla-agregar");
+        /* $("#tabla-busqueda input").val(""); */
     });
 
     $(document).on("click", ".eliminar", function() {
@@ -97,133 +114,6 @@ $(document).ready(function (){
         }
     });
 });
-
-function store_entrada(){
-    var form = $('#frm_nueva_entrada');
-    var validarForm = validar(form);
-    if(validarForm){
-        $.ajax({
-            headers : {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "store",
-            type: 'POST',
-            data: new FormData($('#frm_nueva_entrada')[0]),
-            dataType: 'json',
-            success: function (respuesta) {
-                if (respuesta.success == true) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "¡Exito!",
-                        text: respuesta.message,
-                        timer: 1500
-                    }).then((result) => {
-                        //window.location = '/inventario/entradas/ver_entrada';
-
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "¡Alerta!",
-                        text: respuesta.message,
-                        timer: 1500
-                    }).then((result) => {
-                        console.log(result);
-                        
-                    });
-                }
-            },
-            error: function (xhr) { //xhr
-                if (xhr.responseJSON) {
-                    if (xhr.responseJSON.errors) {
-                        imprimirMensajesDeError(xhr.responseJSON.errors);
-                    }
-                } else {
-                    Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
-                }
-            },
-            beforeSend: function () {
-                KTApp.blockPage({
-                    overlayColor: '#000000',
-                    type: 'v2',
-                    state: 'success',
-                    zIndex: 3000
-                });
-            },
-            complete: function () {
-                KTApp.unblockPage();
-            },
-        });
-    }else{
-        return false;
-    }
-}
-
-function update_entrada(){
-    let data = {
-        id: $('#id').val(),
-        proveedor: $('#proveedor').val(),
-        factura: $('#factura').val(),
-        fac_fecha: $('#fac_fecha').val(),
-        fac_total: $('#fac_total').val(),
-        estatus: $('#estatus').val(),
-        fac_path: $('#fac_path'),
-        fac_notas: $('#fac_notas').val(),
-        notas: $('#notas').val(),
-    };
-    $.ajax({
-        headers : {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        url: "update",
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function (respuesta) {
-            if (respuesta.success == true) {
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Exito!",
-                    text: respuesta.message,
-                    timer: 1500
-                }).then((result) => {
-                    //window.location = '/inventario/entradas/ver_entrada';
-
-                });
-            } else {
-                Swal.fire({
-                    icon: "warning",
-                    title: "¡Alerta!",
-                    text: respuesta.message,
-                    timer: 1500
-                }).then((result) => {
-                    console.log(result);
-                    
-                });
-            }
-        },
-        error: function (xhr) { //xhr
-            if (xhr.responseJSON) {
-                if (xhr.responseJSON.errors) {
-                    imprimirMensajesDeError(xhr.responseJSON.errors);
-                }
-            } else {
-                Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
-            }
-        },
-        beforeSend: function () {
-            KTApp.blockPage({
-                overlayColor: '#000000',
-                type: 'v2',
-                state: 'success',
-                zIndex: 3000
-            });
-        },
-        complete: function () {
-            KTApp.unblockPage();
-        },
-    });
-}
 
 function validar(form){
     var validator = form.validate({

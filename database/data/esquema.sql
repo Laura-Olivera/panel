@@ -299,7 +299,6 @@ CREATE TABLE public.inventario_entradas_productos (
     entrada_id BIGINT,
     producto_id BIGINT,
     cantidad SMALLINT,
-    costo_unit DECIMAL(10,2),
     costo_total DECIMAL(10,2),
     comentario TEXT
 );

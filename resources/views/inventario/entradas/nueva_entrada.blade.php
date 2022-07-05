@@ -83,21 +83,34 @@
                                     <textarea class="form-control" name="notas" id="notas" rows="5">Sin Observaciones</textarea>
                                 </div>
                             </div>
-                            {{-- <div id="tabla_modelo">
-                                <table class="table" id="tabla">
-                                    <tr class="fila-fija">
-                                        <td><input required id="modelo" name="modelo[]" placeholder="Modelo"
-                                                class="form-control border border-dark" type="text" /></td>
-                                        <td class="eliminar"><input type="button" value="Menos -" class="btn btn-danger"/></td>
-                                    </tr>
+                            <div id="tabla_modelo">
+                                <table class="table" id="tabla-busqueda">
+                                    <tbody id="tabla-agregar">
+                                        <tr class="fila-fija">
+                                            <td><input id="cve_prod" name="cve_prod[]" placeholder="Clave del producto"
+                                                    class="form-control" type="text" /></td>                                                
+                                            <td><input id="pre_prod" name="pre_prod[]" placeholder="Precio total"
+                                                class="form-control" type="text" /></td>
+                                            <td><input id="cant_prod" name="cant_prod[]" placeholder="Cantidad total"
+                                                    class="form-control" type="text" /></td>
+                                            <td><input id="nota_prod" name="nota_prod[]" placeholder="Observaciones"
+                                                class="form-control" type="text" /></td>
+                                            <td class="eliminar d-none" id="delete-row"><button type="button" class="btn btn-danger">-</button></td>
+                                        </tr>
+                                    </tbody>
                                 </table>
-
-                                <div class="btn-der">
-                                    <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Más +
-                                    </button>
+                                <div class="form-group row">
+                                    <div class="col-lg-12 text-right">
+                                        <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Agregar
+                                        </button>
+                                    </div>
                                 </div>
+                                {{-- <table class="table">
+                                    <tbody id="tabla-agregar">
 
-                            </div> --}}                     
+                                    </tbody>
+                                </table> --}}
+                            </div>                     
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-danger font-weight-bold" onClick="window.history.go(-1);">Cancelar</button>
                                 <button type="button" class="btn btn-primary font-weight-bold" name="registrar" id="registrar">Registrar</button>
