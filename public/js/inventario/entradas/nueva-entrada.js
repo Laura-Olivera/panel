@@ -14,7 +14,7 @@ $(document).ready(function (){
     });
 
     $('#fac_fecha').datepicker({
-        startDate: new Date('01-01-2014'),
+        startDate: new Date('01-01-2000'),
 		endDate: new Date(),	
 		orientation: "bottom left",
 		todayHighlight: true,
@@ -24,32 +24,6 @@ $(document).ready(function (){
     });
 
     $('#fac_fecha').val(today);
-
-    $("#adicional").on('click', function() {
-        var cve_prod = $("#cve_prod").val();
-        var cant_prod = $("#cant_prod").val();
-        var pre_prod = $("#pre_prod").val();
-        var nota_prod = $("#nota_prod").val();
-        let append = '<tr class="fila-fija">'+
-                         '<td><input id="cve_prod" name="cve_prod[]" placeholder="Clave del producto"'+
-                                 'class="form-control" type="text" value= "'+ cve_prod +'" disabled/></td>' +                                               
-                         '<td><input id="pre_prod" name="pre_prod[]" placeholder="Precio total"' +
-                             'class="form-control" type="text" value= "'+ cant_prod +'" disabled /></td>' +
-                         '<td><input id="cant_prod" name="cant_prod[]" placeholder="Cantidad total"' +
-                                 'class="form-control" type="text" value= "'+ pre_prod +'" disabled /></td>' +
-                         '<td><input id="nota_prod" name="nota_prod[]" placeholder="Observaciones"' +
-                             'class="form-control" type="text" value= "'+ nota_prod +'" disabled /></td>' +
-                         '<td class="eliminar" id="delete-row"><button type="button" class="btn btn-danger">-</button></td>' +
-                     '</tr>';
-
-        $(append).appendTo("#tabla-agregar");
-        /* $("#tabla-busqueda input").val(""); */
-    });
-
-    $(document).on("click", ".eliminar", function() {
-        var parent = $(this).parents().get(0);
-        $(parent).remove();
-    });
 
     $("#registrar").on('click', function() {
         var form = $('#frm_nueva_entrada');
@@ -73,7 +47,7 @@ $(document).ready(function (){
                             text: respuesta.message,
                             timer: 1500
                         }).then((result) => {
-                            //window.location = '/inventario/entradas/ver_entrada';
+                            window.location = '/inventario/entradas/ver_entrada/' + respuesta.entrada;
 
                         });
                     } else {

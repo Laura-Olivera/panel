@@ -22,7 +22,7 @@ $(document).ready(function(){
                     let id = row.id;
                     let btn= '';
                     btn += '<div>'+row.cve_entrada+'</div>';
-                    btn += '<div><a class="btn btn-icon" href="" title="Ver detalle"><i class="icon-xl fa fa-eye text-primary"></i></a></div>';
+                    btn += '<div><a class="btn btn-icon" href="entradas/ver_entrada/'+ row.cve_entrada +'" title="Ver detalle"><i class="icon-xl fa fa-eye text-primary"></i></a></div>';
                     return btn;
                 }
             },

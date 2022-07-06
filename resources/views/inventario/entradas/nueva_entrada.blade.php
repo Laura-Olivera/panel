@@ -58,9 +58,9 @@
                                     <label>Estatus de la factura:</label>
                                     <select class="form-control select2" name="estatus" id="estatus">
                                         <option value=""></option>
-                                        <option value="PAGADA">PAGADA</option>
-                                        <option value="POR PAGAR">POR PAGAR</option>
-                                        <option value="CANCELADA">CANCELADA</option>
+                                        <option value="1">PAGADA</option>
+                                        <option value="2">POR PAGAR</option>
+                                        <option value="3">CANCELADA</option>
                                     </select>
                                 </div>
                             </div>                            

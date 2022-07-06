@@ -32,6 +32,11 @@ class User extends Authenticatable
         'intentos',
     ];
 
+    public function entradas()
+    {
+        return $this->hasMany(Entrada::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -26,6 +26,11 @@ class Entrada extends Model
         'updated_user_id',
     ];
 
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function productos()
     {
         return $this->belongsToMany(Producto::class);

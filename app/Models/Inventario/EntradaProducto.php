@@ -13,7 +13,6 @@ class EntradaProducto extends Model
         'entrada_id',
         'producto_id',
         'cantidad',
-        'costo_unit',
         'costo_total',
         'comentario',
     ];

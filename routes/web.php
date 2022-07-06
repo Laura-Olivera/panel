@@ -102,6 +102,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/entradas/listar_entradas',[App\Http\Controllers\Inventario\EntradasController::class, 'listar_entradas']);
         Route::get('/entradas/create', [App\Http\Controllers\Inventario\EntradasController::class, 'create']);
         Route::post('/entradas/store', [App\Http\Controllers\Inventario\EntradasController::class, 'store']);
+        Route::get('/entradas/ver_entrada/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'show']);
+        Route::get('/entradas/ver_entrada/buscar_prod/{codigo}', [\App\Http\Controllers\Inventario\EntradasController::class, 'buscar_producto']);
+        Route::post('/entrada/ver_entrada/entrada_producto', [App\Http\Controllers\Inventario\EntradasController::class, 'entrada_producto']);
     });
 
 });
