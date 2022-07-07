@@ -105,29 +105,48 @@ class EntradasController extends Controller
 
     public function entrada_producto(Request $request)
     {
-        dd($request->all());
         try {
-            DB::beginTransaction();
-            $entrada_producto = EntradaProducto::create([
-                'entrada_id' => $request->id,
-                'producto_id' => $request->id_prod,
-                'cantidad' => $request->cant_prod,
-                'costo_total' => $request->pre_prod,
-                'comentario' => $request->nota_prod
-            ]);
-            DB::commit();
-            $producto = Producto::findOrFail($request->id);
-            $nuevaCantidad = $producto->cantidad + $request->cantidad;
-            DB::beginTransaction();
-            $producto->cantidad = $nuevaCantidad;
-            $producto->updated_user_id = Auth::user()->id;
-            $producto->save();
-            DB::commit();
 
-            $response = ['success' => true];
+            $existe = EntradaProducto::where('entrada_id', '=', $request->id)->where('producto_id', '=', $request->id_prod)->exists();
+
+            if($existe){    
+                $response = ['success' => false, 'message' => 'El producto ya ha sido agregado a la entrada.'];                
+            }else{
+                DB::beginTransaction();
+                $entrada_producto = EntradaProducto::create([
+                    'entrada_id' => $request->id,
+                    'producto_id' => $request->id_prod,
+                    'cantidad' => $request->cant_prod,
+                    'costo_total' => $request->pre_prod,
+                    'comentario' => $request->nota_prod
+                ]);
+                DB::commit();
+                if ($entrada_producto) {
+                    $producto = Producto::findOrFail($request->id);
+                    $nuevaCantidad = $producto->cantidad + $request->cant_prod;
+                    DB::beginTransaction();
+                    $producto->cantidad = $nuevaCantidad;
+                    $producto->updated_user_id = Auth::user()->id;
+                    $producto->save();
+                    DB::commit();
+                }
+                $data = request();
+                $accion = 'Registro nuevo producto en entrada';
+                Bitacora::usuarios($data, $accion);
+                $data_prod = [
+                    'producto' => $producto->codigo,
+                    'cantidad' => $request->cant_prod,
+                    'total' => $request->pre_prod,
+                    'notas' => $request->notas
+                ];
+                $response = ['success' => true, 'message' => 'El producto se agrego a la entrada.', 'data' => $data_prod];
+            }
 
         } catch (\Throwable $th) {
-            $response = ['success' => false];
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear entrada producto', 'warning');
+            $response = ['success' => false, 'message' => 'Ha ocurrido un error, intente mas tarde.'];
         }
 
         return $response;

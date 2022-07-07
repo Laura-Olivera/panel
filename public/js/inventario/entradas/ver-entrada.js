@@ -30,12 +30,13 @@ $(document).ready(function(){
         ],
     }); */
 
-    var producto = $("#cve_prod");
-    producto.change(function(){
+    
+    $("#cve_prod").change(function(){
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
             }, 
+            type: 'GET',
             url: "buscar_prod/" + this.value,
             datatype: 'json',
             success: function(response){
@@ -48,8 +49,7 @@ $(document).ready(function(){
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",
-                        text: 'El producto no existe.',
-                        timer: 1500
+                        text: 'El producto no existe.'
                     });
                 }
             },
@@ -93,23 +93,15 @@ function show_form_producto(){
     $("#cve_prod").focus();
 }
 
-function entrada_producto_store()
+function entrada_producto()
 {
     let data = {
-        id: $("#id").val(),
-        id_prod: $("#id_prod").val(),
-        cve_prod: $("#cve_prod").val(),
-        cant_prod: $("#cant_prod").val(),
-        pre_prod: $("#costo_prod").val(),
-        nota_prod: $("#nota_prod").val(),
+        id: $('#id').val(),
+        id_prod: $('#id_prod').val(),
+        cant_prod: $('#cant_prod').val(),
+        pre_prod: $('#costo_prod').val(),
+        nota_prod: $('#nota_prod').val()
     };
-
-    let append = '<tr>'+
-                    '<td class="pt-4"></td>' +
-                    '<td class="text-right pt-4">80</td>' +
-                    '<td class="text-right pt-4">$40.00</td>' +
-                    '<td class="pt-4">$3200.00</td>' +
-                '</tr>';
 
     $.ajax({
         headers: {
@@ -118,25 +110,34 @@ function entrada_producto_store()
         url: "entrada_producto",
         type: 'POST',
         data: data,
-        datatype: 'json',
+        dataType: 'json',
         success: function(response){
             if (response.success) {
                 Swal.fire({
                     icon: "success",
                     title: "¡Exito!",
-                    text: 'El producto se registro.',
+                    text: response.message,
                     timer: 1500
+                }).then((result) => {
+                    var datos = response.data;
+                    let append = '<tr>'+
+                                    '<td class="pt-4">'+ datos.producto +'</td>' +
+                                    '<td class="text-right pt-4">'+ datos.cantidad +'</td>' +
+                                    '<td class="text-right pt-4">$'+ datos.total +'</td>' +
+                                    '<td class="pt-4">'+ datos.notas +'</td>' +
+                                    '<td><button type="button" class="btn btn-danger">-</button></td>' +
+                                '</tr>';
                 });
             } else {
                 Swal.fire({
                     icon: "warning",
                     title: "¡Alerta!",
-                    text: 'El producto no existe.',
-                    timer: 1500
+                    text: response.message
                 });
             }
         },
         error: function (xhr) {
+            console.log(xhr);
             Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
         },
         beforeSend: function () {

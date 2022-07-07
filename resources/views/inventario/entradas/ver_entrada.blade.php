@@ -125,10 +125,10 @@
                             </form>                            
                             <div class="col-md-12 text-right">
                                 <button id="close-form" name="close-form" type="button" class="btn btn-sm btn-light-danger"> Cancelar</button>
-                                <button type="button" class="btn btn-sm btn-light-success" onclick="entrada_producto_store();"> Agregar</button>
+                                <button type="button" class="btn btn-sm btn-light-success" onclick="entrada_producto();"> Agregar</button>
                             </div>
                         </div>
-                        <br>
+                        <br><br>
                         <div class="col-md-9">
                             <div class="table-responsive">
                                 <table class="table" id="entrada-productos-table">
