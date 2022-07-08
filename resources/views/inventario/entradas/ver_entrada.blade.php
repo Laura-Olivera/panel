@@ -125,7 +125,7 @@
                             </form>                            
                             <div class="col-md-12 text-right">
                                 <button id="close-form" name="close-form" type="button" class="btn btn-sm btn-light-danger"> Cancelar</button>
-                                <button type="button" class="btn btn-sm btn-light-success" onclick="entrada_producto();"> Agregar</button>
+                                <button type="button" class="btn btn-sm btn-light-success" id="agregar-ent-prod" name="agregar-ent-prod"> Agregar</button>
                             </div>
                         </div>
                         <br><br>
@@ -134,15 +134,31 @@
                                 <table class="table" id="entrada-productos-table">
                                     <thead>
                                         <tr>
-                                            <th class="pl-0 font-weight-bold text-muted text-uppercase">Producto</th>
-                                            <th class="text-right font-weight-bold text-muted text-uppercase">Cantidad</th>
-                                            <th class="text-right font-weight-bold text-muted text-uppercase">Total</th>
-                                            <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Observaciones</th>
-                                            <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Acciones</th>
+                                            <th class="pl-0 font-weight-boldest text-uppercase">Producto</th>
+                                            <th class="text-right font-weight-boldest text-uppercase">Cantidad</th>
+                                            <th class="text-right font-weight-boldest text-uppercase">Total</th>
+                                            <th class="pr-0 font-weight-boldest text-uppercase">Observaciones</th>
+                                            <th class="pr-0 font-weight-boldest text-uppercase">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody-productos">
-                                        
+                                        @if (count($entrada_productos) > 0)
+                                        @foreach ($entrada_productos as $ent_prod)
+                                        <tr class="font-weight-boldest font-size-lg" id="{{ $ent_prod->producto }}">
+                                            <td class="pt-4"> {{ $ent_prod->producto }} </td> 
+                                            <td class="text-right pt-4"> {{ $ent_prod->cantidad }} </td> 
+                                            <td class="text-right pt-4">$ {{ $ent_prod->costo_total }} </td> 
+                                            <td class="pt-4"> {{ $ent_prod->comentario }} </td> 
+                                            <td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                                <button type="button" class="btn btn-info" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
+                                            </td> 
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                        <tr class="font-weight-bold font-size-lg" id="empty-ent-prod">
+                                            <td class="text-center pt-4"> No existen productos en la entrada </td> 
+                                        </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

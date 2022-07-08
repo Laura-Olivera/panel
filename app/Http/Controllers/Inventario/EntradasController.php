@@ -89,8 +89,13 @@ class EntradasController extends Controller
             ->where('inventario_entradas.cve_entrada', '=', $cve_entrada)
             ->first();
         $entrada->created_at = \Carbon\Carbon::parse($entrada->created_at)->format('Y-m-d');
-        return view('inventario.entradas.ver_entrada', compact('entrada'));
+        $entrada_productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
+            ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
+            ->where('inventario_entradas_productos.entrada_id', '=', $entrada->id)->get();
+        return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos'));
     }
+
+    //select "inventario_entradas_producto".*, "productos"."codigo" as "producto" from "inventario_entradas_productos" inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" where "inventario_entradas_productos"."entrada_id" = 4;
 
     public function buscar_producto($codigo)
     {
@@ -112,6 +117,9 @@ class EntradasController extends Controller
             if($existe){    
                 $response = ['success' => false, 'message' => 'El producto ya ha sido agregado a la entrada.'];                
             }else{
+                if(is_null($request->nota_prod)){
+                    $request->nota_prod = "SIN OBSERVACIONES";
+                }
                 DB::beginTransaction();
                 $entrada_producto = EntradaProducto::create([
                     'entrada_id' => $request->id,
@@ -122,7 +130,7 @@ class EntradasController extends Controller
                 ]);
                 DB::commit();
                 if ($entrada_producto) {
-                    $producto = Producto::findOrFail($request->id);
+                    $producto = Producto::findOrFail($request->id_prod);
                     $nuevaCantidad = $producto->cantidad + $request->cant_prod;
                     DB::beginTransaction();
                     $producto->cantidad = $nuevaCantidad;
@@ -131,13 +139,18 @@ class EntradasController extends Controller
                     DB::commit();
                 }
                 $data = request();
+                if (is_null($data['nota_prod'])) {
+                    $data['nota_prod'] = 'SIN OBSERVACIONES';
+                }
                 $accion = 'Registro nuevo producto en entrada';
                 Bitacora::usuarios($data, $accion);
                 $data_prod = [
+                    'entrada_id' => $request->id,
+                    'producto_id' => $request->id_prod,
                     'producto' => $producto->codigo,
                     'cantidad' => $request->cant_prod,
                     'total' => $request->pre_prod,
-                    'notas' => $request->notas
+                    'notas' => $request->nota_prod
                 ];
                 $response = ['success' => true, 'message' => 'El producto se agrego a la entrada.', 'data' => $data_prod];
             }
@@ -149,6 +162,55 @@ class EntradasController extends Controller
             $response = ['success' => false, 'message' => 'Ha ocurrido un error, intente mas tarde.'];
         }
 
+        return $response;
+    }
+
+    public function eliminar_producto()
+    {
+
+    }
+
+    public function editar_producto($entrada_id, $producto_id)
+    {
+        $entrada_producto = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
+        ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
+        ->where('inventario_entradas_productos.producto_id', '=', $producto_id)
+        ->where('inventario_entradas_productos.entrada_id', '=', $entrada_id)->first();
+        return view('inventario.entradas.models.modal_edit_producto_entrada', compact('entrada_producto'));
+    }
+
+    public function guardar_edit(Request $request)
+    {
+        $entrada_producto = EntradaProducto::where('producto_id', '=', $request->id_prod)->where('entrada_id', '=', $request->id)->first();
+        $producto = Producto::findOrFail($request->id_prod);
+        try {
+            if(is_null($request->nota_prod)){
+                $request->nota_prod = "SIN OBSERVACIONES";
+            }
+            $cantidad_anterior = $producto->cantidad - $entrada_producto->cantidad;
+            DB::beginTransaction();
+            $entrada_producto->cantidad = $request->cant_prod;
+            $entrada_producto->costo_total = $request->pre_prod;
+            $entrada_producto->comentario = $request->nota_prod;
+            $entrada_producto->save();
+            DB::commit();
+            $nuevaCantidad = $request->cant_prod + $cantidad_anterior;
+            DB::beginTransaction();
+            $producto->cantidad = $nuevaCantidad;
+            $producto->updated_user_id = Auth::users()->id;
+            $data = request();
+            if (is_null($data['nota_prod'])) {
+                $data['nota_prod'] = 'SIN OBSERVACIONES';
+            }
+            $accion = 'Actualizacion de producto en entrada';
+            Bitacora::usuarios($data, $accion);
+            $response = ['success' => true, 'message' => 'Producto actualizado correctamente.'];
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar entrada producto', 'warning');
+            $response = ['success' => false, 'message' => 'Ha ocurrido un error, intente mas tarde.'];
+        }
         return $response;
     }
 

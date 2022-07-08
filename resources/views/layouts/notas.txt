@@ -235,3 +235,20 @@ function codigo_postal(){
         });
     });
 }
+
+
+
+QUERY
+
+--select inventario_entradas_productos.*, productos.codigo as producto
+--from "inventario_entradas_productos" 
+--inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" 
+--WHERE inventario_entradas_productos.producto_id = 3
+--and "inventario_entradas_productos"."entrada_id" = 4;
+
+DELETE FROM inventario_entradas_productos WHERE entrada_id = 4;
+
+--select "inventario_entradas_productos".*, "productos"."codigo" as "producto" 
+--from "inventario_entradas_productos" 
+--inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" 
+--where "inventario_entradas_productos"."producto_id" = 1 and "inventario_entradas_productos"."entrada_id" = 4; 

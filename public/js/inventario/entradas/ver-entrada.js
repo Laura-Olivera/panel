@@ -1,36 +1,7 @@
 "use strict";
 
 $(document).ready(function(){
-    
-   /*  var tbEntradaProductos = $('#entrada-productos-table').DataTable({
-        processing: false,
-        serverSide: false,
-        "ordering": false,
-        responsive: true,
-        language: {
-            "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
-        },
-        ajax: {
-            "url": "entradas/ver_entrada/listar_entrada_productos",
-            "type": "GET",
-        },
-        columns: [
-            { data: 'codigo', name: 'codigo' },
-            { data: 'cantidad', name: 'cantidad' },
-            { data: 'costo_total', name: 'costo_total' },
-            { data: 'comentario', name: 'comentario' },
-            {
-                "mRender": function (data, type, row) {
-                    let id = row.id;
-                    let btn= '';
-                    btn += '<div><a class="btn btn-icon" href="" title="Eliminar"><i class="icon-xl fas fa-trash text-primary"></i></a></div>';
-                    return btn;
-                }
-            },
-        ],
-    }); */
-
-    
+  
     $("#cve_prod").change(function(){
         $.ajax({
             headers: {
@@ -70,6 +41,10 @@ $(document).ready(function(){
         })
     });
 
+    $("#agregar-ent-prod").on('click', function(){
+        entrada_producto();
+    });
+
     $("#close-form").on('click', function(){
         $("#add-producto").addClass('d-none');
         $("#id_prod").val("");
@@ -81,7 +56,7 @@ $(document).ready(function(){
         $("#nota_prod").val("");
     });
 
-    $(document).on("click", ".eliminar", function() {
+    $("#borrar-producto").on("click", function() {
         var parent = $(this).parents().get(0);
         $(parent).remove();
     });
@@ -113,20 +88,24 @@ function entrada_producto()
         dataType: 'json',
         success: function(response){
             if (response.success) {
+                $("#empty-ent-prod").remove();
+                /* var datos = response.data;
+                let append = '<tr class="font-weight-boldest font-size-lg" id="'+ datos.producto +'">' +
+                                '<td class="pt-4"> '+ datos.producto +' </td> ' +
+                                '<td class="text-right pt-4"> '+ datos.cantidad +' </td>' +
+                                '<td class="text-right pt-4">$ '+ datos.total +' </td> ' +
+                                '<td class="pt-4"> '+ datos.notas +' </td> ' +
+                                '<td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclic="">-</button>' +
+                                    '<button type="button" class="btn btn-info" name="editar_producto" id="editar-producto" onclic="editar_entrada_producto('+ datos.entrada_id + ',' + datos.producto_id + ');">editar</button>' +
+                                '</td> ' +
+                            '</tr>';
+                $(append).appendTo("#tbody-productos"); */
+                $("#entrada-productos-table").load(" #entrada-productos-table");
                 Swal.fire({
                     icon: "success",
                     title: "¡Exito!",
                     text: response.message,
                     timer: 1500
-                }).then((result) => {
-                    var datos = response.data;
-                    let append = '<tr>'+
-                                    '<td class="pt-4">'+ datos.producto +'</td>' +
-                                    '<td class="text-right pt-4">'+ datos.cantidad +'</td>' +
-                                    '<td class="text-right pt-4">$'+ datos.total +'</td>' +
-                                    '<td class="pt-4">'+ datos.notas +'</td>' +
-                                    '<td><button type="button" class="btn btn-danger">-</button></td>' +
-                                '</tr>';
                 });
             } else {
                 Swal.fire({
@@ -138,6 +117,87 @@ function entrada_producto()
         },
         error: function (xhr) {
             console.log(xhr);
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
+}
+
+function editar_entrada_producto(entrada_id, producto_id)
+{
+    $.ajax({
+        url: "editar_producto/" + entrada_id + "/" + producto_id,
+        datatype: 'html',
+        success: function(data){
+            var modal = data;
+            $(modal).modal().on('shown.bs.modal', function () {
+
+            }).on('hidden.bs.modal', function () {
+                $(this).remove();
+            });
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
+}
+
+function update_entrada_producto(entrada_id, producto_id)
+{
+    let data = {
+        id: $('#id_edit').val(),
+        id_prod: $('#id_prod_edit').val(),
+        cant_prod: $('#cant_prod_edit').val(),
+        pre_prod: $('#costo_prod_edit').val(),
+        nota_prod: $('#nota_prod_edit').val(),
+    };
+    console.log(data);
+    console.log($('#id_edit').val());
+    console.log($('#id_prod_edit').val());
+    console.log($('#cant_prod_edit').val());
+    console.log($('#costo_prod_edit').val());
+    console.log($('#nota_prod_edit').val());
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
+        }, 
+        url: "guardar_edit/" + entrada_id + "/" + producto_id,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response){
+            $('#producto_entrada_edit_modal').modal('hide').on('hidden.bs.modal', function () {
+                $("#entrada-productos-table").load(" #entrada-productos-table");
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Exito!",
+                    text: response.message,
+                    timer: 1500
+                });
+            });
+        },
+        error: function (xhr) {
             Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
         },
         beforeSend: function () {
