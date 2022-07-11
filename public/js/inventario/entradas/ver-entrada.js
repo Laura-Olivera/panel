@@ -187,15 +187,23 @@ function update_entrada_producto(entrada_id, producto_id)
         data: data,
         dataType: 'json',
         success: function(response){
-            $('#producto_entrada_edit_modal').modal('hide').on('hidden.bs.modal', function () {
-                $("#entrada-productos-table").load(" #entrada-productos-table");
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Exito!",
-                    text: response.message,
-                    timer: 1500
+            if (response.success) {
+                $('#producto_entrada_edit_modal').modal('hide').on('hidden.bs.modal', function () {
+                    $("#entrada-productos-table").load(" #entrada-productos-table");
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: response.message,
+                        timer: 1500
+                    });
                 });
-            });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: response.message
+                });
+            }
         },
         error: function (xhr) {
             Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');

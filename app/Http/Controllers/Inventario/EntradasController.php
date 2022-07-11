@@ -188,11 +188,15 @@ class EntradasController extends Controller
                 $request->nota_prod = "SIN OBSERVACIONES";
             }
             $cantidad_anterior = $producto->cantidad - $entrada_producto->cantidad;
+            $entrada_producto->delete();
             DB::beginTransaction();
-            $entrada_producto->cantidad = $request->cant_prod;
-            $entrada_producto->costo_total = $request->pre_prod;
-            $entrada_producto->comentario = $request->nota_prod;
-            $entrada_producto->save();
+            $entrada_producto = EntradaProducto::create([
+                'entrada_id' => $request->id,
+                'producto_id' => $request->id_prod,
+                'cantidad' => $request->cant_prod,
+                'costo_total' => $request->pre_prod,
+                'comentario' => $request->nota_prod
+            ]);
             DB::commit();
             $nuevaCantidad = $request->cant_prod + $cantidad_anterior;
             DB::beginTransaction();

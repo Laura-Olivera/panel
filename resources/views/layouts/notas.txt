@@ -252,3 +252,4 @@ DELETE FROM inventario_entradas_productos WHERE entrada_id = 4;
 --from "inventario_entradas_productos" 
 --inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" 
 --where "inventario_entradas_productos"."producto_id" = 1 and "inventario_entradas_productos"."entrada_id" = 4; 
+=)(/&%     nkldhhkhdslkhdslkhsakhfnncvnjxczklzxdhehfsdjfsdflkhfasfdskdfkjvcjkxvjchdfdsfjkhvnxczvjcxvfdhhfdhfdjsfjdsfkj157746fdfnnnnjvcnvcx,saaaaaaaaaas )

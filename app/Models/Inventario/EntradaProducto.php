@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EntradaProducto extends Model
 {
     protected $table = "inventario_entradas_productos";
+    public $primarykey = false;
     public $timestamps = false;
     public $incrementing = false;
     protected $fillable = [
