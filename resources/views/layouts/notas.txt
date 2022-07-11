@@ -253,3 +253,9 @@ DELETE FROM inventario_entradas_productos WHERE entrada_id = 4;
 --inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" 
 --where "inventario_entradas_productos"."producto_id" = 1 and "inventario_entradas_productos"."entrada_id" = 4; 
 =)(/&%     nkldhhkhdslkhdslkhsakhfnncvnjxczklzxdhehfsdjfsdflkhfasfdskdfkjvcjkxvjchdfdsfjkhvnxczvjcxvfdhhfdhfdjsfjdsfkj157746fdfnnnnjvcnvcx,saaaaaaaaaas )
+
+
+
+SQLSTATE[42803]: Grouping error: 7 ERROR:  la columna «inventario_entradas_productos.entrada_id» debe aparecer en la cláusula GROUP BY o ser usada en una función de agregación
+LINE 1: select "entrada_id", SUM(costo_total) from "inventario_entra...
+               ^ (SQL: select "entrada_id", SUM(costo_total) from "inventario_entradas_productos" where "entrada_id" = 4)

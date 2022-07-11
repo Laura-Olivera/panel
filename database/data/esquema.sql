@@ -266,8 +266,8 @@ DROP TABLE IF EXISTS public.inventario_entradas;
 CREATE TABLE public.inventario_entradas (
     id BIGINT NOT NULL,
     cve_entrada CHARACTER VARYING(255) UNIQUE NOT NULL,
-    proveedor_id BIGINT,
-    factura CHARACTER VARYING(255) UNIQUE,
+    proveedor_id BIGINT NOT NULL,
+    factura CHARACTER VARYING(255) UNIQUE NOT NULL,
     fac_fecha DATE,
     fac_path CHARACTER VARYING(255),
     fac_total DECIMAL(10,2) NOT NULL,

@@ -33,13 +33,13 @@ $(document).ready(function(){
                 "mRender": function ( data, type, row ) {
                     var estado = '';
                     switch (row.estatus) {
-                        case 1:
+                        case 'PAGADO':
                             estado = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4"> PAGADO </span>';
                             break;
-                        case 2:
+                        case 'POR PAGAR':
                             estado = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4"> POR PAGAR </span>';
                             break;
-                        case 3:
+                        case 'CANCELADO':
                             estado = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4"> CANCELADO </span>';
                             break;                    
                         default:

@@ -100,6 +100,13 @@ function entrada_producto()
                                 '</td> ' +
                             '</tr>';
                 $(append).appendTo("#tbody-productos"); */
+                $("#id_prod").val("");
+                $("#cve_prod").val("");
+                $("#costo").val("");
+                $("#general").val("");
+                $("#cant_prod").val("");
+                $("#costo_prod").val("");
+                $("#nota_prod").val("");
                 $("#entrada-productos-table").load(" #entrada-productos-table");
                 Swal.fire({
                     icon: "success",
@@ -172,12 +179,6 @@ function update_entrada_producto(entrada_id, producto_id)
         pre_prod: $('#costo_prod_edit').val(),
         nota_prod: $('#nota_prod_edit').val(),
     };
-    console.log(data);
-    console.log($('#id_edit').val());
-    console.log($('#id_prod_edit').val());
-    console.log($('#cant_prod_edit').val());
-    console.log($('#costo_prod_edit').val());
-    console.log($('#nota_prod_edit').val());
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
@@ -220,6 +221,31 @@ function update_entrada_producto(entrada_id, producto_id)
             KTApp.unblockPage();
         },
     });
+}
+
+function borrar_entrada_producto(entrada_id, producto_id)
+{
+    Swal.fire({
+        title: '¿Desea eliminar este producto?',
+        showCancelButton: true,
+        confirmButtonText: `Eliminar`,
+        cancelButtonText: `Cancelar`
+    }).then((result) => {
+        console.log(result);
+        if(result.value){
+            delete_ent_prod(entrada_id, producto_id);
+        }
+    })
+}
+
+function delete_ent_prod(entrada_id, producto_id)
+{
+    let data = {
+        id: entrada_id,
+        id_prod: producto_id
+    };
+
+    
 }
 
 function validar(form)

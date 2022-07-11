@@ -17,13 +17,20 @@
                             <div class="d-flex justify-content-between pb-1 pb-md-5 flex-column flex-md-row">
                                 <h2 class="font-weight-bolder">{{$entrada->cve_entrada}}</h2>
                                 <div class="d-flex flex-column align-items-md-end px-0">
-                                    <span class="d-flex flex-column align-items-md-end opacity-70">
-                                        
-                                    </span>
-                                </div>
-                                <div class="d-flex flex-column align-items-md-end px-0">
-                                    <span class="d-flex flex-column align-items-md-end opacity-70">
-                                        
+                                    <span class="label label-lg label-light-success label-inline font-weight-bold py-4 text-right">
+                                        @switch($entrada->estatus)
+                                            @case('PAGADO')
+                                                PAGADO
+                                                @break
+                                            @case('POR PAGAR')
+                                                POR PAGAR
+                                                @break
+                                            @case('CANCELADO')
+                                                CANCELADO
+                                                @break
+                                            @default
+                                                
+                                        @endswitch
                                     </span>
                                 </div>
                             </div>
@@ -50,9 +57,13 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label class="opacity-80">Proveedor</label>
                                     <p class="font-weight-bolder mb-2">{{ $entrada->proveedor }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="opacity-80">Total</label>
+                                    <p class="font-weight-bolder mb-2">$ {{ $entrada->fac_total }}</p>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +160,7 @@
                                             <td class="text-right pt-4"> {{ $ent_prod->cantidad }} </td> 
                                             <td class="text-right pt-4">$ {{ $ent_prod->costo_total }} </td> 
                                             <td class="pt-4"> {{ $ent_prod->comentario }} </td> 
-                                            <td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                            <td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
                                                 <button type="button" class="btn btn-info" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
                                             </td> 
                                         </tr>

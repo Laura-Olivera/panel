@@ -61,7 +61,7 @@ class EntradasController extends Controller
                 'fac_path' => $db_path,
                 'fac_total' => $request->fac_total,
                 'fac_notas' => $request->fac_notas,
-                'notas' => $request->notas,
+                'notas' => ($request->notas) ? $request->notas : 'SIN OBSERVACIONES',
                 'estatus' => $request->estatus,
                 'consecutivo' => $conse,
                 'created_user_id' => $user,
@@ -117,42 +117,53 @@ class EntradasController extends Controller
             if($existe){    
                 $response = ['success' => false, 'message' => 'El producto ya ha sido agregado a la entrada.'];                
             }else{
-                if(is_null($request->nota_prod)){
-                    $request->nota_prod = "SIN OBSERVACIONES";
-                }
-                DB::beginTransaction();
-                $entrada_producto = EntradaProducto::create([
-                    'entrada_id' => $request->id,
-                    'producto_id' => $request->id_prod,
-                    'cantidad' => $request->cant_prod,
-                    'costo_total' => $request->pre_prod,
-                    'comentario' => $request->nota_prod
-                ]);
-                DB::commit();
-                if ($entrada_producto) {
-                    $producto = Producto::findOrFail($request->id_prod);
-                    $nuevaCantidad = $producto->cantidad + $request->cant_prod;
+                $prod_total = DB::table('inventario_entradas_productos')->select('entrada_id', DB::raw('SUM(costo_total) as prod_total'))
+                                ->groupBy('entrada_id')
+                                ->where('entrada_id', '=', $request->id)->first();
+                $fac_total = Entrada::findOrFail($request->id);
+                $total = ($prod_total) ? $prod_total->prod_total + $request->pre_prod : 0;
+                //dd($prod_total);
+                //dd(($prod_total->prod_total > $fac_total->fac_total) ? true : false );
+                if ($total > $fac_total->fac_total) {
+                    $response = ['success' => false, 'message' => 'El costo total de productos en factura sobrepasa el costo total de la entrada. Verifique la informacion.'];
+                } else {
+                    if(is_null($request->nota_prod)){
+                        $request->nota_prod = "SIN OBSERVACIONES";
+                    }
                     DB::beginTransaction();
-                    $producto->cantidad = $nuevaCantidad;
-                    $producto->updated_user_id = Auth::user()->id;
-                    $producto->save();
+                    $entrada_producto = EntradaProducto::create([
+                        'entrada_id' => $request->id,
+                        'producto_id' => $request->id_prod,
+                        'cantidad' => $request->cant_prod,
+                        'costo_total' => $request->pre_prod,
+                        'comentario' => $request->nota_prod
+                    ]);
                     DB::commit();
+                    if ($entrada_producto) {
+                        $producto = Producto::findOrFail($request->id_prod);
+                        $nuevaCantidad = $producto->cantidad + $request->cant_prod;
+                        DB::beginTransaction();
+                        $producto->cantidad = $nuevaCantidad;
+                        $producto->updated_user_id = Auth::user()->id;
+                        $producto->save();
+                        DB::commit();
+                    }
+                    $data = request();
+                    if (is_null($data['nota_prod'])) {
+                        $data['nota_prod'] = 'SIN OBSERVACIONES';
+                    }
+                    $accion = 'Registro nuevo producto en entrada';
+                    Bitacora::usuarios($data, $accion);
+                    $data_prod = [
+                        'entrada_id' => $request->id,
+                        'producto_id' => $request->id_prod,
+                        'producto' => $producto->codigo,
+                        'cantidad' => $request->cant_prod,
+                        'total' => $request->pre_prod,
+                        'notas' => $request->nota_prod
+                    ];
+                    $response = ['success' => true, 'message' => 'El producto se agrego a la entrada.', 'data' => $data_prod];
                 }
-                $data = request();
-                if (is_null($data['nota_prod'])) {
-                    $data['nota_prod'] = 'SIN OBSERVACIONES';
-                }
-                $accion = 'Registro nuevo producto en entrada';
-                Bitacora::usuarios($data, $accion);
-                $data_prod = [
-                    'entrada_id' => $request->id,
-                    'producto_id' => $request->id_prod,
-                    'producto' => $producto->codigo,
-                    'cantidad' => $request->cant_prod,
-                    'total' => $request->pre_prod,
-                    'notas' => $request->nota_prod
-                ];
-                $response = ['success' => true, 'message' => 'El producto se agrego a la entrada.', 'data' => $data_prod];
             }
 
         } catch (\Throwable $th) {
@@ -165,9 +176,22 @@ class EntradasController extends Controller
         return $response;
     }
 
-    public function eliminar_producto()
+    public function eliminar_producto(Request $request)
     {
+        try {
+            DB::table('inventario_entradas_productos')->where('enrada_id', '=', $request->id)->where('producto_id', '=', $request->id_prod)->delete();
+            $data = request();
+            $accion = 'Eliminar producto en entrada';
+            Bitacora::usuarios($data, $accion);
+            $response =['success' => true, 'message' => 'Producto eliminado de entrada correctamente.'];
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al eliminar entrada producto', 'warning');
+            $response = ['success' => false, 'message' => 'Ha ocurrido un error, intente mas tarde.'];
+        }
 
+        return $response;
     }
 
     public function editar_producto($entrada_id, $producto_id)
@@ -181,34 +205,47 @@ class EntradasController extends Controller
 
     public function guardar_edit(Request $request)
     {
-        $entrada_producto = EntradaProducto::where('producto_id', '=', $request->id_prod)->where('entrada_id', '=', $request->id)->first();
+        $entrada_producto = DB::table('inventario_entradas_productos')->where('producto_id', '=', $request->id_prod)->where('entrada_id', '=', $request->id)->first();
         $producto = Producto::findOrFail($request->id_prod);
         try {
-            if(is_null($request->nota_prod)){
-                $request->nota_prod = "SIN OBSERVACIONES";
+            $prod_total = DB::table('inventario_entradas_productos')->select('entrada_id', DB::raw('SUM(costo_total) as prod_total'))
+                                ->groupBy('entrada_id')
+                                ->where('entrada_id', '=', $request->id)->first();
+            $fac_total = Entrada::findOrFail($request->id);
+            $total = ($prod_total) ? $prod_total->prod_total + $request->pre_prod : 0;
+            if ($total > $fac_total->fac_total) {
+                $response = ['success' => false, 'message' => 'El costo total de productos en factura sobrepasa el costo total de la entrada. Verifique la informacion.'];
+            } else {
+                if(is_null($request->nota_prod)){
+                    $request->nota_prod = "SIN OBSERVACIONES";
+                }
+                $cantidad_anterior = $producto->cantidad - $entrada_producto->cantidad;
+                //dd($cantidad_anterior);
+                $entrada_producto = DB::table('inventario_entradas_productos')->where('producto_id', '=', $request->id_prod)->where('entrada_id', '=', $request->id)->delete();
+                DB::beginTransaction();
+                $entrada_producto = EntradaProducto::create([
+                    'entrada_id' => $request->id,
+                    'producto_id' => $request->id_prod,
+                    'cantidad' => $request->cant_prod,
+                    'costo_total' => $request->pre_prod,
+                    'comentario' => $request->nota_prod
+                ]);
+                DB::commit();
+                $nuevaCantidad = $request->cant_prod + $cantidad_anterior;
+                //dd($nuevaCantidad);
+                DB::beginTransaction();
+                $producto->cantidad = $nuevaCantidad;
+                $producto->updated_user_id = Auth::user()->id;
+                $producto->save();
+                DB::commit();
+                $data = request();
+                if (is_null($data['nota_prod'])) {
+                    $data['nota_prod'] = 'SIN OBSERVACIONES';
+                }
+                $accion = 'Actualizacion de producto en entrada';
+                Bitacora::usuarios($data, $accion);
+                $response = ['success' => true, 'message' => 'Producto actualizado correctamente.'];
             }
-            $cantidad_anterior = $producto->cantidad - $entrada_producto->cantidad;
-            $entrada_producto->delete();
-            DB::beginTransaction();
-            $entrada_producto = EntradaProducto::create([
-                'entrada_id' => $request->id,
-                'producto_id' => $request->id_prod,
-                'cantidad' => $request->cant_prod,
-                'costo_total' => $request->pre_prod,
-                'comentario' => $request->nota_prod
-            ]);
-            DB::commit();
-            $nuevaCantidad = $request->cant_prod + $cantidad_anterior;
-            DB::beginTransaction();
-            $producto->cantidad = $nuevaCantidad;
-            $producto->updated_user_id = Auth::users()->id;
-            $data = request();
-            if (is_null($data['nota_prod'])) {
-                $data['nota_prod'] = 'SIN OBSERVACIONES';
-            }
-            $accion = 'Actualizacion de producto en entrada';
-            Bitacora::usuarios($data, $accion);
-            $response = ['success' => true, 'message' => 'Producto actualizado correctamente.'];
         } catch (\Throwable $th) {
             DB::rollback();
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());

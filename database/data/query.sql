@@ -26,3 +26,10 @@ INSERT INTO productos(nombre, proveedor_id, codigo, costo, precio_venta, cantida
 ('producto tres', 3, 'PROD000003', 189.99, 214.88, 200, 3, TRUE, 1),
 ('producto cuatro', 4, 'PROD000004', 189.99, 214.88, 200, 4, TRUE, 1),
 ('producto cinco', 5, 'PROD000005', 189.99, 214.88, 200, 5, TRUE, 1);
+
+INSERT INTO inventario_entradas(cve_entrada, proveedor_id, factura, fac_fecha, fac_total, estatus, consecutivo) VALUES
+('ETD220000001', 1, 1, 2022-07-11, 20000.00, 'PAGADO', 1),
+('ETD220000002', 2, 2, 2022-07-11, 20000.00, 'POR PAGAR', 2),
+('ETD220000003', 3, 3, 2022-07-11, 20000.00, 'CANCELADO', 3),
+('ETD220000004', 4, 4, 2022-07-11, 20000.00, 'PAGADO', 4),
+('ETD220000005', 5, 5, 2022-07-11, 20000.00, 'POR PAGAR', 5);
