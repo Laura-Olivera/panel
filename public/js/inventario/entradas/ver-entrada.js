@@ -56,11 +56,6 @@ $(document).ready(function(){
         $("#nota_prod").val("");
     });
 
-    $("#borrar-producto").on("click", function() {
-        var parent = $(this).parents().get(0);
-        $(parent).remove();
-    });
-
 });
 
 function show_form_producto(){
@@ -245,7 +240,53 @@ function delete_ent_prod(entrada_id, producto_id)
         id_prod: producto_id
     };
 
-    
+    $.ajax({
+        headers : {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "delete_producto/" + entrada_id + "/" + producto_id,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                $("#entrada-productos-table").load(" #entrada-productos-table");
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Exito!",
+                    text: response.message,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: response.message,
+                    timer: 1500
+                });
+            }
+        },
+        error: function (xhr) { //xhr
+            if (xhr.responseJSON) {
+                if (xhr.responseJSON.errors) {
+                    imprimirMensajesDeError(xhr.responseJSON.errors);
+                }
+            } else {
+                Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+            }
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
 }
 
 function validar(form)

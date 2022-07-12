@@ -25,69 +25,70 @@ $(document).ready(function (){
 
     $('#fac_fecha').val(today);
 
-    $("#registrar").on('click', function() {
-        var form = $('#frm_nueva_entrada');
-        var validarForm = validar(form);
-        if(validarForm){
-            $.ajax({
-                headers : {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },                
-				contentType: false,
-				processData: false,          
-                url: "store",
-                type: 'POST',
-                data: new FormData($('#frm_nueva_entrada')[0]),
-                dataType: 'json',
-                success: function (respuesta) {
-                    if (respuesta.success == true) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "¡Exito!",
-                            text: respuesta.message,
-                            timer: 1500
-                        }).then((result) => {
-                            window.location = '/inventario/entradas/ver_entrada/' + respuesta.entrada;
-
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "¡Alerta!",
-                            text: respuesta.message,
-                            timer: 1500
-                        }).then((result) => {
-                            console.log(result);
-
-                        });
-                    }
-                },
-                error: function (xhr) { //xhr
-                    if (xhr.responseJSON) {
-                        if (xhr.responseJSON.errors) {
-                            imprimirMensajesDeError(xhr.responseJSON.errors);
-                        }
-                    } else {
-                        Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
-                    }
-                },
-                beforeSend: function () {
-                    KTApp.blockPage({
-                        overlayColor: '#000000',
-                        type: 'v2',
-                        state: 'success',
-                        zIndex: 3000
-                    });
-                },
-                complete: function () {
-                    KTApp.unblockPage();
-                },
-            });
-        }else{
-            return false;
-        }
-    });
 });
+
+function store_entrada()
+{
+    var form = $('#frm_nueva_entrada');
+    var validarForm = validar(form);
+    if(validarForm){
+        let data = new FormData($('#frm_nueva_entrada')[0]);
+        $.ajax({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },                
+			contentType: false,
+			processData: false,          
+            url: "store",
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (respuesta) {
+                if (respuesta.success == true) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: respuesta.message,
+                        timer: 1500
+                    }).then((result) => {
+                        window.location = '/inventario/entradas/ver_entrada/' + respuesta.entrada;
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
+                    }).then((result) => {
+                        console.log(result);
+                    });
+                }
+            },
+            error: function (xhr) { //xhr
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors) {
+                        imprimirMensajesDeError(xhr.responseJSON.errors);
+                    }
+                } else {
+                    Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
+                }
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    }else{
+        return false;
+    }
+}
 
 function validar(form){
     var validator = form.validate({

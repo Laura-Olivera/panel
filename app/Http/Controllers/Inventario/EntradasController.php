@@ -10,6 +10,7 @@ use App\Models\Inventario\Entrada;
 use App\Models\Inventario\EntradaProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -41,7 +42,7 @@ class EntradasController extends Controller
     {
         try {
             $user = Auth::user()->id;
-            $year = date('Y');
+            $year = date('Y', strtotime($request->fac_fecha));
             $consecutivo = DB::table('inventario_entradas')->select('consecutivo')->orderBy('consecutivo', 'desc')->first();
             $conse = ($consecutivo) ? $consecutivo->consecutivo + 1 : 1;
             $folio = $this->folioEntrada($year, $conse, 'ENTRADA');
@@ -179,7 +180,7 @@ class EntradasController extends Controller
     public function eliminar_producto(Request $request)
     {
         try {
-            DB::table('inventario_entradas_productos')->where('enrada_id', '=', $request->id)->where('producto_id', '=', $request->id_prod)->delete();
+            DB::table('inventario_entradas_productos')->where('entrada_id', '=', $request->id)->where('producto_id', '=', $request->id_prod)->delete();
             $data = request();
             $accion = 'Eliminar producto en entrada';
             Bitacora::usuarios($data, $accion);
@@ -261,9 +262,11 @@ class EntradasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($cve_entrada)
     {
-        //
+        $entrada = Entrada::where('cve_entrada', '=', $cve_entrada)->first();
+        $proveedores = Proveedor::all();
+        return view('inventario.entradas.editar_entrada', compact('entrada', 'proveedores'));
     }
 
     /**
@@ -273,10 +276,74 @@ class EntradasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $entrada = Entrada::findOrFail($request->id);
+            $user = Auth::user()->id;
+            $year = date('Y', strtotime($request->fac_fecha));
+            
+            if($request->hasFile('fac_path')){
+                $factura = $request->file('fac_path');
+                $extension = $factura->getClientOriginalExtension();
+
+                $fac_name = "{$request->cve_entrada}.{$extension}";
+
+                $disk = Storage::disk('files_upload');                
+                $path = 'facturas/'. $year. '/';
+                $db_path = Storage::disk('files_upload')->url('facturas/'.$year);
+
+                if(is_file($db_path.$fac_name)){
+                    $respaldo = "{$request->cve_entrada}_".date('Ymd_His').".{$extension}";
+                    $disk->move( $path.$fac_name, "eliminados/{$path}{$respaldo}" );
+                }
+
+                $disk->put($path.$fac_name, file_get_contents($request->file('fac_path')), 'public');                
+            }
+
+            DB::beginTransaction();
+            
+            $entrada->proveedor_id = $request->proveedor;
+            $entrada->factura = $request->factura;
+            $entrada->fac_fecha = $request->fac_fecha;
+            $entrada->fac_path = $db_path;
+            $entrada->fac_total = $request->fac_total;
+            $entrada->fac_notas = $request->fac_notas;
+            $entrada->notas = $request->notas;
+            $entrada->estatus = $request->estatus;
+            $entrada->updated_user_id = $user;
+            $entrada->save();
+
+            DB::commit();
+
+            $data = request();
+            $accion = 'Actualizacion de entrada';
+            Bitacora::usuarios($data, $accion);
+            $response = ['success' => true, 'message' => 'Entrada registrada correctamente.', 'entrada' => $request->cve_entrada];
+
+        } catch (\Throwable $th) {
+       
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al actualizar entrada', 'warning');
+            $response = ['success' => false, 'message' => 'Error al actualizar la entrada.'];
+       
+        }
+
+        return $response;
     }
+
+    /* {"_token":"PIXxXKwh12CsIRrPIj2bb2i554GLqBAQYdJ62wgV",
+        "proveedor":"5",
+        "factura":"7",
+        "fac_fecha":"2022-06-16",
+        "fac_total":"15800.00",
+        "estatus":"POR PAGAR",
+        "fac_notas":"---------------------",
+        "notas":"<h4><strong>SIN OBSERVACIONES<\/strong><\/h4>",
+        "fac_path":{}
+    }; */
+
 
     /**
      * Remove the specified resource from storage.
@@ -287,6 +354,23 @@ class EntradasController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /* 
+    *
+    *
+    *
+    */
+    public function factura_digital($encryp_path, $fac_name)
+    {
+        $path = $encryp_path;
+        $name = $fac_name;
+        $url = $path.''.$name;
+        if( is_file($url) ) {
+            return response()->file( $url );
+        }else{
+            return abort(404);
+        }
     }
 
     /* 

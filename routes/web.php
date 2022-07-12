@@ -108,6 +108,12 @@ Route::middleware('auth')->group(function(){
         Route::post('/entradas/ver_entrada/eliminar_producto/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
         Route::get('/entradas/ver_entrada/editar_producto/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'editar_producto']);
         Route::post('/entradas/ver_entrada/guardar_edit/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'guardar_edit']);
+        Route::post('/entradas/ver_entrada/delete_producto/{entrada_id}/{producto_id}', [\App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
+        Route::get('/entradas/editar/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'edit']);
     });
 
+});
+
+Route::prefix('files')->group(function(){
+    Route::get('facturas/{pathFactura   }/{fac_name}', [App\Http\Controllers\Inventario\EntradasController::class, 'factura_digital'])->name('showFactura');
 });

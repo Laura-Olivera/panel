@@ -17,22 +17,32 @@
                             <div class="d-flex justify-content-between pb-1 pb-md-5 flex-column flex-md-row">
                                 <h2 class="font-weight-bolder">{{$entrada->cve_entrada}}</h2>
                                 <div class="d-flex flex-column align-items-md-end px-0">
-                                    <span class="label label-lg label-light-success label-inline font-weight-bold py-4 text-right">
-                                        @switch($entrada->estatus)
-                                            @case('PAGADO')
-                                                PAGADO
-                                                @break
-                                            @case('POR PAGAR')
-                                                POR PAGAR
-                                                @break
-                                            @case('CANCELADO')
-                                                CANCELADO
-                                                @break
-                                            @default
-                                                
-                                        @endswitch
-                                    </span>
+                                    @switch($entrada->estatus)
+                                        @case('PAGADO')
+                                            <span class="label label-lg label-light-success label-inline font-weight-bold py-4 text-right">
+                                            PAGADO
+                                            </span>                                           
+                                            @break
+                                        @case('POR PAGAR')
+                                            <span class="label label-lg label-light-warning label-inline font-weight-bold py-4 text-right">
+                                            POR PAGAR
+                                            </span>                                            
+                                            @break
+                                        @case('CANCELADO')
+                                            <span class="label label-lg label-light-danger label-inline font-weight-bold py-4 text-right">
+                                            CANCELADO
+                                            </span>                                            
+                                            @break
+                                        @default                                            
+                                    @endswitch
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="d-flex">
+                                <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Imprimir"><i class="icon-2x fas fa-print text-primary"></i></a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +81,7 @@
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label class="opacity-80">Observaciones</label>
-                                    <p class="font-weight-bolder mb-15">{{ $entrada->notas }}</p>
+                                    {!!$entrada->notas!!}
                                 </div>
                             </div>
                         </div>
@@ -203,14 +213,14 @@
                     </div> --}}
                     <!-- end: Invoice footer-->
                     <!-- begin: Invoice action-->
-                    {{-- <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                    <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                         <div class="col-md-9">
                             <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>
                                 <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">Print Invoice</button>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <!-- end: Invoice action-->
                     <!-- end: Invoice-->
                 </div>
