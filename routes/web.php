@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/entradas/ver_entrada/guardar_edit/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'guardar_edit']);
         Route::post('/entradas/ver_entrada/delete_producto/{entrada_id}/{producto_id}', [\App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
         Route::get('/entradas/editar/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'edit']);
+        Route::post('/entradas/editar/update/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'update']);
     });
 
 });

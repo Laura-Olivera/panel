@@ -95,8 +95,16 @@ CREATE SEQUENCE public.inventario_salidas_id_seq
     NO MAXVALUE
     CACHE 1;
 
-DROP SEQUENCE IF EXISTS public.inventario_entradas_facturas_seq;
-CREATE SEQUENCE public.inventario_entradas_facturas_seq
+DROP SEQUENCE IF EXISTS public.inventario_entradas_anexos_id_seq;
+CREATE SEQUENCE public.inventario_entradas_anexos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.inventario_entradas_facturas_id_seq;
+CREATE SEQUENCE public.inventario_entradas_facturas_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -217,7 +225,7 @@ DROP TABLE IF EXISTS public.proveedores;
 CREATE TABLE public.proveedores (
     id BIGINT NOT NULL,
     nombre CHARACTER VARYING(250) NOT NULL,
-    cve_prov CHARACTER VARYING(50) UNIQUE NOT NULL,
+    rfc CHARACTER VARYING(50) UNIQUE NOT NULL,
     telefono CHARACTER VARYING(15) NOT NULL,
     extension CHARACTER VARYING(10),
     direccion CHARACTER VARYING(250),
@@ -251,7 +259,7 @@ CREATE TABLE public.productos (
     marca CHARACTER VARYING(255),
     proveedor_id BIGINT NOT NULL,
     codigo CHARACTER VARYING(255) UNIQUE NOT NULL,
-    costo DECIMAL(10,2) NOT NULL,
+    precio_compra DECIMAL(10,2) NOT NULL,
     precio_venta DECIMAL(10,2) NOT NULL,
     cantidad SMALLINT,
     categoria_id BIGINT NOT NULL,
@@ -268,15 +276,44 @@ CREATE TABLE public.inventario_entradas (
     cve_entrada CHARACTER VARYING(255) UNIQUE NOT NULL,
     proveedor_id BIGINT NOT NULL,
     factura CHARACTER VARYING(255) UNIQUE NOT NULL,
-    fac_fecha DATE,
+    fac_fecha_emision DATE,
+    fac_fecha_operacion DATE,
     fac_path CHARACTER VARYING(255),
+    fac_subtotal DECIMAL(10,2) NOT NULL,
+    fac_impuestos DECIMAL(10,2) NOT NULL,
+    fac_extras DECIMAL(10,2),
     fac_total DECIMAL(10,2) NOT NULL,
+    fac_total_letra CHARACTER VARYING(255) NOT NULL, 
+    fac_forma_pago CHARACTER VARYING(100) NOT NULL,
+    fac_metodo_pago CHARACTER VARYING(100) NOT NULL,
     fac_notas TEXT,
-    notas TEXT,
-    estatus CHARACTER VARYING(100) NOT NULL,
-    consecutivo SMALLINT UNIQUE NOT NULL,
-    created_user_id BIGINT,
-    updated_user_id BIGINT,
+    entrada_notas TEXT,
+    fecha_recepcion DATE,
+    consecutivo SMALLINT,
+    created_user CHARACTER VARYING(100) NOT NULL,
+    updated_user CHARACTER VARYING(100) NOT NULL,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE,
+    updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+);
+
+DROP TABLE IF EXISTS public.inventario_entradas_anexos;
+CREATE TABLE public.inventario_entradas_anexos (
+    id BIGINT NOT NULL,
+    consecutivo SMALLINT NOT NULL,
+    entrada_id BIGINT,
+    fac_forma_pago CHARACTER VARYING(100) NOT NULL,
+    fac_parcialidad SMALLINT NOT NULL,
+    fac_saldo_anterior DECIMAL(10,2) NOT NULL,
+    fac_saldo_insoluto DECIMAL(10,2) NOT NULL,
+    fac_total_letra CHARACTER VARYING(255) NOT NULL, 
+    fac_fecha_emision DATE,
+    fac_fecha_operacion DATE,
+    fac_path CHARACTER VARYING(255),
+    fac_notas TEXT,
+    anexo_notas TEXT,
+    estatus BOOLEAN NOT NULL DEFAULT TRUE,
+    created_user CHARACTER VARYING(100) NOT NULL,
+    updated_user CHARACTER VARYING(100) NOT NULL,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
@@ -284,7 +321,7 @@ CREATE TABLE public.inventario_entradas (
 DROP TABLE IF EXISTS public.inventario_entradas_facturas;
 CREATE TABLE public.inventario_entradas_facturas (
     id BIGINT NOT NULL,
-    entrada_id BIGINT,
+    entrada_anexo BIGINT,
     nombre CHARACTER VARYING(255),
     path CHARACTER VARYING(255),
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
@@ -329,6 +366,10 @@ ALTER TABLE ONLY public.productos ALTER COLUMN id SET DEFAULT nextval('public.pr
 
 ALTER TABLE ONLY public.inventario_entradas ALTER COLUMN id SET DEFAULT nextval('public.inventario_entradas_id_seq'::regclass);
 
+ALTER TABLE ONLY public.inventario_entradas_anexos ALTER COLUMN id SET DEFAULT nextval('public.inventario_entradas_anexos_id_seq'::regclass);
+
+ALTER TABLE ONLY public.inventario_entradas_facturas ALTER COLUMN id SET DEFAULT nextval('public.inventario_entradas_facturas_id_seq'::regclass);
+
 SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
@@ -350,6 +391,10 @@ SELECT pg_catalog.setval('public.categorias_id_seq', 1, false);
 SELECT pg_catalog.setval('public.productos_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.inventario_entradas_id_seq', 1, false);
+
+SELECT pg_catalog.setval('public.inventario_entradas_anexos_id_seq', 1, false);
+
+SELECT pg_catalog.setval('public.inventario_entradas_facturas_id_seq', 1, false);
 
 -------------------------------------------
 --------ADD PRIMARY KEY TO ID-----------
@@ -382,6 +427,10 @@ ALTER TABLE ONLY public.categorias ADD CONSTRAINT categorias_id_pk PRIMARY KEY (
 ALTER TABLE ONLY public.productos ADD CONSTRAINT productos_id_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.inventario_entradas ADD CONSTRAINT inventario_entradas_id_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.inventario_entradas_anexos ADD CONSTRAINT inventario_entradas_anexos_id_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.inventario_entradas_facturas ADD CONSTRAINT inventario_entradas_facturas_id_pk PRIMARY KEY (id);
 
 -------------------------------------------
 --------ADD INDEXES------------------------
@@ -443,15 +492,15 @@ ALTER TABLE ONLY public.productos
 ALTER TABLE ONLY public.inventario_entradas
     ADD CONSTRAINT iventario_entradas_proveedor_id_foreign FOREIGN KEY (proveedor_id) REFERENCES public.proveedores(id);
 
-ALTER TABLE ONLY public.inventario_entradas
-    ADD CONSTRAINT inventario_entradas_created_user_id_foreign FOREIGN KEY (created_user_id) REFERENCES public.users(id);
+ALTER TABLE ONLY public.inventario_entradas_anexos
+    ADD CONSTRAINT inventario_entradas_anexos_entrada_id FOREIGN KEY (entrada_id) REFERENCES public.inventario_entradas(id);
 
-ALTER TABLE ONLY public.inventario_entradas
-    ADD CONSTRAINT inventario_entradas_updated_user_id_foreign FOREIGN KEY (updated_user_id) REFERENCES public.users(id);
+ALTER TABLE ONLY public.inventario_entradas_facturas
+    ADD CONSTRAINT inventario_entradas_facturas_entrada_anexo FOREIGN KEY (entrada_anexo) REFERENCES public.inventario_entradas_anexos(id);
 
 ALTER TABLE ONLY public.inventario_entradas_productos
     ADD CONSTRAINT inventario_entradas_productos_entrada_id_foreign FOREIGN KEY (entrada_id) REFERENCES public.inventario_entradas(id);
 
 ALTER TABLE ONLY public.inventario_entradas_productos
-    ADD CONSTRAINT inventario_salidas_productos_producto_id_doreign FOREIGN KEY (producto_id) REFERENCES public.productos(id);
+    ADD CONSTRAINT inventario_salidas_productos_producto_id_foreign FOREIGN KEY (producto_id) REFERENCES public.productos(id);
 COMMIT;

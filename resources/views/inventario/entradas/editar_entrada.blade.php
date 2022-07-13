@@ -92,7 +92,7 @@
                             </div> 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-danger font-weight-bold" onClick="window.history.go(-1);">Cancelar</button>
-                                <button type="button" class="btn btn-primary font-weight-bold" name="registrar" id="registrar" onclick="update_entrada({{ $entrada->cve_entrada }});">Registrar</button>
+                                <button type="button" class="btn btn-primary font-weight-bold" name="registrar" id="registrar" onclick="update_entrada({{ $entrada->id }});">Registrar</button>
                             </div>      
                         
                         {!! Form::close() !!}                    

@@ -13,7 +13,7 @@ class Proveedor extends Model
     protected $fillable = [
         'id',
         'nombre',
-        'cve_prov',
+        'rfc',
         'telefono',
         'extension',
         'direccion',

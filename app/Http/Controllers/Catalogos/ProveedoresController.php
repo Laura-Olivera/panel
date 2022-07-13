@@ -35,7 +35,7 @@ class ProveedoresController extends Controller
             DB::beginTransaction();
             $proveedor = Proveedor::create([
                 'nombre' => $request->nombre,
-                'cve_prov' => $request->clave,
+                'rfc' => $request->clave,
                 'telefono' => $request->telefono,
                 'extension' => $request->extension,
                 'direccion' => $request->direccion,
@@ -70,7 +70,7 @@ class ProveedoresController extends Controller
             $proveedor = Proveedor::findOrFail($request->id);
             DB::beginTransaction();
             $proveedor->nombre = $request->nombre;
-            $proveedor->cve_prov = $request->clave;
+            $proveedor->rfc = $request->clave;
             $proveedor->telefono = $request->telefono;
             $proveedor->extension = $request->extension;
             $proveedor->direccion = $request->direccion;

@@ -19,7 +19,7 @@ class Producto extends Model
         'marca',
         'proveedor_id',
         'codigo',
-        'costo',
+        'precio_compra',
         'precio_venta',
         'cantidad',
         'categoria_id',

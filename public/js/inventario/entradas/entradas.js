@@ -27,20 +27,20 @@ $(document).ready(function(){
                 }
             },
             { data: 'proveedor', name: 'proveedor' },
-            { data: 'fac_fecha', name: 'fac_fecha' },
+            { data: 'fac_fecha_emision', name: 'fac_fecha' },
             { data: 'fac_total', name: 'fac_total' },
             {   
                 "mRender": function ( data, type, row ) {
                     var estado = '';
-                    switch (row.estatus) {
-                        case 'PAGADO':
-                            estado = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4"> PAGADO </span>';
+                    switch (row.fac_metodo_pago) {
+                        case 'Pago en una sola exhibicion':
+                            estado = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4"> Pago en una sola exhibicion </span>';
                             break;
-                        case 'POR PAGAR':
-                            estado = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4"> POR PAGAR </span>';
+                        case 'Pago en parcialidades':
+                            estado = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4"> Pago en parcialidades </span>';
                             break;
-                        case 'CANCELADO':
-                            estado = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4"> CANCELADO </span>';
+                        case 'Pago diferido':
+                            estado = '<span class="label label-lg label-light-warning label-inline font-weight-bold py-4"> Pago diferido </span>';
                             break;                    
                         default:
                             estado = '<span class="label label-lg label-light-info label-inline font-weight-bold py-4"> SIN ESTATUS </span>';
@@ -49,7 +49,7 @@ $(document).ready(function(){
                     return estado;
                 }
             },
-            { data: 'notas', name: 'notas' },
+            { data: 'entrada_notas', name: 'entrada_notas' },
         ],
     });
 });

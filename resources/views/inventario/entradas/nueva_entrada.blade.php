@@ -22,25 +22,48 @@
                     <div class="card-body">
                         {{ Form::open(['url' => 'foo/bar','method' => 'POST','name'=>'frm_nueva_entrada','id'=>'frm_nueva_entrada','files' => true, 'class' => 'form']) }}
                             <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>No. Factura:</label>
+                                    <input type="text" class="form-control" placeholder="Número de factura" id="factura" name="factura" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-lg-12">
                                     <label>Proveedor:</label>
                                     <select class="form-control select2" id="proveedor" name="proveedor">
                                         <option label="Label"></option>
                                         @foreach($proveedores as $proveedor)
-                                         <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }} - {{ $proveedor->cve_prov }}</option>
+                                         <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-6">
-                                    <label>No. Factura:</label>
-                                    <input type="text" class="form-control" placeholder="Número de factura" id="factura" name="factura" autocomplete="off"/>
+                                    <label for="">RFC:</label>
+                                    <input type="text" class="form-control" placeholder="RFC del proveedor" id="prov_rfc" name="prov_rfc" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Fecha de facturación:</label>
+                                    <label for="">Direccion:</label>
+                                    <input type="text" class="form-control" placeholder="Direccion del proveedor" name="prov_direccion" id="prov_direccion" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Fecha de emisión de facturación:</label>
                                     <div class="input-group date">                                        
-                                        <input type="text" class="form-control" id="fac_fecha" name="fac_fecha" placeholder="Seleccione la fecha de facturacion" />
+                                        <input type="text" class="form-control" id="fac_fecha_emision" name="fac_fecha_emision" placeholder="Seleccione la fecha de emisión de facturacion" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar-check-o"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Fecha de operación de facturación:</label>
+                                    <div class="input-group date">                                        
+                                        <input type="text" class="form-control" id="fac_fecha_operacion" name="fac_fecha_operacion" placeholder="Seleccione la fecha de operación de facturacion" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="la la-calendar-check-o"></i>
@@ -50,37 +73,62 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <label>SubTotal de factura:</label>
+                                    <input type="text" class="form-control" placeholder="SubTotal de la factura" id="fac_subtotal" name="fac_subtotal" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Impuesto de factura:</label>
+                                    <input type="text" class="form-control" placeholder="Impuesto de la factura" id="fac_impuesto" name="fac_impuesto" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-4">
                                     <label>Total de factura:</label>
                                     <input type="text" class="form-control" placeholder="Monto total de la factura" id="fac_total" name="fac_total" autocomplete="off"/>
                                 </div>
+                            </div> 
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label for="">Importe total en letra:</label>
+                                    <input type="text" class="form-control" placeholder="Importe total de la factura en letra" id="fac_total_letra" name="fac_total_letra" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-lg-6">
-                                    <label>Estatus de la factura:</label>
-                                    <select class="form-control select2" name="estatus" id="estatus">
+                                    <label>Forma de pago de la factura:</label>
+                                    <select class="form-control select2" name="fac_forma_pago" id="fac_forma_pago">
                                         <option value=""></option>
-                                        <option value="PAGADO">PAGADA</option>
-                                        <option value="POR PAGAR">POR PAGAR</option>
-                                        <option value="CANCELADO">CANCELADA</option>
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Credito">Credito</option>
+                                        <option value="Cheques">Cheques</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Metodo de pago de la factura:</label>
+                                    <select class="form-control select2" name="fac_metodo_pago" id="fac_metodo_pago">
+                                        <option value=""></option>
+                                        <option value="Pago en una sola exhibicion">Pago en una sola exhibicion</option>
+                                        <option value="Pago en parcialidades">Pago en parcialidades</option>
+                                        <option value="Pago diferido">Pago diferido</option>
                                     </select>
                                 </div>
                             </div>                            
                             <div class="form-group row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <label for="">Factura digital:</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="fac_path" name="fac_path" accept="pdf">
                                         <label class="custom-file-label" for="fac_path">Seleccione la factura digital</label>
                                     </div>
                                 </div>
-                                <div class="col lg 6">
-                                    <label for="">Observaciones:</label>
+                                <div class="col-lg-8">
+                                    <label for="">Observaciones de la factura:</label>
                                     <input type="text" class="form-control" placeholder="Observaciones de la factura" id="fac_notas" name="fac_notas" autocomplete="off"/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-12">
                                     <label>Observaciones de la entrada:</label>
-                                    <textarea class="form-control" name="notas" id="notas" rows="5">Sin Observaciones</textarea>
+                                    <textarea class="form-control" name="entrada_notas" id="entrada_notas" rows="5">Sin Observaciones</textarea>
                                 </div>
                             </div>                
                             <div class="modal-footer">

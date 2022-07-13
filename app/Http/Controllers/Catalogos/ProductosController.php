@@ -48,7 +48,7 @@ class ProductosController extends Controller
                 'marca' => $request->marca,
                 'proveedor_id' => $request->proveedor,
                 'codigo' => $request->codigo,
-                'costo' => $request->costo,
+                'precio_compra' => $request->costo,
                 'precio_venta' => $request->venta,
                 'cantidad' => $request->cantidad,
                 'categoria_id' => $request->categoria,
@@ -94,7 +94,7 @@ class ProductosController extends Controller
             $producto->marca = $request->marca;
             $producto->proveedor_id = $request->proveedor;
             $producto->codigo = $request->codigo;
-            $producto->costo = $request->costo;
+            $producto->precio_compra = $request->costo;
             $producto->precio_venta = $request->venta;
             $producto->cantidad = $request->cantidad;
             $producto->categoria_id = $request->categoria;

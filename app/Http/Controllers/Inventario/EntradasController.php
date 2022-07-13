@@ -38,11 +38,20 @@ class EntradasController extends Controller
         return view('inventario.entradas.nueva_entrada', compact('proveedores'));
     }
 
+    public function buscar_proveedo($id)
+    {
+        try {
+            $proveedor = Proveedor::findOrFail($id);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
     public function store(Request $request)
     {
         try {
-            $user = Auth::user()->id;
-            $year = date('Y', strtotime($request->fac_fecha));
+            $user = Auth::user();
+            $year = date('Y');
             $consecutivo = DB::table('inventario_entradas')->select('consecutivo')->orderBy('consecutivo', 'desc')->first();
             $conse = ($consecutivo) ? $consecutivo->consecutivo + 1 : 1;
             $folio = $this->folioEntrada($year, $conse, 'ENTRADA');
@@ -55,17 +64,24 @@ class EntradasController extends Controller
             }
             DB::beginTransaction();
             $entrada = Entrada::create([
-                'cve_entrada' => $folio,
-                'proveedor_id' => $request->proveedor,
-                'factura' => $request->factura,
-                'fac_fecha' => $request->fac_fecha,
-                'fac_path' => $db_path,
-                'fac_total' => $request->fac_total,
-                'fac_notas' => $request->fac_notas,
-                'notas' => ($request->notas) ? $request->notas : 'SIN OBSERVACIONES',
-                'estatus' => $request->estatus,
-                'consecutivo' => $conse,
-                'created_user_id' => $user,
+                "cve_entrada" => $folio,
+                "proveedor_id" => $request->proveedor_id,
+                "factura" => $request->factura,
+                "fac_fecha_emision" => $request->fac_fecha_emision,
+                "fac_fecha_operacion" => $request->fac_fecha_operacion,
+                "fac_path" => $db_path,
+                "fac_subtotal" => $request->fac_subtotal,
+                "fac_impuestos" => $request->fac_impuestos,
+                "fac_extras" => $request->fac_extras,
+                "fac_total" => $request->fac_total,
+                "fac_total_letra" => $request->fac_total_letra,
+                "fac_forma_pago" => $request->fac_forma_pago,
+                "fac_metodo_pago" => $request->fac_metodo_pago,
+                "fac_notas" => ($request->fac_notas) ? $request->fac_notas : "SIN OBSERVACIONES",
+                "entrada_notas" => ($request->entrada_notas) ? $request->entrada_notas : "SIN OBSERVACIONES",
+                "fecha_recepcion" => $request->fecha_recepcion,
+                "consecutivo" => $request->consecutivo,
+                "created_user" => $user->usuario,
             ]);
             DB::commit();
             $data = request();
@@ -281,24 +297,25 @@ class EntradasController extends Controller
         try {
             $entrada = Entrada::findOrFail($request->id);
             $user = Auth::user()->id;
-            $year = date('Y', strtotime($request->fac_fecha));
-            
+            $year = date('Y', strtotime($entrada->fac_fecha));
+            $existeArchivo = false;
             if($request->hasFile('fac_path')){
                 $factura = $request->file('fac_path');
                 $extension = $factura->getClientOriginalExtension();
 
-                $fac_name = "{$request->cve_entrada}.{$extension}";
+                $fac_name = "{$entrada->cve_entrada}.{$extension}";
 
                 $disk = Storage::disk('files_upload');                
                 $path = 'facturas/'. $year. '/';
                 $db_path = Storage::disk('files_upload')->url('facturas/'.$year);
 
                 if(is_file($db_path.$fac_name)){
-                    $respaldo = "{$request->cve_entrada}_".date('Ymd_His').".{$extension}";
+                    $respaldo = "{$entrada->cve_entrada}_".date('Ymd_His').".{$extension}";
                     $disk->move( $path.$fac_name, "eliminados/{$path}{$respaldo}" );
                 }
 
-                $disk->put($path.$fac_name, file_get_contents($request->file('fac_path')), 'public');                
+                $disk->put($path.$fac_name, file_get_contents($request->file('fac_path')), 'public');    
+                $existeArchivo = true;            
             }
 
             DB::beginTransaction();
@@ -306,7 +323,9 @@ class EntradasController extends Controller
             $entrada->proveedor_id = $request->proveedor;
             $entrada->factura = $request->factura;
             $entrada->fac_fecha = $request->fac_fecha;
-            $entrada->fac_path = $db_path;
+            if ($existeArchivo) {
+                $entrada->fac_path = $db_path;
+            }
             $entrada->fac_total = $request->fac_total;
             $entrada->fac_notas = $request->fac_notas;
             $entrada->notas = $request->notas;
