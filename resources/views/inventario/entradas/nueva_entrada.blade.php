@@ -7,7 +7,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<!--begin::Container-->
-	<div class="container">
+	<div class="container-fluid">
 		<!--begin::Card-->
 		<div class="card card-custom">
 			<!--begin::Body-->
@@ -33,7 +33,7 @@
                                     <select class="form-control select2" id="proveedor" name="proveedor">
                                         <option label="Label"></option>
                                         @foreach($proveedores as $proveedor)
-                                         <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                                            <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -73,15 +73,19 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label>SubTotal de factura:</label>
                                     <input type="text" class="form-control" placeholder="SubTotal de la factura" id="fac_subtotal" name="fac_subtotal" autocomplete="off"/>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label>Impuesto de factura:</label>
                                     <input type="text" class="form-control" placeholder="Impuesto de la factura" id="fac_impuesto" name="fac_impuesto" autocomplete="off"/>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
+                                    <label>Extras de factura:</label>
+                                    <input type="text" class="form-control" placeholder="Impuesto de la factura" id="fac_extras" name="fac_extras" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-3">
                                     <label>Total de factura:</label>
                                     <input type="text" class="form-control" placeholder="Monto total de la factura" id="fac_total" name="fac_total" autocomplete="off"/>
                                 </div>

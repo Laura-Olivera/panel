@@ -102,7 +102,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/entradas/listar_entradas',[App\Http\Controllers\Inventario\EntradasController::class, 'listar_entradas']);
         Route::get('/entradas/create', [App\Http\Controllers\Inventario\EntradasController::class, 'create']);
         Route::post('/entradas/store', [App\Http\Controllers\Inventario\EntradasController::class, 'store']);
-        Route::get('/entradas/ver_entrada/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'show']);
+        Route::get('/entradas/ver_entrada/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'show_entrada']);
         Route::get('/entradas/ver_entrada/buscar_prod/{codigo}', [\App\Http\Controllers\Inventario\EntradasController::class, 'buscar_producto']);
         Route::post('/entradas/ver_entrada/entrada_producto', [App\Http\Controllers\Inventario\EntradasController::class, 'entrada_producto']);
         Route::post('/entradas/ver_entrada/eliminar_producto/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
@@ -110,11 +110,10 @@ Route::middleware('auth')->group(function(){
         Route::post('/entradas/ver_entrada/guardar_edit/{entrada_id}/{producto_id}', [App\Http\Controllers\Inventario\EntradasController::class, 'guardar_edit']);
         Route::post('/entradas/ver_entrada/delete_producto/{entrada_id}/{producto_id}', [\App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
         Route::get('/entradas/editar/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'edit']);
-        Route::post('/entradas/editar/update/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'update']);
+        Route::post('/entradas/editar/update/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'update']);
     });
 
-});
+    Route::get('buscar_proveedor/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'buscar_proveedor']);
+    Route::get('agregar_producto', [App\Http\Controllers\Inventario\EntradasController::class, 'agregar_producto']);
 
-Route::prefix('files')->group(function(){
-    Route::get('facturas/{pathFactura   }/{fac_name}', [App\Http\Controllers\Inventario\EntradasController::class, 'factura_digital'])->name('showFactura');
 });

@@ -6,223 +6,206 @@
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
-        <div class="container">
+        <div class="container-fluid">
             <!-- begin::Card-->
-            <div class="card card-custom overflow-hidden">
-                <div class="card-body pt-0">
-                    <!-- begin: Invoice-->
-                    <!-- begin: Invoice header-->
-                    <div class="row justify-content-center py-md-15 px-md-0">
-                        <div class="col-md-9">
-                            <div class="d-flex justify-content-between pb-1 pb-md-5 flex-column flex-md-row">
-                                <h2 class="font-weight-bolder">{{$entrada->cve_entrada}}</h2>
-                                <div class="d-flex flex-column align-items-md-end px-0">
-                                    @switch($entrada->estatus)
-                                        @case('PAGADO')
-                                            <span class="label label-lg label-light-success label-inline font-weight-bold py-4 text-right">
-                                            PAGADO
-                                            </span>                                           
-                                            @break
-                                        @case('POR PAGAR')
-                                            <span class="label label-lg label-light-warning label-inline font-weight-bold py-4 text-right">
-                                            POR PAGAR
-                                            </span>                                            
-                                            @break
-                                        @case('CANCELADO')
-                                            <span class="label label-lg label-light-danger label-inline font-weight-bold py-4 text-right">
-                                            CANCELADO
-                                            </span>                                            
-                                            @break
-                                        @default                                            
-                                    @endswitch
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="d-flex">
-                                <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
-                                <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
-                                <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Imprimir"><i class="icon-2x fas fa-print text-primary"></i></a>
-                            </div>
-                        </div>
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h2 class="card-label">{{$entrada->cve_entrada}}</h2>
                     </div>
-                    <!-- end: Invoice header-->
-                    <!-- begin: Invoice body-->
-                    <div class="row justify-content-center">
-                        <div class="col-md-9">
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label class="opacity-80">Factura</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->factura }}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="opacity-80">Fecha de emisión</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->fac_fecha }}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="opacity-80">Fecha de registro</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->created_at }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label class="opacity-80">Proveedor</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->proveedor }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="opacity-80">Total</label>
-                                    <p class="font-weight-bolder mb-2">$ {{ $entrada->fac_total }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label class="opacity-80">Observaciones</label>
-                                    {!!$entrada->notas!!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label class="opacity-80">Registró</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->user }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="opacity-80">Modificó</label>
-                                    <p class="font-weight-bolder mb-2">{{ $entrada->updated_user_id }}</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-toolbar">
+                        <a href="javascript:void(0);" onClick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
+                            <span class="svg-icon svg-icon-md">
+                                <i class="icon-md far fa-id-badge"></i>
+                            </span>Agregar Anexo
+                        </a>
+                        <a href="javascript:void(0);" onClick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
+                            <span class="svg-icon svg-icon-md">
+                                <i class="icon-md far fa-id-badge"></i>
+                            </span>Regresar
+                        </a>
                     </div>
-                    <br>
-                    <div class="row justify-content-center">
-                        <div class="col-md-9 d-flex justify-content-between pb-1 pb-md-5 flex-column flex-md-row">
-                                <h5><p class="font-weight-bolder mb-2">Agregar productos</p></h5>
-                                <a href="javascript:void(0);" class="btn btn-icon btn-success btn-sm" onclick="show_form_producto()">
-                                    <i class="flaticon2-down"></i>
+                </div>
+                <div class="card-header card-header-tabs-line">
+                    <div class="card-toolbar">
+                        <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#entrada-principal">
+                                    <span class="nav-icon"><i class="fas fa-tasks"></i></span>
+                                    <span class="nav-text">Principal</span>
                                 </a>
-                        </div>
-                        <br>
-                        <div class="col-md-9 d-none" id="add-producto" name="add-producto">
-                            <form class="form" id="frm_producto_entrada" name="frm_producto_entrada">
-                                <input type="hidden" value="{{ $entrada->id }}" id="id" name="id"/>
-                                <input type="hidden" value="" id="id_prod" name="id_prod"/>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label class="opacity-75">Producto:</label>
-                                        <input type="text" class="form-control" placeholder="Codigo del producto" id="cve_prod" name="cve_prod" autocomplete="off"/>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="opacity-75">Costo:</label>
-                                        <input type="text" class="form-control" placeholder="Precio de compra del producto" id="costo" name="costo" autocomplete="off"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">                                
-                                    <div class="col-md-12">
-                                        <label class="opacity-75">Descripción:</label>
-                                        <input type="text" class="form-control" placeholder="Descripción general del producto" id="general" name="general" autocomplete="off"/>
-                                    </div>
-                                </div>   
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label class="opacity-75">Cantidad:</label>
-                                        <input type="text" class="form-control" placeholder="Cantidad total de producto en factura" id="cant_prod" name="cant_prod" autocomplete="off"/>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="opacity-75">Costo total:</label>
-                                        <input type="text" class="form-control" placeholder="Precio total de producto en factura" id="costo_prod" name="costo_prod" autocomplete="off"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">                                
-                                    <div class="col-md-12">
-                                        <label class="opacity-75">Observaciones:</label>
-                                        <input type="text" class="form-control" placeholder="Observaciones en el producto" id="nota_prod" name="nota_prod" autocomplete="off"/>
-                                    </div>
-                                </div>
-                            </form>                            
-                            <div class="col-md-12 text-right">
-                                <button id="close-form" name="close-form" type="button" class="btn btn-sm btn-light-danger"> Cancelar</button>
-                                <button type="button" class="btn btn-sm btn-light-success" id="agregar-ent-prod" name="agregar-ent-prod"> Agregar</button>
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="col-md-9">
-                            <div class="table-responsive">
-                                <table class="table" id="entrada-productos-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="pl-0 font-weight-boldest text-uppercase">Producto</th>
-                                            <th class="text-right font-weight-boldest text-uppercase">Cantidad</th>
-                                            <th class="text-right font-weight-boldest text-uppercase">Total</th>
-                                            <th class="pr-0 font-weight-boldest text-uppercase">Observaciones</th>
-                                            <th class="pr-0 font-weight-boldest text-uppercase">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody-productos">
-                                        @if (count($entrada_productos) > 0)
-                                        @foreach ($entrada_productos as $ent_prod)
-                                        <tr class="font-weight-boldest font-size-lg" id="{{ $ent_prod->producto }}">
-                                            <td class="pt-4"> {{ $ent_prod->producto }} </td> 
-                                            <td class="text-right pt-4"> {{ $ent_prod->cantidad }} </td> 
-                                            <td class="text-right pt-4">$ {{ $ent_prod->costo_total }} </td> 
-                                            <td class="pt-4"> {{ $ent_prod->comentario }} </td> 
-                                            <td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
-                                                <button type="button" class="btn btn-info" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
-                                            </td> 
-                                        </tr>
-                                        @endforeach
-                                        @else
-                                        <tr class="font-weight-bold font-size-lg" id="empty-ent-prod">
-                                            <td class="text-center pt-4"> No existen productos en la entrada </td> 
-                                        </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            </li>
+                            @if (count($anexos) > 0)
+                            @foreach ($anexos as $anexo)
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#{{ $anexo->cve_anexo }}">
+                                    <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
+                                    <span class="nav-text">Anexo {{ $anexo->consecutivo }}</span>
+                                </a>
+                            </li>
+                            @endforeach
+                            @endif
+                        </ul>
                     </div>
-                    <!-- end: Invoice body-->
-                    <!-- begin: Invoice footer-->
-                    {{-- <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-                        <div class="col-md-9">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bold text-muted text-uppercase">BANK</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">ACC.NO.</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">DUE DATE</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">TOTAL AMOUNT</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="font-weight-bolder">
-                                            <td>BARCLAYS UK</td>
-                                            <td>12345678909</td>
-                                            <td>Jan 07, 2018</td>
-                                            <td class="text-danger font-size-h3 font-weight-boldest">20,600.00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                </div>
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="tab-pane fade show active" id="entrada-principal" role="tabpanel" aria-labelledby="entrada-principal">
+                            <div class="col-xl-12">
+                                <div class="card card-custom gutter-b">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            <h4 class="card-label">Folio: {{$entrada->cve_entrada}}</h4>
+                                            <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Factura digital"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                        </div>
+                                        <div class="card-toolbar">
+                                            <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                            <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                            <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Imprimir"><i class="icon-2x fas fa-print text-primary"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Factura</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->factura }}</p>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Fecha de emisión</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_fecha_emision }}</p>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Fecha de operacion</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_fecha_operacion }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">Proveedor</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->proveedor }}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">RFC</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->rfc }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Dirección</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->direccion }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-3">
+                                                <label class="opacity-80">SubTotal</label>
+                                                <p class="font-weight-bolder mb-2">$ {{ $entrada->fac_subtotal }}</p>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <label class="opacity-80">Impuestos</label>
+                                                <p class="font-weight-bolder mb-2">$ {{ $entrada->fac_impuestos }}</p>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <label class="opacity-80">Extras</label>
+                                                <p class="font-weight-bolder mb-2">$ {{ ($entrada->fac_extras) ? $entrada->fac_extras : "00.00"}}</p>
+                                            </div>
+                                            <div class="col-xl-3">
+                                                <label class="opacity-80">total</label>
+                                                <p class="font-weight-bolder mb-2">$ {{ $entrada->fac_total }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Importe total en letra</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_total_letra }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">Forma de pago</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_forma_pago }}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">Metodo de pago</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_metodo_pago }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Observaciones de la factura</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_notas }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-4">
+                                                <label class="opacity-80">Observaciones de la entrada</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->entrada_notas }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">Registro</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->created_user }}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="opacity-80">Modifico</label>
+                                                <p class="font-weight-bolder mb-2">{{ $entrada->updated_user }}</p>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-6">
+                                                <h5 class="font-weight-bolder mb-2">Productos</h5>
+                                            </div>
+                                           <div class="col-xl-6 text-right">
+                                                <button type="button" class="btn btn-primary font-weight-bolder btn-sm" id="agregar-producto" name="agregar-producto" onclick="agregar_entrada_producto({{ $entrada->id }});">Agregar producto</button>
+                                           </div>
+                                        </div>
+                                        <div class="form-group row align-items-center" class="tab-productos">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped- table-bordered" id="entrada-productos-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="pl-0 font-weight-boldest text-uppercase">Producto</th>
+                                                            <th class="text-right font-weight-boldest text-uppercase">Cantidad</th>
+                                                            <th class="text-right font-weight-boldest text-uppercase">Total</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Observaciones</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody-productos">
+                                                        @if (count($entrada_productos) > 0)
+                                                            @foreach ($entrada_productos as $ent_prod)
+                                                            <tr class="font-weight-boldest font-size-lg" id="{{ $ent_prod->producto }}">
+                                                                <td class="pt-4"> {{ $ent_prod->producto }} </td> 
+                                                                <td class="text-right pt-4"> {{ $ent_prod->cantidad }} </td> 
+                                                                <td class="text-right pt-4">$ {{ $ent_prod->costo_total }} </td> 
+                                                                <td class="pt-4"> {{ $ent_prod->comentario }} </td> 
+                                                                <td><button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                                                    <button type="button" class="btn btn-primary font-weight-bolder btn-sm" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
+                                                                </td> 
+                                                            </tr>
+                                                            @endforeach
+                                                        @else
+                                                            <tr class="font-weight-bold font-size-lg" id="empty-ent-prod">
+                                                                <td class="text-center pt-4"> No existen productos en la entrada </td> 
+                                                            </tr>
+                                                        @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div> --}}
-                    <!-- end: Invoice footer-->
-                    <!-- begin: Invoice action-->
-                    <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                        <div class="col-md-9">
-                            <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>
-                                <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">Print Invoice</button>
-                            </div>
+                        @if (count($anexos) > 0)
+                        @foreach ($anexos as $anexo)
+                        <div class="tab-pane fade show active" id="{{ $anexo->cve_anexo }}" role="tabpanel" aria-labelledby="{{ $anexo->cve_anexo }}">
+
                         </div>
+                        @endforeach
+                        @endif
                     </div>
-                    <!-- end: Invoice action-->
-                    <!-- end: Invoice-->
                 </div>
             </div>
             <!-- end::Card-->

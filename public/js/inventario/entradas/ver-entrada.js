@@ -1,7 +1,11 @@
 "use strict";
 
 $(document).ready(function(){
-  
+
+});
+
+function buscar_producto()
+{
     $("#cve_prod").change(function(){
         $.ajax({
             headers: {
@@ -40,30 +44,41 @@ $(document).ready(function(){
             },
         })
     });
-
-    $("#agregar-ent-prod").on('click', function(){
-        entrada_producto();
-    });
-
-    $("#close-form").on('click', function(){
-        $("#add-producto").addClass('d-none');
-        $("#id_prod").val("");
-        $("#cve_prod").val("");
-        $("#costo").val("");
-        $("#general").val("");
-        $("#cant_prod").val("");
-        $("#costo_prod").val("");
-        $("#nota_prod").val("");
-    });
-
-});
-
-function show_form_producto(){
-    $("#add-producto").removeClass('d-none');
-    $("#cve_prod").focus();
 }
 
-function entrada_producto()
+function agregar_entrada_producto(entrada_id)
+{
+    console.log(entrada_id);
+    $.ajax({
+        url: "/agregar_producto",
+        datatype: 'html',
+        success: function(data){
+            var modal = data;
+            $(modal).modal().on('shown.bs.modal', function () {
+                buscar_producto();
+                $('#id').val(entrada_id);
+            }).on('hidden.bs.modal', function () {
+                $(this).remove();
+            });
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    })
+}
+
+function store_entrada_producto()
 {
     let data = {
         id: $('#id').val(),
@@ -83,37 +98,23 @@ function entrada_producto()
         dataType: 'json',
         success: function(response){
             if (response.success) {
-                $("#empty-ent-prod").remove();
-                /* var datos = response.data;
-                let append = '<tr class="font-weight-boldest font-size-lg" id="'+ datos.producto +'">' +
-                                '<td class="pt-4"> '+ datos.producto +' </td> ' +
-                                '<td class="text-right pt-4"> '+ datos.cantidad +' </td>' +
-                                '<td class="text-right pt-4">$ '+ datos.total +' </td> ' +
-                                '<td class="pt-4"> '+ datos.notas +' </td> ' +
-                                '<td><button type="button" class="btn btn-danger" name="borrar-producto" id="borrar-producto" onclic="">-</button>' +
-                                    '<button type="button" class="btn btn-info" name="editar_producto" id="editar-producto" onclic="editar_entrada_producto('+ datos.entrada_id + ',' + datos.producto_id + ');">editar</button>' +
-                                '</td> ' +
-                            '</tr>';
-                $(append).appendTo("#tbody-productos"); */
-                $("#id_prod").val("");
-                $("#cve_prod").val("");
-                $("#costo").val("");
-                $("#general").val("");
-                $("#cant_prod").val("");
-                $("#costo_prod").val("");
-                $("#nota_prod").val("");
-                $("#entrada-productos-table").load(" #entrada-productos-table");
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Exito!",
-                    text: response.message,
-                    timer: 1500
+                $('#producto_entrada_add_modal').modal('hide').on('hidden.bs.modal', function () {                        
+                    $("#empty-ent-prod").remove();
+                    $("#entrada-productos-table").load(" #entrada-productos-table");
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: response.message,
+                        timer: 1500
+                    });
                 });
             } else {
-                Swal.fire({
-                    icon: "warning",
-                    title: "¡Alerta!",
-                    text: response.message
+                $('#producto_entrada_add_modal').modal('hide').on('hidden.bs.modal', function () {  
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: response.message
+                    });
                 });
             }
         },

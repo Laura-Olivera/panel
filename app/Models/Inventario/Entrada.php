@@ -28,6 +28,7 @@ class Entrada extends Model
         "fac_notas",
         "entrada_notas",
         "fecha_recepcion",
+        "anio",
         "consecutivo",
         "created_user",
         "updated_user",

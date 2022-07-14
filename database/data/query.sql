@@ -20,7 +20,7 @@ INSERT INTO areas (nombre, cve_area, estatus, created_user_id) VALUES
 ('AREA CUATRO', 'AC00000004', TRUE, 1),
 ('AREA CINCO', 'AC00000005', TRUE, 1);
 
-INSERT INTO productos(nombre, proveedor_id, codigo, precio_venta, precio_venta, cantidad, categoria_id, estatus, created_user_id) VALUES 
+INSERT INTO productos(nombre, proveedor_id, codigo, precio_compra, precio_venta, cantidad, categoria_id, estatus, created_user_id) VALUES 
 ('producto uno', 1, 'PROD000001', 189.99, 214.88, 200, 1, TRUE, 1),
 ('producto dos', 2, 'PROD000002', 189.99, 214.88, 200, 2, TRUE, 1),
 ('producto tres', 3, 'PROD000003', 189.99, 214.88, 200, 3, TRUE, 1),
@@ -33,3 +33,10 @@ INSERT INTO inventario_entradas(cve_entrada, proveedor_id, factura, fac_fecha_em
 ('ETD220000003', 3, 3, '2022-07-11', '2022-07-11',16800.00, 3200.00, 20000.00, 'VEINTE MIL PESOS 00/100 M.N.', 'Efectivo', 'Pago en una sola exhibicion', 'admin', 'admin'),
 ('ETD220000004', 4, 4, '2022-07-11', '2022-07-11',16800.00, 3200.00, 20000.00, 'VEINTE MIL PESOS 00/100 M.N.', 'Efectivo', 'Pago en una sola exhibicion', 'admin', 'admin'),
 ('ETD220000005', 5, 5, '2022-07-11', '2022-07-11',16800.00, 3200.00, 20000.00, 'VEINTE MIL PESOS 00/100 M.N.', 'Efectivo', 'Pago en una sola exhibicion', 'admin', 'admin');
+
+INSERT INTO inventario_entradas_productos(entrada_id, producto_id, cantidad, costo_total, comentario) VALUES
+(6, 1, 200, 3360.00, 'SIN OBSERVACIONES'),
+(6, 2, 200, 3360.00, 'SIN OBSERVACIONES'),
+(6, 3, 200, 3360.00, 'SIN OBSERVACIONES'),
+(6, 4, 200, 3360.00, 'SIN OBSERVACIONES'),
+(6, 5, 200, 3360.00, 'SIN OBSERVACIONES');

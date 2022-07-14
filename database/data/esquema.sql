@@ -289,9 +289,10 @@ CREATE TABLE public.inventario_entradas (
     fac_notas TEXT,
     entrada_notas TEXT,
     fecha_recepcion DATE,
+    anio INT,
     consecutivo SMALLINT,
-    created_user CHARACTER VARYING(100) NOT NULL,
-    updated_user CHARACTER VARYING(100) NOT NULL,
+    created_user CHARACTER VARYING(100),
+    updated_user CHARACTER VARYING(100),
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
 );
@@ -301,6 +302,7 @@ CREATE TABLE public.inventario_entradas_anexos (
     id BIGINT NOT NULL,
     consecutivo SMALLINT NOT NULL,
     entrada_id BIGINT,
+    cve_anexo CHARACTER VARYING(255) UNIQUE NOT NULL,
     fac_forma_pago CHARACTER VARYING(100) NOT NULL,
     fac_parcialidad SMALLINT NOT NULL,
     fac_saldo_anterior DECIMAL(10,2) NOT NULL,

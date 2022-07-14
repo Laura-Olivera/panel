@@ -8,12 +8,17 @@ $(document).ready(function (){
         allowClear: true
     });
 
-    $('#estatus').select2({
+    $('#fac_forma_pago').select2({
         placeholder: "Seleccione una opcion",
         allowClear: true
     });
 
-    $('#fac_fecha').datepicker({
+    $('#fac_metodo_pago').select2({
+        placeholder: "Seleccione una opcion",
+        allowClear: true
+    });
+
+    $('#fac_fecha_emision').datepicker({
         startDate: new Date('01-01-2000'),
 		endDate: new Date(),	
 		orientation: "bottom left",
@@ -23,7 +28,23 @@ $(document).ready(function (){
         language: 'es'
     });
 
-    $('#fac_fecha').val(today);
+    $('#fac_fecha_operacion').datepicker({
+        startDate: new Date('01-01-2000'),
+		endDate: new Date(),	
+		orientation: "bottom left",
+		todayHighlight: true,
+		autoclose: true,
+		format: 'yyyy-mm-dd',
+        language: 'es'
+    });
+
+    $('#fac_fecha_emision').val(today);
+    $('#fac_fecha_operacion').val(today);
+
+    $("#proveedor").on('change', function(){
+        let id = this.value;
+        buscar_proveedor(id);
+    });
 
 });
 
@@ -69,6 +90,45 @@ function update_entrada(cve_entrada)
             } else {
                 Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
             }
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
+}
+
+function buscar_proveedor(id)
+{
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
+        }, 
+        type: 'GET',
+        url: "/buscar_proveedor/" + id,
+        datatype: 'json',
+        success: function(response){
+            if (response.success) {
+                $("#prov_rfc").val(response.rfc);
+                $("#prov_direccion").val(response.direccion);
+                $("#fac_fecha_emision").focus();
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: 'El proveedor no existe.'
+                });
+            }
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
         },
         beforeSend: function () {
             KTApp.blockPage({

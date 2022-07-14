@@ -6,6 +6,7 @@ use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Models\Catalogos\Producto;
 use App\Models\Catalogos\Proveedor;
+use App\Models\Inventario\Anexo;
 use App\Models\Inventario\Entrada;
 use App\Models\Inventario\EntradaProducto;
 use Illuminate\Http\Request;
@@ -38,13 +39,17 @@ class EntradasController extends Controller
         return view('inventario.entradas.nueva_entrada', compact('proveedores'));
     }
 
-    public function buscar_proveedo($id)
+    public function buscar_proveedor($id)
     {
         try {
             $proveedor = Proveedor::findOrFail($id);
+            $response = ['success' => true, 'rfc' => $proveedor->rfc, 'direccion' => $proveedor->direccion];
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al crear entrada', 'warning');
+            $response = ['success' => false];
         }
+        return $response;
     }
 
     public function store(Request $request)
@@ -52,7 +57,7 @@ class EntradasController extends Controller
         try {
             $user = Auth::user();
             $year = date('Y');
-            $consecutivo = DB::table('inventario_entradas')->select('consecutivo')->orderBy('consecutivo', 'desc')->first();
+            $consecutivo = DB::table('inventario_entradas')->select('consecutivo')->where('anio', '=', $year)->orderBy('consecutivo', 'desc')->first();
             $conse = ($consecutivo) ? $consecutivo->consecutivo + 1 : 1;
             $folio = $this->folioEntrada($year, $conse, 'ENTRADA');
             if($request->hasFile('fac_path')){
@@ -65,13 +70,13 @@ class EntradasController extends Controller
             DB::beginTransaction();
             $entrada = Entrada::create([
                 "cve_entrada" => $folio,
-                "proveedor_id" => $request->proveedor_id,
+                "proveedor_id" => $request->proveedor,
                 "factura" => $request->factura,
                 "fac_fecha_emision" => $request->fac_fecha_emision,
                 "fac_fecha_operacion" => $request->fac_fecha_operacion,
                 "fac_path" => $db_path,
                 "fac_subtotal" => $request->fac_subtotal,
-                "fac_impuestos" => $request->fac_impuestos,
+                "fac_impuestos" => $request->fac_impuesto,
                 "fac_extras" => $request->fac_extras,
                 "fac_total" => $request->fac_total,
                 "fac_total_letra" => $request->fac_total_letra,
@@ -80,8 +85,10 @@ class EntradasController extends Controller
                 "fac_notas" => ($request->fac_notas) ? $request->fac_notas : "SIN OBSERVACIONES",
                 "entrada_notas" => ($request->entrada_notas) ? $request->entrada_notas : "SIN OBSERVACIONES",
                 "fecha_recepcion" => $request->fecha_recepcion,
-                "consecutivo" => $request->consecutivo,
+                "anio" => $year,
+                "consecutivo" => $conse,
                 "created_user" => $user->usuario,
+                "updated_user" => "",
             ]);
             DB::commit();
             $data = request();
@@ -97,32 +104,35 @@ class EntradasController extends Controller
         return $response;
     }
 
-    public function show($cve_entrada)
+    public function show_entrada($cve_entrada)
     {
         //dd('show entrada');
-        $entrada = DB::table('inventario_entradas')->select('inventario_entradas.*', 'proveedores.nombre as proveedor', 'users.usuario as user')
+        $entrada = DB::table('inventario_entradas')->select('inventario_entradas.*', 'proveedores.nombre as proveedor', 'proveedores.rfc as rfc', 'proveedores.direccion as direccion')
             ->join('proveedores', 'proveedores.id', '=', 'inventario_entradas.proveedor_id')
-            ->join('users', 'users.id', '=', 'inventario_entradas.created_user_id')
             ->where('inventario_entradas.cve_entrada', '=', $cve_entrada)
             ->first();
-        $entrada->created_at = \Carbon\Carbon::parse($entrada->created_at)->format('Y-m-d');
         $entrada_productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
             ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
             ->where('inventario_entradas_productos.entrada_id', '=', $entrada->id)->get();
-        return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos'));
+        $anexos = Anexo::where('entrada_id', '=', $entrada->id)->get();
+        return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos', 'anexos'));
     }
-
-    //select "inventario_entradas_producto".*, "productos"."codigo" as "producto" from "inventario_entradas_productos" inner join "productos" on "productos"."id" = "inventario_entradas_productos"."producto_id" where "inventario_entradas_productos"."entrada_id" = 4;
 
     public function buscar_producto($codigo)
     {
         try {
             $producto = Producto::where('codigo', '=', $codigo)->first();
-            $response = ['id_prod' => $producto->id, 'descrip_gral' => $producto->descrip_gral, 'costo' => $producto->costo, 'success' => true];
+            $response = ['id_prod' => $producto->id, 'descrip_gral' => $producto->descrip_gral, 'costo' => $producto->precio_compra, 'success' => true];
             return $response;
         } catch (\Throwable $th) {
-            //throw $th;
+            $response = ['success' => false];
+            return $response;
         }
+    }
+
+    public function agregar_producto()
+    {
+        return view('inventario.entradas.models.modal_add_producto_entrada');
     }
 
     public function entrada_producto(Request $request)
@@ -141,7 +151,7 @@ class EntradasController extends Controller
                 $total = ($prod_total) ? $prod_total->prod_total + $request->pre_prod : 0;
                 //dd($prod_total);
                 //dd(($prod_total->prod_total > $fac_total->fac_total) ? true : false );
-                if ($total > $fac_total->fac_total) {
+                if ($total > $fac_total->fac_subtotal) {
                     $response = ['success' => false, 'message' => 'El costo total de productos en factura sobrepasa el costo total de la entrada. Verifique la informacion.'];
                 } else {
                     if(is_null($request->nota_prod)){
@@ -280,7 +290,10 @@ class EntradasController extends Controller
      */
     public function edit($cve_entrada)
     {
-        $entrada = Entrada::where('cve_entrada', '=', $cve_entrada)->first();
+        $entrada = DB::table('inventario_entradas')->select('inventario_entradas.*', 'proveedores.nombre as proveedor', 'proveedores.rfc as rfc', 'proveedores.direccion as direccion')
+            ->join('proveedores', 'proveedores.id', '=', 'inventario_entradas.proveedor_id')
+            ->where('inventario_entradas.cve_entrada', '=', $cve_entrada)
+            ->first();
         $proveedores = Proveedor::all();
         return view('inventario.entradas.editar_entrada', compact('entrada', 'proveedores'));
     }
@@ -296,8 +309,8 @@ class EntradasController extends Controller
     {
         try {
             $entrada = Entrada::findOrFail($request->id);
-            $user = Auth::user()->id;
-            $year = date('Y', strtotime($entrada->fac_fecha));
+            $user = Auth::user()->usuario;
+            $year = $entrada->anio;
             $existeArchivo = false;
             if($request->hasFile('fac_path')){
                 $factura = $request->file('fac_path');
@@ -307,7 +320,7 @@ class EntradasController extends Controller
 
                 $disk = Storage::disk('files_upload');                
                 $path = 'facturas/'. $year. '/';
-                $db_path = Storage::disk('files_upload')->url('facturas/'.$year);
+                $db_path = Storage::disk('files_upload')->url($path);
 
                 if(is_file($db_path.$fac_name)){
                     $respaldo = "{$entrada->cve_entrada}_".date('Ymd_His').".{$extension}";
@@ -322,15 +335,21 @@ class EntradasController extends Controller
             
             $entrada->proveedor_id = $request->proveedor;
             $entrada->factura = $request->factura;
-            $entrada->fac_fecha = $request->fac_fecha;
-            if ($existeArchivo) {
+            $entrada->fac_fecha_emision = $request->fac_fecha_emision;
+            $entrada->fac_fecha_operacion = $request->fac_fecha_operacion;
+            if($existeArchivo){
                 $entrada->fac_path = $db_path;
+                $entrada->fac_notas = $request->fac_notas;
             }
+            $entrada->fac_subtotal = $request->fac_subtotal;
+            $entrada->fac_impuestos = $request->fac_impuesto;
+            $entrada->fac_extras = $request->fac_extras;
             $entrada->fac_total = $request->fac_total;
-            $entrada->fac_notas = $request->fac_notas;
-            $entrada->notas = $request->notas;
-            $entrada->estatus = $request->estatus;
-            $entrada->updated_user_id = $user;
+            $entrada->fac_total_letra = $request->fac_total_letra;
+            $entrada->fac_forma_pago = $request->fac_forma_pago;
+            $entrada->fac_metodo_pago = $request->fac_metodo_pago;
+            $entrada->entrada_notas = $request->entrada_notas;
+            $entrada->updated_user = $user;
             $entrada->save();
 
             DB::commit();
@@ -338,7 +357,7 @@ class EntradasController extends Controller
             $data = request();
             $accion = 'Actualizacion de entrada';
             Bitacora::usuarios($data, $accion);
-            $response = ['success' => true, 'message' => 'Entrada registrada correctamente.', 'entrada' => $request->cve_entrada];
+            $response = ['success' => true, 'message' => 'Entrada registrada correctamente.', 'entrada' => $entrada->cve_entrada];
 
         } catch (\Throwable $th) {
        

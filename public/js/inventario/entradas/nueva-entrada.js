@@ -42,7 +42,7 @@ $(document).ready(function (){
     $('#fac_fecha_operacion').val(today);
 
     $("#proveedor").on('change', function(){
-        id = this.value;
+        let id = this.value;
         buscar_proveedor(id);
     });
 
@@ -118,7 +118,7 @@ function buscar_proveedor(id)
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
         }, 
         type: 'GET',
-        url: "buscar_proveedor/" + id,
+        url: "/buscar_proveedor/" + id,
         datatype: 'json',
         success: function(response){
             if (response.success) {

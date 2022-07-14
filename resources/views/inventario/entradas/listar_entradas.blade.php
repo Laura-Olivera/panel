@@ -8,7 +8,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<!--begin::Container-->
-	<div class="container">
+	<div class="container-fluid">
 		<!--begin::Card-->
 		<div class="card card-custom">
 			<!--begin::Header-->

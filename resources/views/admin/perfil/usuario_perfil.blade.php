@@ -1,23 +1,9 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
-<!--begin::Subheader-->
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-	<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-		<!--begin::Details-->
-		<div class="d-flex align-items-center flex-wrap mr-2">
-			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Mi Perfil</h5>
-			<!--end::Title-->
-		</div>
-		<!--end::Details-->
-	</div>
-</div>
-<!--end::Subheader-->
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
@@ -318,7 +304,6 @@
 
 @section('scripts')
 <!--begin::Page Scripts(used by this page)-->
-<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/users/perfil.js?v=1.0.0') }}" type="text/javascript"></script>
 <script src="{{ URL::asset('js/admin/tareas.js?v=1.0.0') }}" type="text/javascript"></script>
 <!--end::Page Scripts-->
