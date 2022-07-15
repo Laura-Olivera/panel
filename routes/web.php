@@ -111,9 +111,15 @@ Route::middleware('auth')->group(function(){
         Route::post('/entradas/ver_entrada/delete_producto/{entrada_id}/{producto_id}', [\App\Http\Controllers\Inventario\EntradasController::class, 'eliminar_producto']);
         Route::get('/entradas/editar/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'edit']);
         Route::post('/entradas/editar/update/{cve_entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'update']);
+        Route::get('anexo/create/{cve_entrada}', [App\Http\Controllers\Inventario\AnexosController::class, 'create']);
+        Route::post('anexo/store', [\App\Http\Controllers\Inventario\AnexosController::class, 'store']);
+        Route::get('anexo/edit/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'edit']);
+        Route::post('anexo/update/{id}', [\App\Http\Controllers\Inventario\AnexosController::class, 'update']);
+        Route::post('anexo/delete/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'delete']);
     });
 
     Route::get('buscar_proveedor/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'buscar_proveedor']);
     Route::get('agregar_producto', [App\Http\Controllers\Inventario\EntradasController::class, 'agregar_producto']);
+    Route::get('documentos/{path}/{name}', [App\Http\Controllers\Inventario\EntradasController::class, 'mostrar_documento'])->name('mostrarDocumento');
 
 });

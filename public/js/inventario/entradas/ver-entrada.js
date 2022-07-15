@@ -290,6 +290,35 @@ function delete_ent_prod(entrada_id, producto_id)
     });
 }
 
+function mostrar_archivo(path, name)
+{
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')   
+        },
+        url: "/documentos/" + path + "/" + name,
+        type: "GET",
+        success: function(){
+
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+
+    });
+}
+
 function validar(form)
 {
     var validator = form.validate({

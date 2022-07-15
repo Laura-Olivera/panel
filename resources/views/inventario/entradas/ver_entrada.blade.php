@@ -14,12 +14,12 @@
                         <h2 class="card-label">{{$entrada->cve_entrada}}</h2>
                     </div>
                     <div class="card-toolbar">
-                        <a href="javascript:void(0);" onClick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
+                        <a href="javascript:void(0);" onclick="add_anexo_modal({{$entrada->id}});" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
                             <span class="svg-icon svg-icon-md">
                                 <i class="icon-md far fa-id-badge"></i>
                             </span>Agregar Anexo
                         </a>
-                        <a href="javascript:void(0);" onClick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
+                        <a href="javascript:void(0);" onclick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
                             <span class="svg-icon svg-icon-md">
                                 <i class="icon-md far fa-id-badge"></i>
                             </span>Regresar
@@ -31,7 +31,7 @@
                         <ul class="nav nav-tabs nav-bold nav-tabs-line">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#entrada-principal">
-                                    <span class="nav-icon"><i class="fas fa-tasks"></i></span>
+                                    <span class="nav-icon"><i class="fas fa-file-invoice"></i></span>
                                     <span class="nav-text">Principal</span>
                                 </a>
                             </li>
@@ -49,14 +49,16 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="card-content">
+                    <div class="tab-content">
                         <div class="tab-pane fade show active" id="entrada-principal" role="tabpanel" aria-labelledby="entrada-principal">
                             <div class="col-xl-12">
                                 <div class="card card-custom gutter-b">
                                     <div class="card-header">
                                         <div class="card-title">
                                             <h4 class="card-label">Folio: {{$entrada->cve_entrada}}</h4>
-                                            <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Factura digital"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                            @if ($filename = $entrada->filename)
+                                            <a class="btn btn-icon" href="{{URL::to('documentos/'.$entrada->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                            @endif
                                         </div>
                                         <div class="card-toolbar">
                                             <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
@@ -160,12 +162,12 @@
                                                 <button type="button" class="btn btn-primary font-weight-bolder btn-sm" id="agregar-producto" name="agregar-producto" onclick="agregar_entrada_producto({{ $entrada->id }});">Agregar producto</button>
                                            </div>
                                         </div>
-                                        <div class="form-group row align-items-center" class="tab-productos">
+                                        <div class="row align-items-center" class="tab-productos">
                                             <div class="table-responsive">
-                                                <table class="table table-striped- table-bordered" id="entrada-productos-table">
+                                                <table class="table table-bordered" id="entrada-productos-table">
                                                     <thead>
                                                         <tr>
-                                                            <th class="pl-0 font-weight-boldest text-uppercase">Producto</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Producto</th>
                                                             <th class="text-right font-weight-boldest text-uppercase">Cantidad</th>
                                                             <th class="text-right font-weight-boldest text-uppercase">Total</th>
                                                             <th class="pr-0 font-weight-boldest text-uppercase">Observaciones</th>
@@ -200,8 +202,8 @@
                         </div>
                         @if (count($anexos) > 0)
                         @foreach ($anexos as $anexo)
-                        <div class="tab-pane fade show active" id="{{ $anexo->cve_anexo }}" role="tabpanel" aria-labelledby="{{ $anexo->cve_anexo }}">
-
+                        <div class="tab-pane fade" id="{{ $anexo->cve_anexo }}" role="tabpanel" aria-labelledby="{{ $anexo->cve_anexo }}">
+                            @include('inventario.entradas.partials.entrada_anexo')
                         </div>
                         @endforeach
                         @endif
@@ -216,4 +218,5 @@
 @endsection
 @section('scripts')
     <script src="{{ URL::asset('js/inventario/entradas/ver-entrada.js?v=1.0.0') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('js/inventario/anexos/anexo-entrada.js?v=1.0.0') }}" type="text/javascript"></script>
 @endsection

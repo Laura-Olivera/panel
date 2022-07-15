@@ -111,10 +111,15 @@ class EntradasController extends Controller
             ->join('proveedores', 'proveedores.id', '=', 'inventario_entradas.proveedor_id')
             ->where('inventario_entradas.cve_entrada', '=', $cve_entrada)
             ->first();
+
+        $entrada->filename = $this->filename($entrada->fac_path, $entrada->cve_entrada);
         $entrada_productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
             ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
             ->where('inventario_entradas_productos.entrada_id', '=', $entrada->id)->get();
-        $anexos = Anexo::where('entrada_id', '=', $entrada->id)->get();
+        $anexos = Anexo::where('entrada_id', '=', $entrada->id)->where('estatus', '=', true)->get();
+        foreach ($anexos as $anexo) {
+            $anexo->filename = $this->filename($anexo->fac_path, $anexo->cve_anexo);
+        }
         return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos', 'anexos'));
     }
 
@@ -371,18 +376,6 @@ class EntradasController extends Controller
         return $response;
     }
 
-    /* {"_token":"PIXxXKwh12CsIRrPIj2bb2i554GLqBAQYdJ62wgV",
-        "proveedor":"5",
-        "factura":"7",
-        "fac_fecha":"2022-06-16",
-        "fac_total":"15800.00",
-        "estatus":"POR PAGAR",
-        "fac_notas":"---------------------",
-        "notas":"<h4><strong>SIN OBSERVACIONES<\/strong><\/h4>",
-        "fac_path":{}
-    }; */
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -399,11 +392,28 @@ class EntradasController extends Controller
     *
     *
     */
-    public function factura_digital($encryp_path, $fac_name)
+    public function filename($path, $file)
     {
-        $path = $encryp_path;
-        $name = $fac_name;
-        $url = $path.''.$name;
+        $name = null;
+        if( is_file( "{$path}/{$file}.pdf") ) {
+                $name = $file.'.pdf';
+        } else if( is_file( "{$path}/{$file}.PDF") ) {
+                $name = $file.'.PDF';
+        }
+
+        return $name;
+    }
+
+    /* 
+    *
+    *
+    *
+    */
+    public function mostrar_documento($path, $fac_name)
+    {
+        
+        $path = $path;
+        $url = $path.''.$fac_name;
         if( is_file($url) ) {
             return response()->file( $url );
         }else{

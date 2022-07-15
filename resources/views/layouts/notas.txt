@@ -520,10 +520,3 @@ Condicion del pago
 @section('scripts')
     <script src="{{ URL::asset('js/inventario/entradas/ver-entrada.js?v=1.0.0') }}" type="text/javascript"></script>
 @endsection
-
-
-
-
-
-
-        Route::get('/entradas/ver_entrada/agregar_producto', [App\Http\Controllers\Inventario\SalidasController::class, 'entradaproductomodal']);

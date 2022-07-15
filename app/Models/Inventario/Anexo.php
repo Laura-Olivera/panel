@@ -25,7 +25,6 @@ class Anexo extends Model
         "fac_notas",
         "anexo_notas",
         "estatus",
-        "consecutivo",
         "created_user",
         "updated_user",
         "cve_anexo",

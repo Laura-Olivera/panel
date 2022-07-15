@@ -103,6 +103,14 @@ CREATE SEQUENCE public.inventario_entradas_anexos_id_seq
     NO MAXVALUE
     CACHE 1;
 
+DROP SEQUENCE IF EXISTS public.entradas_anexos_delete_id_seq;
+CREATE SEQUENCE public.entradas_anexos_delete_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 DROP SEQUENCE IF EXISTS public.inventario_entradas_facturas_id_seq;
 CREATE SEQUENCE public.inventario_entradas_facturas_id_seq
     START WITH 1
@@ -302,14 +310,15 @@ CREATE TABLE public.inventario_entradas_anexos (
     id BIGINT NOT NULL,
     consecutivo SMALLINT NOT NULL,
     entrada_id BIGINT,
-    cve_anexo CHARACTER VARYING(255) UNIQUE NOT NULL,
-    fac_forma_pago CHARACTER VARYING(100) NOT NULL,
-    fac_parcialidad SMALLINT NOT NULL,
-    fac_saldo_anterior DECIMAL(10,2) NOT NULL,
-    fac_saldo_insoluto DECIMAL(10,2) NOT NULL,
-    fac_total_letra CHARACTER VARYING(255) NOT NULL, 
+    cve_anexo CHARACTER VARYING(255) UNIQUE NOT NULL,    
     fac_fecha_emision DATE,
     fac_fecha_operacion DATE,
+    fac_total DECIMAL(10,2) NOT NULL,
+    fac_total_letra CHARACTER VARYING(255) NOT NULL,
+    fac_parcialidad CHARACTER VARYING(100),
+    fac_forma_pago CHARACTER VARYING(100) NOT NULL,
+    fac_saldo_anterior DECIMAL(10,2) NOT NULL,
+    fac_saldo_insoluto DECIMAL(10,2) NOT NULL,
     fac_path CHARACTER VARYING(255),
     fac_notas TEXT,
     anexo_notas TEXT,
@@ -318,6 +327,16 @@ CREATE TABLE public.inventario_entradas_anexos (
     updated_user CHARACTER VARYING(100) NOT NULL,
     created_at TIMESTAMP(0) WITHOUT TIME ZONE,
     updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+);
+
+DROP TABLE IF EXISTS public.entradas_anexos_delete;
+CREATE TABLE public.entradas_anexos_delete (
+    id BIGINT,
+    cve_anexo CHARACTER VARYING(100) NOT NULL,
+    comentario CHARACTER VARYING(255) NOT NULL,
+    user_id SMALLINT,
+    user CHARACTER VARYING(100),
+    deleted_at TIMESTAMP(0) WITHOUT TIME ZONE     
 );
 
 DROP TABLE IF EXISTS public.inventario_entradas_facturas;
@@ -372,6 +391,8 @@ ALTER TABLE ONLY public.inventario_entradas_anexos ALTER COLUMN id SET DEFAULT n
 
 ALTER TABLE ONLY public.inventario_entradas_facturas ALTER COLUMN id SET DEFAULT nextval('public.inventario_entradas_facturas_id_seq'::regclass);
 
+ALTER TABLE ONLY public.entradas_anexos_delete ALTER COLUMN id SET DEFAULT nextval('public.entradas_anexos_delete_id_seq'::regclass);
+
 SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
@@ -397,6 +418,8 @@ SELECT pg_catalog.setval('public.inventario_entradas_id_seq', 1, false);
 SELECT pg_catalog.setval('public.inventario_entradas_anexos_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.inventario_entradas_facturas_id_seq', 1, false);
+
+SELECT pg_catalog.setval('public.entradas_anexos_delete_id_seq', 1, false);
 
 -------------------------------------------
 --------ADD PRIMARY KEY TO ID-----------
@@ -433,6 +456,8 @@ ALTER TABLE ONLY public.inventario_entradas ADD CONSTRAINT inventario_entradas_i
 ALTER TABLE ONLY public.inventario_entradas_anexos ADD CONSTRAINT inventario_entradas_anexos_id_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.inventario_entradas_facturas ADD CONSTRAINT inventario_entradas_facturas_id_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.entradas_anexos_delete ADD CONSTRAINT entradas_anexos_delete_id_pk PRIMARY KEY (id);
 
 -------------------------------------------
 --------ADD INDEXES------------------------
