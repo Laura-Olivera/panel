@@ -26,15 +26,17 @@
                 </div>
             </div>
             <div class="form-group row align-items-start">                
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <label class="opacity-80">total</label>
                     <p class="font-weight-bolder mb-2">$ {{ $anexo->fac_total }}</p>
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <label class="opacity-80">Importe total en letra</label>
                     <p class="font-weight-bolder mb-2">{{ $anexo->fac_total_letra }}</p>
                 </div>
-                <div class="col-xl-4">
+            </div>
+            <div class="form-group row align-items-start">                
+                <div class="col-xl-6">
                     <label class="opacity-80">Forma de pago</label>
                     <p class="font-weight-bolder mb-2">{{ $anexo->fac_forma_pago }}</p>
                 </div>

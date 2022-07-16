@@ -335,7 +335,7 @@ CREATE TABLE public.entradas_anexos_delete (
     cve_anexo CHARACTER VARYING(100) NOT NULL,
     comentario CHARACTER VARYING(255) NOT NULL,
     user_id SMALLINT,
-    user CHARACTER VARYING(100),
+    user_name CHARACTER VARYING(255),
     deleted_at TIMESTAMP(0) WITHOUT TIME ZONE     
 );
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Inventario;
 use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Models\Inventario\Anexo;
+use App\Models\Inventario\AnexoDelete;
 use App\Models\Inventario\Entrada;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -192,6 +194,52 @@ class AnexosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $anexo = Anexo::where('id', '=', $id)->where('estatus', '=', true)->first();
+        return view('inventario.entradas.models.modal_delete_anexo', compact('anexo'));
+    }
+
+    /* 
+    *
+    *
+    *
+    */
+
+    public function confirm_delete(Request $request)
+    {
+        try {
+            $anexo = Anexo::findOrFail($request->id);
+            
+            DB::beginTransaction();
+            $anexoDelete = AnexoDelete::create([
+                "cve_anexo" => $anexo->cve_anexo,
+                "comentario" => $request->comentario,
+                "user_id" => Auth::user()->id,
+                "user_name" => Auth::user()->usuario,
+                "deleted_at" => Carbon::now(),
+            ]);
+            DB::commit();
+
+            DB::beginTransaction();
+            $anexo->estatus = False;
+            $anexo->updated_user = Auth::user()->usuario;
+            $anexo->save();
+            DB::commit();
+
+            $data = request();
+            $accion = 'Eliminar anexo';
+            Bitacora::usuarios($data, $accion);
+            $response = ['success' => true, 'message' => 'El anexo se elimino correctamente.'];
+
+        } catch (\Throwable $th) {
+       
+            DB::rollback();
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error eliminar anexo', 'warning');
+            $response = ['success' => false, 'message' => 'Error al eliminar anexo.'];
+       
+        }
+
+        return $response;
+       
     }
 }

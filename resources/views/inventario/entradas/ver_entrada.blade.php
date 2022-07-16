@@ -132,13 +132,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-start">
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-12">
                                                 <label class="opacity-80">Observaciones de la factura</label>
                                                 <p class="font-weight-bolder mb-2">{{ $entrada->fac_notas }}</p>
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-start">
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-12">
                                                 <label class="opacity-80">Observaciones de la entrada</label>
                                                 <p class="font-weight-bolder mb-2">{{ $entrada->entrada_notas }}</p>
                                             </div>

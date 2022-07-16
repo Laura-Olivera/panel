@@ -234,7 +234,111 @@ function update_entrada_anexo(id)
 
 function delete_anexo_entrada(id)
 {
-    
+    $.ajax({
+        url: "/inventario/anexo/delete/" + id,
+        datatype: 'html',
+        success: function(data){
+            var modal = data;
+            $(modal).modal().on('shown.bs.modal', function () {
+
+            }).on('hidden.bs.modal', function () {
+                $(this).remove();
+            });
+        },
+        error: function (xhr) {
+            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+    });
+}
+
+function confirm_delete(id)
+{
+    Swal.fire({
+        title: '¿Desea eliminar este contacto?',
+        showCancelButton: true,
+        confirmButtonText: `Eliminar`,
+        cancelButtonText: `Cancelar`
+    }).then((result) => {
+        console.log(result);
+        if(result.value){
+            
+            var form = $("#frm_anexo_delete");
+            var validate = validar_delete(form);
+            if(validate){
+                let data = {
+                    id: id,
+                    comentario: $("#delete_nota").val()
+                }
+                $.ajax({
+                    headers : {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },                
+                    url: "/inventario/anexo/delete/confirm/" + id,
+                    data: data,
+                    type: 'POST',
+                    datatype: 'json',
+                    success: function(response){
+                        if (response.success) {
+                            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "¡Exito!",
+                                    text: response.message,
+                                    timer: 1500
+                                }).then((result) => {
+                                    window.location.reload();
+                                })
+                            });
+                        } else {
+                            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "¡Alerta!",
+                                    text: response.message
+                                });
+                            });
+                        }
+                    },
+                    error: function(xhr){
+                        Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+                    },            
+                    beforeSend: function () {
+                        KTApp.blockPage({
+                            overlayColor: '#000000',
+                            type: 'v2',
+                            state: 'success',
+                            zIndex: 3000
+                        });
+                    },
+                    complete: function () {
+                        KTApp.unblockPage();
+                    },
+                });
+            }else{
+                return false;
+            }
+
+        }else{
+            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: response.message
+                });
+            });
+        }
+    })
 }
 
 function validar(form)
@@ -265,6 +369,19 @@ function validar(form)
             fac_path: {
                 required: true
             },
+        }
+    });
+
+    return validator.form();
+}
+
+function validar_delete(form)
+{
+    var validator = form.validate({
+        rules: {
+            delete_nota: {
+                required: true
+            }
         }
     });
 

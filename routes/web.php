@@ -115,7 +115,8 @@ Route::middleware('auth')->group(function(){
         Route::post('anexo/store', [\App\Http\Controllers\Inventario\AnexosController::class, 'store']);
         Route::get('anexo/edit/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'edit']);
         Route::post('anexo/update/{id}', [\App\Http\Controllers\Inventario\AnexosController::class, 'update']);
-        Route::post('anexo/delete/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'delete']);
+        Route::get('anexo/delete/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'destroy']);
+        Route::post('anexo/delete/confirm/{id}', [App\Http\Controllers\Inventario\AnexosController::class, 'confirm_delete']);
     });
 
     Route::get('buscar_proveedor/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'buscar_proveedor']);
