@@ -93,7 +93,7 @@
 					</div>
 				</li>	
 				@endcanany
-				@canany(['SuperAdmin', 'CatalogoAreas', 'CatalogoCategorias', 'CatalogoProductos', 'CatalogoProveedores'])
+				@canany(['SuperAdmin', 'CatalogoAreas', 'CatalogoCategorias', 'CatalogoProductos', 'CatalogoProveedores', 'CatalogoClientes'])
 				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 					<a href="javascript:;" class="menu-link menu-toggle">
 						<span class="svg-icon menu-icon">
@@ -155,6 +155,16 @@
 										<span></span>
 									</i>
 									<span class="menu-text">Proveedores</span>
+								</a>
+							</li>	
+							@endcan	
+							@can('CatalogoClientes')
+							<li class="menu-item" aria-haspopup="true">
+								<a href="{{ url('catalogos/clientes') }}" class="menu-link">
+									<i class="menu-bullet menu-bullet-dot">
+										<span></span>
+									</i>
+									<span class="menu-text">Clientes</span>
 								</a>
 							</li>	
 							@endcan							

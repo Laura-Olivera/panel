@@ -27,6 +27,13 @@ INSERT INTO productos(nombre, proveedor_id, codigo, precio_compra, precio_venta,
 ('producto cuatro', 4, 'PROD000004', 189.99, 214.88, 200, 4, TRUE, 1),
 ('producto cinco', 5, 'PROD000005', 189.99, 214.88, 200, 5, TRUE, 1);
 
+INSERT INTO clientes(nombre, rfc, email, estatus, created_user_id, telefono) VALUES
+('cliente1', 'CNT0000001', 'correo@correo.com', true, 1, '0123456789'),
+('cliente2', 'CNT0000002', 'correo@correo.com', true, 1, '0123456789'),
+('cliente3', 'CNT0000003', 'correo@correo.com', true, 1, '0123456789'),
+('cliente4', 'CNT0000004', 'correo@correo.com', true, 1, '0123456789'),
+('cliente5', 'CNT0000005', 'correo@correo.com', true, 1, '0123456789');
+
 INSERT INTO inventario_entradas(cve_entrada, proveedor_id, factura, fac_fecha_emision, fac_fecha_operacion, fac_subtotal, fac_impuestos, fac_total, fac_total_letra, fac_forma_pago, fac_metodo_pago, created_user, updated_user) VALUES
 ('ETD220000001', 1, 1, '2022-07-11', '2022-07-11',16800.00, 3200.00, 20000.00, 'VEINTE MIL PESOS 00/100 M.N.', 'Efectivo', 'Pago en una sola exhibicion', 'admin', 'admin'),
 ('ETD220000002', 2, 2, '2022-07-11', '2022-07-11',16800.00, 3200.00, 20000.00, 'VEINTE MIL PESOS 00/100 M.N.', 'Efectivo', 'Pago en una sola exhibicion', 'admin', 'admin'),

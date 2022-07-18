@@ -264,81 +264,84 @@ function delete_anexo_entrada(id)
 
 function confirm_delete(id)
 {
-    Swal.fire({
-        title: '¿Desea eliminar este contacto?',
-        showCancelButton: true,
-        confirmButtonText: `Eliminar`,
-        cancelButtonText: `Cancelar`
-    }).then((result) => {
-        console.log(result);
-        if(result.value){
-            
-            var form = $("#frm_anexo_delete");
-            var validate = validar_delete(form);
-            if(validate){
+
+    var form = $("#frm_anexo_delete");
+    var validate = validar_delete(form);
+
+    if(validate){
+        
+        Swal.fire({
+            title: '¿Desea eliminar este contacto?',
+            showCancelButton: true,
+            confirmButtonText: `Eliminar`,
+            cancelButtonText: `Cancelar`
+        }).then((result) => {
+            console.log(result);
+            if(result.value){
+
                 let data = {
-                    id: id,
-                    comentario: $("#delete_nota").val()
+                        id: id,
+                        comentario: $("#delete_nota").val()
                 }
                 $.ajax({
-                    headers : {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },                
-                    url: "/inventario/anexo/delete/confirm/" + id,
-                    data: data,
-                    type: 'POST',
-                    datatype: 'json',
-                    success: function(response){
-                        if (response.success) {
-                            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "¡Exito!",
-                                    text: response.message,
-                                    timer: 1500
-                                }).then((result) => {
-                                    window.location.reload();
-                                })
-                            });
-                        } else {
-                            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
-                                Swal.fire({
-                                    icon: "warning",
-                                    title: "¡Alerta!",
-                                    text: response.message
+                        headers : {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },                
+                        url: "/inventario/anexo/delete/confirm/" + id,
+                        data: data,
+                        type: 'POST',
+                        datatype: 'json',
+                        success: function(response){
+                            if (response.success) {
+                                $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "¡Exito!",
+                                        text: response.message,
+                                        timer: 1500
+                                    }).then((result) => {
+                                        window.location.reload();
+                                    })
                                 });
+                            } else {
+                                $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: "¡Alerta!",
+                                        text: response.message
+                                    });
+                                });
+                            }
+                        },
+                        error: function(xhr){
+                            Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+                        },            
+                        beforeSend: function () {
+                            KTApp.blockPage({
+                                overlayColor: '#000000',
+                                type: 'v2',
+                                state: 'success',
+                                zIndex: 3000
                             });
-                        }
-                    },
-                    error: function(xhr){
-                        Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
-                    },            
-                    beforeSend: function () {
-                        KTApp.blockPage({
-                            overlayColor: '#000000',
-                            type: 'v2',
-                            state: 'success',
-                            zIndex: 3000
-                        });
-                    },
-                    complete: function () {
-                        KTApp.unblockPage();
-                    },
+                        },
+                        complete: function () {
+                            KTApp.unblockPage();
+                        },
                 });
+            
             }else{
-                return false;
-            }
-
-        }else{
-            $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
-                Swal.fire({
-                    icon: "warning",
-                    title: "¡Alerta!",
-                    text: response.message
+                $('#anexo_delete_modal').modal('hide').on('hidden.bs.modal', function () {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: response.message
+                    });
                 });
-            });
-        }
-    })
+            }
+        })
+    }else{
+        return false;
+    }
 }
 
 function validar(form)

@@ -87,14 +87,6 @@ CREATE SEQUENCE public.inventario_entradas_id_seq
     NO MAXVALUE
     CACHE 1;
 
-DROP SEQUENCE IF EXISTS public.inventario_salidas_id_seq;
-CREATE SEQUENCE public.inventario_salidas_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
 DROP SEQUENCE IF EXISTS public.inventario_entradas_anexos_id_seq;
 CREATE SEQUENCE public.inventario_entradas_anexos_id_seq
     START WITH 1
@@ -113,6 +105,22 @@ CREATE SEQUENCE public.entradas_anexos_delete_id_seq
 
 DROP SEQUENCE IF EXISTS public.inventario_entradas_facturas_id_seq;
 CREATE SEQUENCE public.inventario_entradas_facturas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.clientes_id_seq;
+CREATE SEQUENCE public.clientes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE 
+    CACHE 1;
+
+DROP SEQUENCE IF EXISTS public.inventario_salidas_id_seq;
+CREATE SEQUENCE public.inventario_salidas_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -361,6 +369,29 @@ CREATE TABLE public.inventario_entradas_productos (
     comentario TEXT
 );
 
+DROP TABLE IF EXISTS public.clientes;
+CREATE TABLE public.clientes (
+    id BIGINT NOT NULL,
+    nombre CHARACTER VARYING(255) NOT NULL,
+    rfc CHARACTER VARYING(13),
+    direccion CHARACTER VARYING(300),
+    email CHARACTER VARYING(150) NOT NULL,
+    estatus BOOLEAN NOT NULL DEFAULT TRUE,
+    created_user_id BIGINT,
+    updated_user_id BIGINT,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE,
+    updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+);
+
+DROP TABLE IF EXISTS public.inventario_salidas;
+CREATE TABLE public.inventario_salidas (
+    id BIGINT,
+    cve_salida CHARACTER VARYING(100),
+    folio CHARACTER VARYING(255),
+    cliente_id BIGINT NOT NULL,
+    fecha_emision DATE    
+);
+
 -------------------------------------------
 --------ADD SEQUENCE TO ID--------------
 -------------------------------------------
@@ -393,6 +424,8 @@ ALTER TABLE ONLY public.inventario_entradas_facturas ALTER COLUMN id SET DEFAULT
 
 ALTER TABLE ONLY public.entradas_anexos_delete ALTER COLUMN id SET DEFAULT nextval('public.entradas_anexos_delete_id_seq'::regclass);
 
+ALTER TABLE ONLY public.clientes ALTER COLUMN id SET DEFAULT nextval('public.clientes_id_seq'::regclass);
+
 SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
@@ -420,6 +453,8 @@ SELECT pg_catalog.setval('public.inventario_entradas_anexos_id_seq', 1, false);
 SELECT pg_catalog.setval('public.inventario_entradas_facturas_id_seq', 1, false);
 
 SELECT pg_catalog.setval('public.entradas_anexos_delete_id_seq', 1, false);
+
+SELECT pg_catalog.setval('public.clientes_id_seq', 1, false);
 
 -------------------------------------------
 --------ADD PRIMARY KEY TO ID-----------
@@ -458,6 +493,8 @@ ALTER TABLE ONLY public.inventario_entradas_anexos ADD CONSTRAINT inventario_ent
 ALTER TABLE ONLY public.inventario_entradas_facturas ADD CONSTRAINT inventario_entradas_facturas_id_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.entradas_anexos_delete ADD CONSTRAINT entradas_anexos_delete_id_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.clientes ADD CONSTRAINT clientes_id_pk PRIMARY KEY (id);
 
 -------------------------------------------
 --------ADD INDEXES------------------------
@@ -530,4 +567,11 @@ ALTER TABLE ONLY public.inventario_entradas_productos
 
 ALTER TABLE ONLY public.inventario_entradas_productos
     ADD CONSTRAINT inventario_salidas_productos_producto_id_foreign FOREIGN KEY (producto_id) REFERENCES public.productos(id);
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_created_user_id_foreign FOREIGN KEY (created_user_id) REFERENCES public.users(id);
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_updated_user_id_foreign FOREIGN KEY (updated_user_id) REFERENCES public.users(id);
+
 COMMIT;

@@ -37,12 +37,14 @@
                             </li>
                             @if (count($anexos) > 0)
                             @foreach ($anexos as $anexo)
+                            @if ($anexo->estatus)
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#{{ $anexo->cve_anexo }}">
                                     <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
                                     <span class="nav-text">Anexo {{ $anexo->consecutivo }}</span>
                                 </a>
                             </li>
+                            @endif
                             @endforeach
                             @endif
                         </ul>
@@ -133,12 +135,6 @@
                                         </div>
                                         <div class="form-group row align-items-start">
                                             <div class="col-xl-12">
-                                                <label class="opacity-80">Observaciones de la factura</label>
-                                                <p class="font-weight-bolder mb-2">{{ $entrada->fac_notas }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row align-items-start">
-                                            <div class="col-xl-12">
                                                 <label class="opacity-80">Observaciones de la entrada</label>
                                                 <p class="font-weight-bolder mb-2">{{ $entrada->entrada_notas }}</p>
                                             </div>
@@ -156,11 +152,55 @@
                                         <br><br>
                                         <div class="form-group row align-items-start">
                                             <div class="col-xl-6">
+                                                <h5 class="font-weight-bolder mb-2">Anexos</h5>
+                                            </div>
+                                        </div>                                        
+                                        <div class="row align-items-center" class="tab-productos">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="entrada-anexos-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Folio</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Observaciones</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Estatus</th>
+                                                            <th class="pr-0 font-weight-boldest text-uppercase">Factura</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody-anexos">
+                                                        <tr class="font-weight-boldest font-size-lg">
+                                                            <td class="pt-4"> {{ $entrada->cve_entrada }} </td> 
+                                                            <td class="pt-4"> {{ $entrada->fac_notas }} </td>
+                                                            <td class="pt-4"> <span class="label label-lg label-light-success label-inline font-weight-bold py-4"> Activo </span> </td>
+                                                            <td class="pt-4"> 
+                                                                @if ($filename = $entrada->filename)
+                                                                <a class="btn btn-icon" href="{{URL::to('documentos/'.$entrada->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        @foreach ($anexos as $anexo)
+                                                        <tr class="font-weight-boldest font-size-lg">
+                                                            <td class="pt-4"> {{ $anexo->cve_anexo }} </td> 
+                                                            <td class="pt-4"> {{ $anexo->comentario }} </td>
+                                                            <td class="pt-4"> <span class="label label-lg label-light-{{($anexo->estatus) ? "success" : "danger"}} label-inline font-weight-bold py-4"> {{($anexo->estatus) ? "Activo" : "Baja"}} </span> </td>
+                                                            <td class="pt-4"> 
+                                                                @if ($filename = $anexo->filename)
+                                                                <a class="btn btn-icon" href="{{URL::to('documentos/'.$anexo->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <div class="form-group row align-items-start">
+                                            <div class="col-xl-6">
                                                 <h5 class="font-weight-bolder mb-2">Productos</h5>
                                             </div>
-                                           <div class="col-xl-6 text-right">
+                                            <div class="col-xl-6 text-right">
                                                 <button type="button" class="btn btn-primary font-weight-bolder btn-sm" id="agregar-producto" name="agregar-producto" onclick="agregar_entrada_producto({{ $entrada->id }});">Agregar producto</button>
-                                           </div>
+                                            </div>
                                         </div>
                                         <div class="row align-items-center" class="tab-productos">
                                             <div class="table-responsive">
@@ -202,9 +242,11 @@
                         </div>
                         @if (count($anexos) > 0)
                         @foreach ($anexos as $anexo)
+                        @if ($anexo->estatus)
                         <div class="tab-pane fade" id="{{ $anexo->cve_anexo }}" role="tabpanel" aria-labelledby="{{ $anexo->cve_anexo }}">
                             @include('inventario.entradas.partials.entrada_anexo')
                         </div>
+                        @endif
                         @endforeach
                         @endif
                     </div>

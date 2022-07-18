@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class RolesSeeder extends Seeder
@@ -14,7 +15,7 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('roles')->delete();
+        DB::table('roles')->delete();
 
         $role_superadmin = Role::create([
             'name' => 'SuperAdmin',
@@ -35,6 +36,16 @@ class RolesSeeder extends Seeder
             'CatalogoProductos',
             'MenuEntradas',
             'MenuSalidas',
+            'EditarEntrada',
+            'CrearEntrada',
+            'CrearAnexoEntrada',
+            'EditarAnexoEntrada',
+            'EliminarAnexoEntrada',
+            'CrearProductoEntrada',
+            'EditarProductoEntrada',
+            'EliminarProductoEntrada',
+            'CrearEntrada',
+            'CatalogoClientes'
         ]);
     }
 }

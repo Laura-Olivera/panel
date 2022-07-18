@@ -94,6 +94,13 @@ Route::middleware('auth')->group(function(){
         Route::post('/proveedores/store', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'store']);
         Route::get('/proveedores/edit/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'edit']);
         Route::post('/proveedores/update/{id}', [App\Http\Controllers\Catalogos\ProveedoresController::class, 'update']);
+        //RUTAS CLIENTES
+        Route::get('/clientes', [App\Http\Controllers\Catalogos\ClienteController::class, 'index']);
+        Route::get('/clientes/listar_clientes', [App\Http\Controllers\Catalogos\ClienteController::class, 'listar_clientes']);
+        Route::get('/clientes/create', [App\Http\Controllers\Catalogos\ClienteController::class, 'create']);
+        Route::post('/clientes/store', [App\Http\Controllers\Catalogos\ClienteController::class, 'store']);
+        Route::get('/clientes/edit/{id}', [App\Http\Controllers\Catalogos\ClienteController::class, 'edit']);
+        Route::post('/clientes/update/{id}', [\App\Http\Controllers\Catalogos\ClienteController::class, 'update']);
     });
 
     Route::prefix('inventario')->group(function (){

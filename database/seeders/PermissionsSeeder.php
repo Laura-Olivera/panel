@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PermissionsSeeder extends Seeder
 {
@@ -13,9 +14,9 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('permissions')->delete();
+        DB::table('permissions')->delete();
         
-        \DB::table('permissions')->insert(array (
+        DB::table('permissions')->insert(array (
 
             1 => 
             array (
@@ -89,11 +90,91 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),     
             ),
-            10 => 
+            10 =>
+            array (
+                'name' =>'CrearEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Crear nueva entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            11 =>
+            array (
+                'name' =>'EditarEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Editar entrada de inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            12 =>
+            array (
+                'name' =>'EliminarEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Eliminar entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            13 =>
+            array (
+                'name' =>'CrearAnexoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Crear nuevo anexo de entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            14 =>
+            array (
+                'name' =>'EditarAnexoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Editar anexo de entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            15 =>
+            array (
+                'name' =>'EliminarAnexoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Eliminar anexo de entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            16 =>
+            array (
+                'name' =>'CrearProductoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Agregar producto a entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            17 =>
+            array (
+                'name' =>'EditarProductoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'Editar producto de entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            18 =>
+            array (
+                'name' =>'EliminarProductoEntrada',
+                'guard_name' =>'web',
+                'descrip' => 'EliminarProducto de entrada en inventario.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ),
+            19 => 
             array (
                 'name' =>'MenuSalidas',
                 'guard_name' =>'web',
                 'descrip' => 'Menu de inventario salidas.',
+                'created_at' => now(),
+                'updated_at' => now(),     
+            ),
+            20 => 
+            array (
+                'name' =>'CatalogoClientes',
+                'guard_name' =>'web',
+                'descrip' => 'Catalogo de clientes.',
                 'created_at' => now(),
                 'updated_at' => now(),     
             )

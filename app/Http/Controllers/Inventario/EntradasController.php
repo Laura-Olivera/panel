@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catalogos\Producto;
 use App\Models\Catalogos\Proveedor;
 use App\Models\Inventario\Anexo;
+use App\Models\Inventario\AnexoDelete;
 use App\Models\Inventario\Entrada;
 use App\Models\Inventario\EntradaProducto;
 use Illuminate\Http\Request;
@@ -116,9 +117,12 @@ class EntradasController extends Controller
         $entrada_productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
             ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
             ->where('inventario_entradas_productos.entrada_id', '=', $entrada->id)->get();
-        $anexos = Anexo::where('entrada_id', '=', $entrada->id)->where('estatus', '=', true)->get();
+        $anexos = Anexo::where('entrada_id', '=', $entrada->id)->get();
         foreach ($anexos as $anexo) {
+            $AnexoBaja = AnexoDelete::where('cve_anexo', '=', $anexo->cve_anexo)->first();
             $anexo->filename = $this->filename($anexo->fac_path, $anexo->cve_anexo);
+            $comentario = ($AnexoBaja) ? $AnexoBaja->comentario : $anexo->fac_notas;
+            $anexo->comentario = $comentario;
         }
         return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos', 'anexos'));
     }

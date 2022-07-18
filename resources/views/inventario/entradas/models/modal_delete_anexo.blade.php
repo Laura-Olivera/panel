@@ -46,7 +46,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Cancelar</button>
-				<button type="button" class="btn btn-warning font-weight-bold" id="save-update" name="save-update" onclick="confirm_delete({{ $anexo->id }});">Eliminar</button>
+				<button type="button" class="btn btn-warning font-weight-bold" id="delete-anexo" name="delete-anexo" onclick="confirm_delete({{ $anexo->id }});">Eliminar</button>
             </div>
         </div>
     </div>
