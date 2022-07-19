@@ -59,13 +59,13 @@
                                         <div class="card-title">
                                             <h4 class="card-label">Folio: {{$entrada->cve_entrada}}</h4>
                                             @if ($filename = $entrada->filename)
-                                            <a class="btn btn-icon" href="{{URL::to('documentos/'.$entrada->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                            <a class="btn btn-icon" href="{{ route('mostrarDocumento', ['path' => Crypt::encryptString($entrada->ruta),'name' => $entrada->filename]) }}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
                                             @endif
                                         </div>
                                         <div class="card-toolbar">
                                             <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
                                             <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
-                                            <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Imprimir"><i class="icon-2x fas fa-print text-primary"></i></a>
+                                            <a class="btn btn-icon" href="{{ route('entradaprint', ['entrada' => $entrada->cve_entrada]) }}" title="Imprimir" target="_blank"><i class="icon-2x fas fa-print text-primary"></i></a>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -173,7 +173,7 @@
                                                             <td class="pt-4"> <span class="label label-lg label-light-success label-inline font-weight-bold py-4"> Activo </span> </td>
                                                             <td class="pt-4"> 
                                                                 @if ($filename = $entrada->filename)
-                                                                <a class="btn btn-icon" href="{{URL::to('documentos/'.$entrada->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                                                <a class="btn btn-icon" href="{{ route('mostrarDocumento', ['path' => Crypt::encryptString($entrada->ruta),'name' => $entrada->filename]) }}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -184,7 +184,7 @@
                                                             <td class="pt-4"> <span class="label label-lg label-light-{{($anexo->estatus) ? "success" : "danger"}} label-inline font-weight-bold py-4"> {{($anexo->estatus) ? "Activo" : "Baja"}} </span> </td>
                                                             <td class="pt-4"> 
                                                                 @if ($filename = $anexo->filename)
-                                                                <a class="btn btn-icon" href="{{URL::to('documentos/'.$anexo->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                                                                <a class="btn btn-icon" href="{{ route('mostrarDocumento', ['path' => Crypt::encryptString($anexo->fac_path),'name' => $anexo->filename]) }}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
                                                                 @endif
                                                             </td>
                                                         </tr>

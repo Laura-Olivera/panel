@@ -79,21 +79,53 @@ function store_cliente()
             rfc : $("#rfc").val(),
             email: $("#email").val(),
             telefono: $("#telefono").val(),
-            direccion: $("#direccion").val()
+            direccion: $("#direccion").val(),
+            estatus: $('#estatus').is(':checked') ? true : false,
         };
         $.ajax({
             headers: {
-
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "/clientes/store",
+            url: "clientes/store",
             type: 'POST',
             data: data,
             dataType: 'json',
-            success: function(){
-
+            success: function(response){
+                if(response.success){
+                    $('#modal_nuevo_cliente').modal('hide').on('hidden.bs.modal', function () {
+                        $('#clientes-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Exito!",
+                            text: response.message,
+                            timer: 1500
+                        });
+                    });
+                }else{
+                    $('#modal_nuevo_cliente').modal('hide').on('hidden.bs.modal', function () {
+                        $('#clientes-table').DataTable().ajax.reload();
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Alerta!",
+                            text: response.message,
+                            timer: 1500
+                        });
+                    });
+                }
             },
             error: function(xhr){
-
+                Swal.fire('¡!Alerta', 'Error en la conectividad de red.', 'warning')
+            },
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
             },
             
         });
@@ -134,7 +166,62 @@ function edit_cliente_modal(id)
 
 function update_cliente(id)
 {
-
+    let data = {
+        id: $("#id").val(),
+        nombre: $("#nombre").val(),
+        rfc : $("#rfc").val(),
+        email: $("#email").val(),
+        telefono: $("#telefono").val(),
+        direccion: $("#direccion").val(),
+        estatus: $('#estatus').is(':checked') ? true : false,
+    };
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "clientes/update/" + id,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response){
+            if(response.success){
+                $('#modal_editar_cliente').modal('hide').on('hidden.bs.modal', function () {
+                    $('#clientes-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: response.message,
+                        timer: 1500
+                    });
+                });
+            }else{
+                $('#modal_editar_cliente').modal('hide').on('hidden.bs.modal', function () {
+                    $('#clientes-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: response.message,
+                        timer: 1500
+                    });
+                });
+            }
+        },
+        error: function(xhr){
+            Swal.fire('¡!Alerta', 'Error en la conectividad de red.', 'warning')
+        },
+        beforeSend: function () {
+            KTApp.blockPage({
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'success',
+                zIndex: 3000
+            });
+        },
+        complete: function () {
+            KTApp.unblockPage();
+        },
+        
+    });
 }
 
 function validar(form)

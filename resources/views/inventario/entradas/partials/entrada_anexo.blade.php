@@ -4,7 +4,7 @@
             <div class="card-title">
                 <h4 class="card-label">Folio: {{$anexo->cve_anexo}}</h4>
                 @if ($filename = $anexo->filename)
-                <a class="btn btn-icon" href="{{URL::to('documentos/'.$anexo->fac_path.'/'.$filename)}}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
+                <a class="btn btn-icon" href="{{ route('mostrarDocumento', ['path' => Crypt::encryptString($anexo->fac_path),'name' => $anexo->filename]) }}" title="Factura digital" target="_blank"><i class="icon-xl far fa-file-pdf text-primary"></i></a>
                 @endif
             </div>
             <div class="card-toolbar">

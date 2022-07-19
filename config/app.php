@@ -167,6 +167,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         //YAJRA DATATBLES
         Yajra\DataTables\DataTablesServiceProvider::class,
+       
         
 
         /*
@@ -182,6 +183,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
+        \Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -241,6 +243,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'PDF' => \Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

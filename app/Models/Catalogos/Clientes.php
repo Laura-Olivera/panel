@@ -16,6 +16,7 @@ class Clientes extends Model
         "rfc",
         "direccion",
         "email",
+        "telefono",
         "estatus",
         "created_user_id",
         "updated_user_id",

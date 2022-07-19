@@ -22,7 +22,7 @@
                               <div class="col-md-6">
                                   <div class="form-group">
                                       <label>RFC: </label>
-                                      <input type="text" value=" {{ $cliente->rfc }} " class="form-control" placeholder="Clave del cliente" id="clave" name="clave" autocomplete="off"/>
+                                      <input type="text" value=" {{ $cliente->rfc }} " class="form-control" placeholder="RFC del cliente" id="rfc" name="rfc" autocomplete="off"/>
                                   </div>
                               </div>
                           </div>

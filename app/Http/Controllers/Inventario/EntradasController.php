@@ -10,12 +10,14 @@ use App\Models\Inventario\Anexo;
 use App\Models\Inventario\AnexoDelete;
 use App\Models\Inventario\Entrada;
 use App\Models\Inventario\EntradaProducto;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 
 class EntradasController extends Controller
@@ -112,7 +114,7 @@ class EntradasController extends Controller
             ->join('proveedores', 'proveedores.id', '=', 'inventario_entradas.proveedor_id')
             ->where('inventario_entradas.cve_entrada', '=', $cve_entrada)
             ->first();
-
+        $entrada->ruta = $this->filepath($entrada->fac_path, $entrada->cve_entrada);
         $entrada->filename = $this->filename($entrada->fac_path, $entrada->cve_entrada);
         $entrada_productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
             ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
@@ -396,6 +398,23 @@ class EntradasController extends Controller
     *
     *
     */
+    public function filepath($path, $file)
+    {
+        $ruta = null;
+        if( is_file( "{$path}/{$file}.pdf") ) {
+                $ruta = $path;
+        } else if( is_file( "{$path}/{$file}.PDF") ) {
+                $ruta = $path;
+        }
+
+        return $ruta;
+    }
+
+    /* 
+    *
+    *
+    *
+    */
     public function filename($path, $file)
     {
         $name = null;
@@ -413,15 +432,48 @@ class EntradasController extends Controller
     *
     *
     */
-    public function mostrar_documento($path, $fac_name)
+    public function mostrar_documento($path, $name)
     {
         
-        $path = $path;
-        $url = $path.''.$fac_name;
+        $url = Crypt::decryptString($path).'/'.$name;
+        
         if( is_file($url) ) {
             return response()->file( $url );
         }else{
             return abort(404);
+        }
+    }
+
+    /* 
+    *
+    *
+    *
+    */
+    public function print_entrada(Request $request)
+    {
+        try {
+            $cve = ($request->route()->parameters()['entrada']) ? $request->route()->parameters()['entrada'] : NULL;
+            if ($cve) {
+                $entrada = DB::table('inventario_entradas')->select('inventario_entradas.*', 'proveedores.nombre as proveedor', 'proveedores.rfc as rfc', 'proveedores.direccion as direccion')
+                            ->join('proveedores', 'proveedores.id', '=', 'inventario_entradas.proveedor_id')
+                            ->where('inventario_entradas.cve_entrada', '=', $cve)
+                            ->first();
+                $productos = DB::table('inventario_entradas_productos')->select('inventario_entradas_productos.*', 'productos.codigo as producto')
+                            ->join('productos', 'productos.id', '=', 'inventario_entradas_productos.producto_id')
+                            ->where('inventario_entradas_productos.entrada_id', '=', $entrada->id)->get();
+                $anexos = Anexo::where('entrada_id', '=', $entrada->id)->where('estatus', '=', true)->get();
+
+                $pdf = PDF::loadHTML(View::make('layouts.print.entrada_anexos', compact('entrada', 'productos', 'anexos')))->setPaper('a4', 'portrait');
+                return $pdf->stream();
+                
+            } else {
+                return false;
+            }
+            
+        } catch (\Throwable $th) {
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al imprimir entrada', 'warning');
+            return false;
         }
     }
 

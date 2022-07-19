@@ -203,7 +203,6 @@ class AnexosController extends Controller
     *
     *
     */
-
     public function confirm_delete(Request $request)
     {
         try {
