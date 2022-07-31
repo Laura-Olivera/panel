@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Catalogos;
 
+use App\Exports\Catalogos\AreasExport;
 use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
+use App\Imports\Catalogos\AreaImport;
 use App\Models\Catalogos\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class AreasController extends Controller
@@ -27,6 +30,50 @@ class AreasController extends Controller
     {
         $areas = Area::all();
         return DataTables::of($areas)->toJson();
+    }
+
+    /**
+     * 
+     *
+     * 
+     */
+    public function import_data(Request $request)
+    {
+        $request->validate([
+            'importar' => 'required'
+        ],
+        $message = [
+            'required'=>'el campo :attribute es requerido'
+        ]);
+
+        try {
+            Excel::import(new AreaImport, $request->file('importar')->store('temp'));
+            return back();
+        } catch (\Throwable $th) {
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al importar areas', 'warning');
+            return back()->withErrors(['field_name' => ['Error al importar datos. Verifique que los datos sean correctos.']]);;
+        }
+    }
+
+    /**
+     * 
+     *
+     * 
+     */
+    public function export_data()
+    {
+        return Excel::download(new AreasExport, 'areas.xlsx');
+    }
+
+    /**
+     * 
+     *
+     * 
+     */
+    public function export_pdf()
+    {
+        return (new AreasExport)->download('reporte_areas.pdf', \Maatwebsite\Excel\Excel::MPDF);
     }
 
     /**

@@ -167,6 +167,10 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         //YAJRA DATATBLES
         Yajra\DataTables\DataTablesServiceProvider::class,
+        //EXCEL MAATWEBSITE
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        //PDF MPDF MAATWEBSITE
+        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
        
         
 
@@ -244,6 +248,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'PDF' => \Barryvdh\DomPDF\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
     ],
 
 ];

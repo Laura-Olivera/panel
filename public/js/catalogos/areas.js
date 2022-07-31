@@ -18,6 +18,7 @@ $(document).ready(function(){
         columns: [
             { data: 'cve_area', name: 'cve_area'},
             { data: 'nombre', name: 'nombre' },
+            { data: 'responsable', name: 'responsable' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+((row.estatus) ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ ((row.estatus) ? 'Activo' : 'Inactivo') +'</span>';
@@ -222,6 +223,61 @@ function update_area(id){
     });
 }
 
+function import_areas()
+{
+    var form = $("#frm_importar_areas");
+    var validate = validar_importacion(form);
+    if(validate){
+        let data = new FormData($('#frm_importar_areas')[0]);
+        $.ajax({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },                
+            contentType: false,
+            processData: false,
+            url: "areas/importar",
+            data: data,
+            type: 'POST',
+            datatype: 'json',
+            success: function(response){
+                if (response.success) {
+                    $('#areas-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Exito!",
+                        text: response.message,
+                        timer: 1500
+                    }).then((result) => {
+                        window.location.reload();
+                    })
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: response.message
+                    });
+                }
+            },
+            error: function(xhr){
+                Swal.fire('¡Alerta!', 'Error de conectividad de red', 'warning');
+            },            
+            beforeSend: function () {
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'success',
+                    zIndex: 3000
+                });
+            },
+            complete: function () {
+                KTApp.unblockPage();
+            },
+        });
+    }else{
+        return false;
+    }
+}
+
 function validar(form){
     var validator = form.validate({
         rules: {
@@ -229,9 +285,27 @@ function validar(form){
                 required: true,
                 maxlength: 150
             },
+            responsable: {
+                required: true,
+                maxlength: 255
+            },
             clave: {
                 required: true,
                 maxlength: 150
+            },
+        },
+    });
+
+    return validator.form();
+}
+
+function validar_importacion(form)
+{
+    var validator = form.validate({
+        rules: {
+            importar_areas: {
+                required: true,
+                extension: "csv, xlsx",
             },
         },
     });

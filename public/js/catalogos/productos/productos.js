@@ -21,7 +21,7 @@ $(document).ready(function() {
             { data: 'nombre', name: 'nombre' },
             { data: 'categoria', name: 'categoria' },
             { data: 'proveedor', name: 'proveedor' },
-            { data: 'costo', name: 'costo' },
+            { data: 'precio_compra', name: 'precio_compra' },
             { data: 'cantidad', name: 'cantidad' },
             {   
                 "mRender": function ( data, type, row ) {

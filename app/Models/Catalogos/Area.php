@@ -13,6 +13,7 @@ class Area extends Model
     protected $fillable = [
         'nombre',
         'cve_area',
+        'responsable',
         'estatus',
         'created_user_id',
         'updated_user_id',

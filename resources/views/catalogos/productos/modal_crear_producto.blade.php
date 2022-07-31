@@ -121,20 +121,22 @@
 </div>
 <!--end::Entry-->
 <div class="d-none" id="initial-data">
-    <h1>Quick and simple CKEditor 5 Integration</h1>
-	<p>Here goes the
-	<a href="#">Minitial content of the editor</a>. Lorem Ipsum is simply dummy text of the
-	<em>printing and typesetting</em>industry.</p>
-	<blockquote>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</blockquote>
-	<h3>Flexible &amp; Powerful</h3>
-	<p>
-	<strong>Lorem Ipsum has been the industry's</strong>standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>
-	<ul>
-		<li>List item 1</li>
-		<li>List item 2</li>
-		<li>List item 3</li>
-		<li>List item 4</li>
-	</ul>
+    <h2><strong>DESCRIPCION DETALLADA DEL PRODUCTO</strong></h2>
+    <h3><strong>Características principales del producto</strong></h3>
+    <ol>
+        <li><strong>Descripción uno</strong></li>
+        <li><strong>Descripción dos</strong></li>
+        <li><strong>Descripción tres</strong></li>
+        <li><strong>Descripción n...</strong></li>
+    </ol>
+    <h3><strong>Características técnicas del producto</strong></h3>
+    <ul>
+        <li><strong>Característica uno</strong></li>
+        <li><strong>Característica dos</strong></li>
+        <li><strong>Característica tres</strong></li>
+        <li><strong>Característica n...</strong></li>
+    </ul>
+    <p><strong>Descripción de la funcionalidad del producto</strong></p>
 </div>
 @endsection
 

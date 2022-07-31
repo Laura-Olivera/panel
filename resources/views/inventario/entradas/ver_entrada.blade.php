@@ -64,7 +64,9 @@
                                         </div>
                                         <div class="card-toolbar">
                                             <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
-                                            <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                            @if ($filename = $entrada->filename)
+                                            <a class="btn btn-icon" href="{{ route('descargarDocumento', ['path' => Crypt::encryptString($entrada->ruta),'name' => $entrada->filename]) }}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                            @endif
                                             <a class="btn btn-icon" href="{{ route('entradaprint', ['entrada' => $entrada->cve_entrada]) }}" title="Imprimir" target="_blank"><i class="icon-2x fas fa-print text-primary"></i></a>
                                         </div>
                                     </div>

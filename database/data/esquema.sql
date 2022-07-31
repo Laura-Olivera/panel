@@ -191,8 +191,9 @@ CREATE TABLE public.model_has_roles(
 DROP TABLE IF EXISTS public.areas;
 CREATE TABLE public.areas (
     id BIGINT NOT NULL,
-    nombre CHARACTER VARYING(150) NOT NULL,
     cve_area CHARACTER VARYING(100) UNIQUE NOT NULL,
+    nombre CHARACTER VARYING(150) NOT NULL,
+    responsable CHARACTER VARYING(250) NOT NULL,
     estatus BOOLEAN NOT NULL DEFAULT true,
     created_user_id BIGINT,
     updated_user_id BIGINT,
@@ -374,6 +375,7 @@ CREATE TABLE public.clientes (
     id BIGINT NOT NULL,
     nombre CHARACTER VARYING(255) NOT NULL,
     rfc CHARACTER VARYING(13),
+    telefono CHARACTER VARYING(15),
     direccion CHARACTER VARYING(300),
     email CHARACTER VARYING(150) NOT NULL,
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
