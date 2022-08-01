@@ -44,7 +44,10 @@ function add_area_modal()
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-
+                $('#responsable').select2({
+                    placeholder: 'Seleccione...',
+                    allowClear: true,
+                });
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });
@@ -139,8 +142,10 @@ function edit_area_modal(id){
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                
-
+                $('#responsable').select2({
+                    placeholder: 'Seleccione...',
+                    allowClear: true,
+                });
             }).on('hidden.bs.modal', function () {
                 $(this).remove();
             });

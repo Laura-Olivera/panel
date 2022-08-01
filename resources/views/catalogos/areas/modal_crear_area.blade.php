@@ -25,6 +25,19 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Responsable:</label>
+										<select class="form-control select2" id="responsable" name="responsable">
+											<option label="Label"></option>
+											@foreach($usuarios as $usuario)
+     										<option value="{{ $usuario->fullname }}">{{ $usuario->fullname }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+							</div>
 							<div class="col-md-12 text-right">
 								<label class="control-label">Habilitado</label>
 								<div class="form-group">

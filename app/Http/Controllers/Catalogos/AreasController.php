@@ -7,6 +7,7 @@ use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Imports\Catalogos\AreaImport;
 use App\Models\Catalogos\Area;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,11 @@ class AreasController extends Controller
      */
     public function create()
     {
-        return view('catalogos.areas.modal_crear_area');
+        $usuarios = User::all();
+        foreach ($usuarios as $usuario) {
+            $usuario->fullname = $usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+        }
+        return view('catalogos.areas.modal_crear_area',compact('usuarios'));
     }
 
     /**
@@ -94,6 +99,8 @@ class AreasController extends Controller
      */
     public function store(Request $request)
     {
+        $cve = $this->get_clave($request->nombre);
+        dd($cve);
         try {
             DB::beginTransaction();
             $area = Area::create([
@@ -139,7 +146,11 @@ class AreasController extends Controller
     public function edit($id)
     {
         $area = Area::findOrFail($id);
-        return view('catalogos.areas.modal_editar_area', compact('area'));
+        $usuarios = User::all();
+        foreach ($usuarios as $usuario) {
+            $usuario->fullname = $usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
+        }
+        return view('catalogos.areas.modal_editar_area', compact('area', 'usuarios'));
     }
 
     /**
@@ -189,5 +200,33 @@ class AreasController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 
+     * 
+     * 
+     *  
+     */
+    public function get_clave($nombre)
+    {
+        $array_name = explode(' ', $nombre);
+        $subs = '';
+        if (count($array_name) > 1) {
+            for ($i=0; $i < count($array_name); $i++) { 
+                if (strlen($subs) < 4) {
+                    $subs .= substr($array_name[$i], 0, 1);
+                }
+            }
+        } else {
+            $subs = substr($nombre, 0, 4);
+        }
+        $char = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $strlen = strlen($subs);
+        $random_str = ($strlen < 4) ? substr($char, 0, 4 - $strlen) : "";
+        $num = '0000';
+        $clave = $subs.$random_str;
+        return $clave;
+        
     }
 }
