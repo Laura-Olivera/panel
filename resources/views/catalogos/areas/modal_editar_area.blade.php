@@ -13,16 +13,33 @@
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<label>Clave:</label>
  					   					<input type="text" value="{{ $area->cve_area }}" class="form-control" placeholder="Clave de area" id="clave" name="clave" autocomplete="off"/>
 									</div>
 								</div>
-								<div class="col-md-6">
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
 									<div class="form-group">
-										<label> Nombre: </label>
- 					   					<input type="text" value="{{ $area->nombre }}" class="form-control" placeholder="Nombre" id="nombre" name="nombre" autocomplete="off"/>
+										<div class="form-group">
+											<label> Nombre: </label>
+											<input type="text" value="{{ $area->nombre }}" class="form-control" placeholder="Nombre" id="nombre" name="nombre" autocomplete="off"/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Responsable:</label>
+										<select class="form-control select2" id="responsable" name="responsable">
+											<option label="Label"></option>
+											@foreach($usuarios as $usuario)
+     										<option value="{{ $usuario->cve_usuario }}" {{ ($usuario->cve_usuario == $area->responsable) ? "selected" : "" }}>{{ $usuario->fullname }}</option>
+											@endforeach
+										</select>
 									</div>
 								</div>
 							</div>

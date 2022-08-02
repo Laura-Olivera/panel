@@ -5,6 +5,7 @@ namespace App\Exports\Catalogos;
 use App\Models\Catalogos\Area;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -32,7 +33,10 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
      */
     public function __construct()
     {
-        $areas = Area::select('cve_area', 'nombre', 'responsable', 'estatus')->get();
+        $areas = Area::select('areas.cve_area', 'areas.nombre', DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido)"), 'areas.estatus')
+        ->join('users', 'areas.responsable', '=', 'users.cve_usuario')
+        ->orderBy('areas.nombre', 'ASC')
+        ->get();
         foreach ($areas as $area) {
             $area->estatus = ($area->estatus) ? "ACTIVO" : "BAJA";
         }

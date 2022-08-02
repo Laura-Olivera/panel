@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function(){
             //RUTAS USUARIOS
             Route::get('/usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'index']);
             Route::get('/usuarios/lista_usuarios', [App\Http\Controllers\Admin\UsuariosController::class, 'getDataUsuarios']);
+            Route::post('/usuarios/importar', [App\Http\Controllers\Admin\UsuariosController::class, 'import_data'])->name('importarUsuarios');
             Route::get('/usuarios/create', [App\Http\Controllers\Admin\UsuariosController::class, 'create']);
             Route::post('/usuarios/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
             Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);

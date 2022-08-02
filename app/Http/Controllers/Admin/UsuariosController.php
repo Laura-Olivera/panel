@@ -11,8 +11,10 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\User;
 use App\Models\Catalogos\Area;
 use App\Helpers\Bitacora;
+use App\Imports\UsersImport;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsuariosController extends Controller
 {
@@ -31,6 +33,19 @@ class UsuariosController extends Controller
     {
         $usuarios = User::all();
         return DataTables::of($usuarios)->toJson();
+    }
+
+    public function import_data(Request $request)
+    {
+        $request->validate([
+            'importar' => 'required'
+        ],
+        $message = [
+            'required'=>'el campo :attribute es requerido'
+        ]);
+
+        Excel::import(new UsersImport, $request->file('importar')->store('temp'));
+        return back();
     }
 
 

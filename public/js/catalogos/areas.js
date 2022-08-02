@@ -18,7 +18,7 @@ $(document).ready(function(){
         columns: [
             { data: 'cve_area', name: 'cve_area'},
             { data: 'nombre', name: 'nombre' },
-            { data: 'responsable', name: 'responsable' },
+            { data: 'usuario_responsable', name: 'usuario_responsable' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+((row.estatus) ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ ((row.estatus) ? 'Activo' : 'Inactivo') +'</span>';
@@ -33,6 +33,10 @@ $(document).ready(function(){
             },
 
         ],
+    });
+
+    $('#alert').delay(5000).slideUp(200, function(){
+        $(this).alert('close');
     });
 });
 
@@ -76,6 +80,7 @@ function store_area(){
         let data = {
             nombre: $('#nombre').val(),
             clave: $('#clave').val(),
+            responsable: $("#responsable").val(),
             estatus: $('#estatus').is(':checked') ? true : false,
         };
         $.ajax({
@@ -171,6 +176,7 @@ function update_area(id){
     let data = {
         id: $('#id').val(),
         nombre: $('#nombre').val(),
+        responsable: $("#responsable").val(),
         clave: $('#clave').val(),
         estatus: $('#estatus').is(':checked') ? true : false,
     };
@@ -295,7 +301,6 @@ function validar(form){
                 maxlength: 255
             },
             clave: {
-                required: true,
                 maxlength: 150
             },
         },

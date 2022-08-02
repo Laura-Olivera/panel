@@ -4,6 +4,7 @@ namespace App\Imports\Catalogos;
 
 use App\Models\Catalogos\Area;
 use App\Models\User;
+use App\Services\Claves;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,10 +22,10 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     {
         foreach ($rows as $row) 
         {
-            $cve_area = $row['cve_area'];
-
+            $getClave = new Claves;
+            $cve_area = ($row['cve_area']) ? $row['cve_area'] : $getClave->generarClave('areas', 'cve_area');
             $usuario = User::where('cve_usuario', '=', $row['no_empleado_responsable'])->where('estatus', '=', true)->first();
-            $nombre = (!empty($usuario)) ? $usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido : "Sin usuario responsable.";
+            $nombre = (!empty($usuario)) ? $usuario->cve_usuario : null;
             $existe = Area::where('cve_area', '=', $cve_area)->exists();
             if ($existe) {
                 $area = Area::where('cve_area', '=', $cve_area)->first();
@@ -38,7 +39,7 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
             } else {
                 $data = [
                     'nombre' => $row['nombre'],
-                    'cve_area' => $row['cve_area'],                        
+                    'cve_area' => $cve_area,                        
                     'responsable' => $nombre,
                     'estatus' => true,
                     'created_user_id' => Auth::user()->id,
@@ -52,7 +53,6 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     public function rules(): array
     {
         return [
-            'cve_area' => 'required',
             'nombre' => 'required',
             'no_empleado_responsable' => 'required',
         ];
@@ -61,7 +61,6 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     public function customValidationMessages()
     {
         return [
-            'cve_area.required' => 'La clave del area es requerida.',
             'nombre.required' => 'El nombre del area es requerido',
             'no_empleado_responsable.required' => 'El numero de empleado del responsable de area es requerido',
         ];

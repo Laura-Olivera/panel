@@ -12,15 +12,17 @@
  					<div class="panel panel-primary">
  					 	<div class="panel-body">
 							<div class="form-group row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<label>Clave:</label>
  					   					<input type="text" class="form-control" placeholder="Clave de la categoria" id="clave" name="clave" autocomplete="off"/>
 									</div>
 								</div>
-								<div class="col-md-6">
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
 									<div class="form-group">
-										<label> Nombre: </label>
+										<label> Nombre: <span class="text-muted">*</span></label>
  					   					<input type="text" class="form-control" placeholder="Nombre" id="nombre" name="nombre" autocomplete="off"/>
 									</div>
 								</div>
@@ -28,14 +30,14 @@
 							<div class="form-group row">
 								<div class="col-md-12">
 									<div class="form-group">
-										<label>Responsable:</label>
+										<label>Responsable: <span class="text-muted">*</span></label>
 										<select class="form-control select2" id="responsable" name="responsable">
 											<option label="Label"></option>
 											@foreach($usuarios as $usuario)
-     										<option value="{{ $usuario->fullname }}">{{ $usuario->fullname }}</option>
+     										<option value="{{ $usuario->cve_usuario }}">{{ $usuario->fullname }}</option>
 											@endforeach
 										</select>
-									</div>
+									</div> 
 								</div>
 							</div>
 							<div class="col-md-12 text-right">
