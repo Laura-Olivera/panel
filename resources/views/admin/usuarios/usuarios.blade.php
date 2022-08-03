@@ -28,7 +28,7 @@
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
-				@if($errors->any())
+				@if($errors)
 					@foreach($errors->all() as $error)
 					<div class="alert alert-custom alert-light-danger fade show mb-5" role="alert" id="alert">
 					    <div class="alert-icon"><i class="flaticon-warning"></i></div>

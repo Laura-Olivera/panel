@@ -72,9 +72,6 @@ Route::middleware('auth')->group(function(){
         //RUTAS AREAS      
         Route::get('/areas', [App\Http\Controllers\Catalogos\AreasController::class, 'index']);
         Route::get('/areas/lista_areas', [App\Http\Controllers\Catalogos\AreasController::class, 'listar_areas']);
-        Route::post('/areas/importar', [App\Http\Controllers\Catalogos\AreasController::class, 'import_data'])->name('importarAreas');
-        Route::get('/areas/exportar', [App\Http\Controllers\Catalogos\AreasController::class, 'export_data'])->name('exportarAreas');
-        Route::get('/areas/pdf', [App\Http\Controllers\Catalogos\AreasController::class, 'export_pdf'])->name('PdfAreas');
         Route::get('/areas/create', [App\Http\Controllers\Catalogos\AreasController::class, 'create']);
         Route::post('/areas/store', [App\Http\Controllers\Catalogos\AreasController::class, 'store']);
         Route::get('/areas/edit/{id}', [App\Http\Controllers\Catalogos\AreasController::class,'edit']);
@@ -138,5 +135,9 @@ Route::middleware('auth')->group(function(){
     Route::get('documentos/{path}/{name}/', [App\Http\Controllers\Inventario\EntradasController::class, 'mostrar_documento'])->name('mostrarDocumento');
     Route::get('download/{path}/{name}/', [App\Http\Controllers\Inventario\EntradasController::class, 'descargar_documento'])->name('descargarDocumento');
     Route::get('entrada/print/{entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'print_entrada'])->name('entradaprint');
+    
+    Route::post('documento/importar/{class}', [App\Http\Controllers\Servicios\FilesController::class, 'import_data'])->name('importarExcel');
+    Route::get('documento/excel/{class}/{filename}', [App\Http\Controllers\Servicios\FilesController::class, 'export_data'])->name('exportarExcel');
+    Route::get('documento/pdf/{class}/{filename}', [App\Http\Controllers\Servicios\FilesController::class, 'export_pdf'])->name('exportarPdf');
 
 });

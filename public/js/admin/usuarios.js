@@ -22,7 +22,7 @@ $(document).ready(function() {
             { data: 'segundo_apellido', name: 'segundo_apellido' },
             { data: 'usuario', name: 'usuario' },
             { data: 'email', name: 'email' },
-            { data: 'area', name: 'area' },
+            { data: 'nombre_area', name: 'nombre_area' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+(row.estatus == 1 ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ (row.estatus == 1 ? 'Activo' : 'Inactivo') +'</span>';

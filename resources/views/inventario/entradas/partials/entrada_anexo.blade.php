@@ -8,8 +8,12 @@
                 @endif
             </div>
             <div class="card-toolbar">
+                @can('EditarAnexoEntrada')
                 <a class="btn btn-icon" href="javascript:void(0);" onclick="edit_anexo_entrada({{$anexo->id}})" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                @endcan                
+                @can('EliminarAnexoEntrada')
                 <a class="btn btn-icon" href="javascript:void(0);" onclick="delete_anexo_entrada({{$anexo->id}})" title="Eliminar"><i class="icon-2x far fa-trash-alt text-primary"></i></a>
+                @endcan
                 <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
                 <a class="btn btn-icon" href="{{URL::to('entradas/editar/'.$entrada->cve_entrada)}}" title="Imprimir"><i class="icon-2x fas fa-print text-primary"></i></a>
             </div>

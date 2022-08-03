@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsEmptyRows
+class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsEmptyRows, SkipsOnFailure
 {
-    use Importable;
+    use Importable, SkipsFailures;
 
     public function collection(Collection $rows)
     {
@@ -25,27 +27,14 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
             $getClave = new Claves;
             $cve_area = ($row['cve_area']) ? $row['cve_area'] : $getClave->generarClave('areas', 'cve_area');
             $usuario = User::where('cve_usuario', '=', $row['no_empleado_responsable'])->where('estatus', '=', true)->first();
-            $nombre = (!empty($usuario)) ? $usuario->cve_usuario : null;
-            $existe = Area::where('cve_area', '=', $cve_area)->exists();
-            if ($existe) {
-                $area = Area::where('cve_area', '=', $cve_area)->first();
-                DB::beginTransaction();
-                $area->nombre = $row['nombre'];
-                $area->responsable = $nombre;
-                $area->estatus = true;
-                $area->updated_user_id = Auth::user()->id;
-                $area->save();
-                DB::commit();
-            } else {
-                $data = [
-                    'nombre' => $row['nombre'],
-                    'cve_area' => $cve_area,                        
-                    'responsable' => $nombre,
-                    'estatus' => true,
-                    'created_user_id' => Auth::user()->id,
-                ];
-                Area::create($data);
-            }    
+            $row['no_empleado_responsable'] = (!empty($usuario)) ? $usuario->cve_usuario : $row['no_empleado_responsable'];
+            Area::create([
+                'nombre' => $row['nombre'],
+                'cve_area' => $cve_area,                        
+                'responsable' => $row['no_empleado_responsable'],
+                'estatus' => true,
+                'created_user_id' => Auth::user()->id,
+            ]);
             
         }
     }
@@ -53,6 +42,7 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     public function rules(): array
     {
         return [
+            'cve_area' => ['required', 'unique:areas,cve_area'],
             'nombre' => 'required',
             'no_empleado_responsable' => 'required',
         ];
@@ -61,6 +51,8 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     public function customValidationMessages()
     {
         return [
+            'cve_area.required' => 'La clave del area es requerido',
+            'cve_area.unique' => 'La clave de area debe ser unica',
             'nombre.required' => 'El nombre del area es requerido',
             'no_empleado_responsable.required' => 'El numero de empleado del responsable de area es requerido',
         ];

@@ -14,11 +14,13 @@
                         <h2 class="card-label">{{$entrada->cve_entrada}}</h2>
                     </div>
                     <div class="card-toolbar">
+                        @can('CrearAnexoEntrada')
                         <a href="javascript:void(0);" onclick="add_anexo_modal({{$entrada->id}});" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
                             <span class="svg-icon svg-icon-md">
                                 <i class="icon-md far fa-id-badge"></i>
                             </span>Agregar Anexo
-                        </a>
+                        </a> 
+                        @endcan                        
                         <a href="javascript:void(0);" onclick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
                             <span class="svg-icon svg-icon-md">
                                 <i class="icon-md far fa-id-badge"></i>
@@ -63,7 +65,9 @@
                                             @endif
                                         </div>
                                         <div class="card-toolbar">
+                                            @can('EditarEntrada')
                                             <a class="btn btn-icon" href="{{URL::to('inventario/entradas/editar/'.$entrada->cve_entrada)}}" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                            @endcan
                                             @if ($filename = $entrada->filename)
                                             <a class="btn btn-icon" href="{{ route('descargarDocumento', ['path' => Crypt::encryptString($entrada->ruta),'name' => $entrada->filename]) }}" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
                                             @endif
@@ -200,9 +204,11 @@
                                             <div class="col-xl-6">
                                                 <h5 class="font-weight-bolder mb-2">Productos</h5>
                                             </div>
+                                            @can('CrearProductoEntrada')
                                             <div class="col-xl-6 text-right">
                                                 <button type="button" class="btn btn-primary font-weight-bolder btn-sm" id="agregar-producto" name="agregar-producto" onclick="agregar_entrada_producto({{ $entrada->id }});">Agregar producto</button>
-                                            </div>
+                                            </div> 
+                                            @endcan                                            
                                         </div>
                                         <div class="row align-items-center" class="tab-productos">
                                             <div class="table-responsive">
@@ -224,8 +230,13 @@
                                                                 <td class="text-right pt-4"> {{ $ent_prod->cantidad }} </td> 
                                                                 <td class="text-right pt-4">$ {{ $ent_prod->costo_total }} </td> 
                                                                 <td class="pt-4"> {{ $ent_prod->comentario }} </td> 
-                                                                <td><button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                                                <td>
+                                                                    @can('EditarProductoEntrada')
                                                                     <button type="button" class="btn btn-primary font-weight-bolder btn-sm" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
+                                                                    @endcan
+                                                                    @can('EliminarProductoEntrada')
+                                                                    <button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                                                    @endcan                                                                    
                                                                 </td> 
                                                             </tr>
                                                             @endforeach

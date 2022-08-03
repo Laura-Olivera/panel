@@ -31,7 +31,9 @@ class UsuariosController extends Controller
 
     public function getDataUsuarios()
     {
-        $usuarios = User::all();
+        $usuarios = User::select('users.*', 'areas.nombre as nombre_area')
+        ->join('areas', 'users.area', '=', 'areas.cve_area')
+        ->get();
         return DataTables::of($usuarios)->toJson();
     }
 
@@ -43,9 +45,15 @@ class UsuariosController extends Controller
         $message = [
             'required'=>'el campo :attribute es requerido'
         ]);
-
-        Excel::import(new UsersImport, $request->file('importar')->store('temp'));
-        return back();
+        $importar = new UsersImport;
+        Excel::import($importar, $request->file('importar')->store('temp'));
+        $errors = [];
+            foreach ($importar->failures() as $error) {
+                $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
+                array_push($errors, $mensaje);
+            }
+        //dd($errors);
+        return back()->withErrors($errors);
     }
 
 

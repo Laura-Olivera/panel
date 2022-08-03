@@ -25,54 +25,18 @@ class AreasController extends Controller
      */
     public function index()
     {
-        return view('catalogos.areas.lista_areas');
+        $class = "areas";
+        $filename = 'Reporte_areas';
+        $plantilla = 'areas_import.csv';
+        return view('catalogos.areas.lista_areas', compact('class', 'filename', 'plantilla'));
     }
 
     public function listar_areas()  
     {
-        $areas = DB::table('areas')->select('areas.cve_area', 'areas.nombre', 'areas.responsable', 'areas.estatus', DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as usuario_responsable"))
+        $areas = DB::table('areas')->select('areas.id', 'areas.cve_area', 'areas.nombre', 'areas.responsable', 'areas.estatus', DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as usuario_responsable"))
             ->join('users', 'users.cve_usuario', '=', 'areas.responsable')
             ->get();
         return DataTables::of($areas)->toJson();
-    }
-
-    /**
-     * Import data to table Areas from CSV/XLSX file
-     * @param  \Illuminate\Http\Request  $request
-     * @return redirect Back()
-     * 
-     */
-    public function import_data(Request $request)
-    {
-        $request->validate([
-            'importar' => 'required'
-        ],
-        $message = [
-            'required'=>'el campo :attribute es requerido'
-        ]);
-
-        Excel::import(new AreaImport, $request->file('importar')->store('temp'));
-        return back();
-    }
-
-    /**
-     * Export data from table Areas to XLSX file
-     * @return maatwebsite\Excel\Facades\Excel download excel file
-     * 
-     */
-    public function export_data()
-    {
-        return Excel::download(new AreasExport, 'areas.xlsx');
-    }
-
-    /**
-     * Export data from table Areas to PDF file
-     * @return maatwebsite\Excel\Facades\Excel::MPDF download pdf file
-     * 
-     */
-    public function export_pdf()
-    {
-        return (new AreasExport)->download('reporte_areas.pdf', \Maatwebsite\Excel\Excel::MPDF);
     }
 
     /**
@@ -167,6 +131,7 @@ class AreasController extends Controller
             DB::beginTransaction();
             $area->nombre = $request->nombre;
             $area->cve_area = $request->clave;
+            $area->responsable = $request->responsable;
             $area->estatus = $request->estatus;
             $area->updated_user_id = Auth::user()->id;
             $area->save();

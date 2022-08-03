@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
                 'email' => 'correo@correo.com',
                 'password' => Hash::make('12345678'),
                 'cambiar_password' => false,
-                'area' => 'AU00000001',
+                'area' => 'AADP000001',
                 'estatus' => true,
                 'created_at' => now(),
                 'updated_at' => now()

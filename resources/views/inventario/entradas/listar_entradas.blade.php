@@ -18,13 +18,15 @@
 					<span class="font-weight-bolder text-dark">Control de Entradas</span></h3>
 				</div>
 				<div class="card-toolbar">
+					@can('CrearEntrada')
 					<!--begin::Button-->
 					<a href="{{ URL::to('inventario/entradas/create') }}" class="btn btn-light-primary font-weight-bolder">
 						<span class="svg-icon svg-icon-md">
 							<i class="icon-md far fa-id-badge"></i>
 						</span>Nueva entrada</a>
-						{!! Form::close() !!}
-					<!--end::Button-->
+					{!! Form::close() !!}
+					<!--end::Button-->	
+					@endcan					
 				</div>
 			</div>
 			<!--end::Header-->

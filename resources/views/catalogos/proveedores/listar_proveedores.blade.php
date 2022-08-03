@@ -18,12 +18,14 @@
 					<span class="font-weight-bolder text-dark">Control de Proveedores</span></h3>
 				</div>
 				<div class="card-toolbar">
+					@can('CatalogoProveedoresCrear')
 					<!--begin::Button-->
 					<a href="javascript:void(0);" onclick="add_proveedor_modal();" class="btn btn-light-primary font-weight-bolder">
 						<span class="svg-icon svg-icon-md">
 							<i class="icon-md far fa-id-badge"></i>
 						</span>Nuevo proveedor</a>
 					<!--end::Button-->
+					@endcan					
 				</div>
 			</div>
 			<!--end::Header-->
@@ -39,7 +41,7 @@
 							<th>Correo electronico</th>
 							<th>Direccion</th>
                             <th>Estatus</th>
-                            <th>Acciones</th>
+							<th>Acciones</th>  
                         </tr>
                     </thead>
                 </table>
