@@ -36,5 +36,23 @@ class UserSeeder extends Seeder
 
         $userSuperadmin->assignRole('SuperAdmin');
 
+        $userPruebaAdmin = User::create(
+            array (
+                'nombre' => 'administrador',
+                'primer_apellido' => 'pruebas',
+                'cve_usuario' => '0000000002',
+                'usuario' => 'admin_prueba',
+                'email' => 'i@i.com',
+                'password' => Hash::make('12345678'),
+                'cambiar_password' => false,
+                'area' => 'AADP000001',
+                'estatus' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            )
+        );
+
+        $userPruebaAdmin->assignRole('Admin');
+
     }
 }

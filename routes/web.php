@@ -133,11 +133,11 @@ Route::middleware('auth')->group(function(){
     Route::get('buscar_proveedor/{id}', [App\Http\Controllers\Inventario\EntradasController::class, 'buscar_proveedor']);
     Route::get('agregar_producto', [App\Http\Controllers\Inventario\EntradasController::class, 'agregar_producto']);
     Route::get('documentos/{path}/{name}/', [App\Http\Controllers\Inventario\EntradasController::class, 'mostrar_documento'])->name('mostrarDocumento');
-    Route::get('download/{path}/{name}/', [App\Http\Controllers\Inventario\EntradasController::class, 'descargar_documento'])->name('descargarDocumento');
     Route::get('entrada/print/{entrada}', [App\Http\Controllers\Inventario\EntradasController::class, 'print_entrada'])->name('entradaprint');
     
     Route::post('documento/importar/{class}', [App\Http\Controllers\Servicios\FilesController::class, 'import_data'])->name('importarExcel');
     Route::get('documento/excel/{class}/{filename}', [App\Http\Controllers\Servicios\FilesController::class, 'export_data'])->name('exportarExcel');
     Route::get('documento/pdf/{class}/{filename}', [App\Http\Controllers\Servicios\FilesController::class, 'export_pdf'])->name('exportarPdf');
+    Route::get('download/{path}/{name}/', [App\Http\Controllers\Servicios\FilesController::class, 'descargar_documento'])->name('descargarDocumento');
 
 });

@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsEmptyRows, SkipsOnFailure
+class AreaImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
 {
     use Importable, SkipsFailures;
 
@@ -24,13 +24,9 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
     {
         foreach ($rows as $row) 
         {
-            $getClave = new Claves;
-            $cve_area = ($row['cve_area']) ? $row['cve_area'] : $getClave->generarClave('areas', 'cve_area');
-            $usuario = User::where('cve_usuario', '=', $row['no_empleado_responsable'])->where('estatus', '=', true)->first();
-            $row['no_empleado_responsable'] = (!empty($usuario)) ? $usuario->cve_usuario : $row['no_empleado_responsable'];
             Area::create([
                 'nombre' => $row['nombre'],
-                'cve_area' => $cve_area,                        
+                'cve_area' => $row['cve_area'],                        
                 'responsable' => $row['no_empleado_responsable'],
                 'estatus' => true,
                 'created_user_id' => Auth::user()->id,
@@ -44,7 +40,7 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
         return [
             'cve_area' => ['required', 'unique:areas,cve_area'],
             'nombre' => 'required',
-            'no_empleado_responsable' => 'required',
+            'no_empleado_responsable' => ['required', 'min:0'],
         ];
     }
 
@@ -55,7 +51,20 @@ class AreaImport implements ToCollection, WithHeadingRow, WithValidation, SkipsE
             'cve_area.unique' => 'La clave de area debe ser unica',
             'nombre.required' => 'El nombre del area es requerido',
             'no_empleado_responsable.required' => 'El numero de empleado del responsable de area es requerido',
+            'no_empleado_responsable.min' => 'El numero de empleado no existe',
         ];
+    }
+
+    public function prepareForValidation($data, $index)
+    {
+
+        $getClave = new Claves;
+        $cve_area = $getClave->generarClave('areas', 'cve_area');
+        $cve_usuario = User::where('cve_usuario', '=', $data['no_empleado_responsable'])->where('estatus', '=', true)->first();
+        $data['cve_area'] = $data['cve_area'] ?? $cve_area;
+        $data['no_empleado_responsable'] = (!empty($cve_usuario)) ? $cve_usuario->id : 2;
+        
+        return $data;
     }
 
 }

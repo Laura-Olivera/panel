@@ -449,23 +449,6 @@ class EntradasController extends Controller
     *
     *
     */
-    public function descargar_documento($path, $name)
-    {
-        
-        $url = Crypt::decryptString($path).'/'.$name;
-        
-        if( is_file($url) ) {
-            return response()->download( $url );
-        }else{
-            return abort(404);
-        }
-    }
-
-    /* 
-    *
-    *
-    *
-    */
     public function print_entrada(Request $request)
     {
         try {

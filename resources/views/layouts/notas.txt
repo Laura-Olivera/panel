@@ -520,3 +520,15 @@ Condicion del pago
 @section('scripts')
     <script src="{{ URL::asset('js/inventario/entradas/ver-entrada.js?v=1.0.0') }}" type="text/javascript"></script>
 @endsection
+
+
+EXCEL TO ARRAY
+ $collection = Excel::toArray($importar, $request->file('importar'));
+/* foreach ($collection as $collection) {
+    for ($i=0; $i < count($collection); $i++) { 
+        $collection[$i]['nombre'] = ($collection[$i]['nombre']) ? $collection[$i]['nombre'] : null;
+        $collection[$i]['cve_area'] = ($collection[$i]['cve_area']) ? $collection[$i]['cve_area'] : $this->clave->generarClave('areas', 'cve_area');
+        $usuario = User::where('cve_usuario', '=', $collection[$i]['no_empleado_responsable'])->where('estatus', '=', true)->first();
+        $collection[$i]['no_empleado_responsable'] = (!empty($usuario)) ? $usuario->id : null;
+    }
+} */

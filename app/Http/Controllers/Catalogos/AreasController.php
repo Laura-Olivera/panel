@@ -34,7 +34,7 @@ class AreasController extends Controller
     public function listar_areas()  
     {
         $areas = DB::table('areas')->select('areas.id', 'areas.cve_area', 'areas.nombre', 'areas.responsable', 'areas.estatus', DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as usuario_responsable"))
-            ->join('users', 'users.cve_usuario', '=', 'areas.responsable')
+            ->join('users', 'users.id', '=', 'areas.responsable')
             ->get();
         return DataTables::of($areas)->toJson();
     }

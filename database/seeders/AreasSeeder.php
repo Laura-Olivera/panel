@@ -19,7 +19,7 @@ class AreasSeeder extends Seeder
         Area::create([
             'cve_area' => 'AADP000001',
             'nombre' => 'AREA DE PRUEBAS',
-            'responsable' => '0000000001',
+            'responsable' => 1,
             'estatus' => true,
         ]);
     }

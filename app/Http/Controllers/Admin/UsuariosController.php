@@ -26,7 +26,10 @@ class UsuariosController extends Controller
 
     public function index()
     {
-        return view('admin.usuarios.usuarios');
+        $class = "usuarios";
+        $filename = 'Reporte_Usuarios';
+        $plantilla = 'usuarios_import.csv';
+        return view('admin.usuarios.usuarios', compact('class', 'filename', 'plantilla'));
     }
 
     public function getDataUsuarios()
@@ -36,26 +39,6 @@ class UsuariosController extends Controller
         ->get();
         return DataTables::of($usuarios)->toJson();
     }
-
-    public function import_data(Request $request)
-    {
-        $request->validate([
-            'importar' => 'required'
-        ],
-        $message = [
-            'required'=>'el campo :attribute es requerido'
-        ]);
-        $importar = new UsersImport;
-        Excel::import($importar, $request->file('importar')->store('temp'));
-        $errors = [];
-            foreach ($importar->failures() as $error) {
-                $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
-                array_push($errors, $mensaje);
-            }
-        //dd($errors);
-        return back()->withErrors($errors);
-    }
-
 
     public function create()
     {

@@ -17,6 +17,9 @@
 					<span class="font-weight-bolder text-dark">Control de Usuarios</span></h3>
 				</div>
 				<div class="card-toolbar">
+					<!--begin::Dropdown-->
+					@include('layouts.toolbar.export_options')
+					<!--end::Dropdown-->
 					<!--begin::Button-->
 					<a href="javascript:void(0);" onclick="add_usuario_modal();" class="btn btn-light-primary font-weight-bolder">
 						<span class="svg-icon svg-icon-md">
@@ -28,33 +31,7 @@
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
-				@if($errors)
-					@foreach($errors->all() as $error)
-					<div class="alert alert-custom alert-light-danger fade show mb-5" role="alert" id="alert">
-					    <div class="alert-icon"><i class="flaticon-warning"></i></div>
-					    <div class="alert-text">{{$error}}</div>
-					    <div class="alert-close">
-					        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					            <span aria-hidden="true"><i class="ki ki-close"></i></span>
-					        </button>
-					    </div>
-					</div>
-					@endforeach
-				@endif
-				{{ Form::open(['url' => 'admin/usuarios/importar','method' => 'POST','name'=>'frm_importar_usuarios','id'=>'frm_importar_usuarios', 'files' => true, 'class' => 'form']) }}
-				<div class="form-group row">
-                    <div class="col-lg-6">
-						<div class="custom-file">
-						  	<input type="file" class="custom-file-input @error('importar') is-invalid @enderror" id="importar" name="importar" accept=".csv, .xlsx">
-							  	
-							<label class="custom-file-label" for="importar">Seleccione archivo para importar</label>
-  						</div>
-                    </div>
-                    <div class="col-lg-6">
-						<button type="submit" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="top" data-content="Para importar datos debes utilizar un archivo CSV o XLSX.">Importar</button>
-                    </div>
-                </div>
-				{!! Form::close() !!}
+				@include('layouts.toolbar.file_import')
 				<!--begin: Datatable-->
                 <table id="users-table" name="users-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>

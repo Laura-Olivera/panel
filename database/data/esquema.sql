@@ -138,7 +138,7 @@ CREATE TABLE public.users (
     cve_usuario CHARACTER VARYING(20) NOT NULL,
     telefono CHARACTER VARYING(10),
     area CHARACTER VARYING(100) NOT NULL,
-    usuario CHARACTER VARYING(50) UNIQUE NOT NULL,
+    usuario CHARACTER VARYING(250) UNIQUE NOT NULL,
     email CHARACTER VARYING(150) NOT NULL,
     password CHARACTER VARYING(150) NOT NULL,
     cambiar_password BOOLEAN DEFAULT true NOT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE public.areas (
     id BIGINT NOT NULL,
     cve_area CHARACTER VARYING(100) UNIQUE NOT NULL,
     nombre CHARACTER VARYING(150) NOT NULL,
-    responsable CHARACTER VARYING(250) NOT NULL,
+    responsable BIGINT not NULL,
     estatus BOOLEAN NOT NULL DEFAULT true,
     created_user_id BIGINT,
     updated_user_id BIGINT,
@@ -521,6 +521,9 @@ ALTER TABLE ONLY public.model_has_roles
 
 ALTER TABLE ONLY public.model_has_permissions
     ADD CONSTRAINT model_has_permissions_permission_id_foreign FOREIGN KEY (permission_id) REFERENCES public.permissions(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY public.areas
+    ADD CONSTRAINT areas_responsable_foreign FOREIGN KEY (responsable) REFERENCES public.users(id);
 
 ALTER TABLE ONLY public.areas
     ADD CONSTRAINT areas_created_user_id_foreign FOREIGN KEY (created_user_id) REFERENCES public.users(id);

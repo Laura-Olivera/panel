@@ -3,7 +3,9 @@
 namespace App\Exports\Catalogos;
 
 use App\Models\Catalogos\Area;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -27,20 +29,19 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
      * @var Collection
      */
     protected $collection;
+    protected $reporte;
 
     /**
      * @param  Collection  $collection
      */
-    public function __construct()
+    public function __construct(string $reporte)
     {
-        $areas = Area::select('areas.cve_area', 'areas.nombre', DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido)"), 'areas.estatus')
-        ->join('users', 'areas.responsable', '=', 'users.cve_usuario')
-        ->orderBy('areas.nombre', 'ASC')
-        ->get();
-        foreach ($areas as $area) {
-            $area->estatus = ($area->estatus) ? "ACTIVO" : "BAJA";
-        }
-        $this->collection = $areas;
+        $this->collection = User::select(DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as nombre"), 
+                                                        'users.curp', 'users.rfc', 'users.telefono','users.email','users.usuario', 'users.cve_usuario', 
+                                                        'areas.nombre as area', 'users.estatus')
+                                                ->join('areas', 'users.area', '=', 'areas.cve_area')
+                                                ->get();
+        $this->reporte = $reporte;
     }
 
     /**
@@ -53,12 +54,12 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
 
     public function headings(): array
     {
-        return [
-            'Clave',
-            'Nombre',
-            'Responsable',
-            'Estado'
-        ];
+        $first = $this->collection->first()->toArray();
+        if ($first) {
+            return array_keys($first);  
+        }
+
+        return [];
     }
 
     public function registerEvents(): array
@@ -67,7 +68,7 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
             AfterSheet::class => function(AfterSheet $event) {
                 //ENCABEZADO DE DOCUMENTOS
 
-                $event->sheet->setCellValue('A1', 'REPORTE DE CONTROL DE ÁREAS')->mergeCells('A1:G1')
+                $event->sheet->setCellValue('A1', 'REPORTE DE CONTROL DE '.strtoupper($this->reporte))->mergeCells('A1:G1')
                     ->getStyle('A1:G1')
                     ->getFont()
                     ->setSize(26)
@@ -94,13 +95,24 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
                     ->setBold(true);
 
                 //ESTILO DE DATOS
+                $lastColumn = 'A';
                 $lastRow = $event->sheet->getHighestRow();
-                $dataRange = 'A1:'.'G'.$lastRow;
+                $totalColumns = count($this->collection()->first());
+                for($i=0; $i < $totalColumns; $i++){
+                    $lastColumn++;
+                }
+                $cellRange = 'A5:'.$lastColumn.'5';
+                $dataRange = 'A5:'.$lastColumn.$lastRow;
+                $column = 'A';
+                for($i=0; $i < $totalColumns; $i++){
+                    $column++;
+                    $event->sheet->getColumnDimension($column)->setAutoSize(true);
+                }
                 $event->sheet->getStyle($dataRange)->getAlignment()
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT)
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setIndent(1);
-                $event->sheet ->getStyle('A5:D5')
+                $event->sheet->getStyle($cellRange)
                     ->getFont()
                     ->setSize(13)
                     ->setBold(true);
@@ -117,7 +129,7 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
 
     public function title(): string
     {
-        return 'Areas';
+        return $this->reporte;
     }
 
     public function startCell(): string
