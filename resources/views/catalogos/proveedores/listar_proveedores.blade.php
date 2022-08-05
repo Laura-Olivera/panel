@@ -18,6 +18,9 @@
 					<span class="font-weight-bolder text-dark">Control de Proveedores</span></h3>
 				</div>
 				<div class="card-toolbar">
+					<!--begin::Dropdown-->
+					@include('layouts.toolbar.export_options')
+					<!--end::Dropdown-->
 					@can('CatalogoProveedoresCrear')
 					<!--begin::Button-->
 					<a href="javascript:void(0);" onclick="add_proveedor_modal();" class="btn btn-light-primary font-weight-bolder">
@@ -31,6 +34,9 @@
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
+				@can('CatalogoProveedoresCrear')
+					@include('layouts.toolbar.file_import')
+				@endcan
 				<!--begin: Datatable-->
                 <table id="proveedores-table" name="proveedores-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>

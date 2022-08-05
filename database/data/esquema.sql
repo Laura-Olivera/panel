@@ -135,7 +135,7 @@ CREATE TABLE public.users (
     segundo_apellido CHARACTER VARYING(100),
     curp CHARACTER VARYING(18),
     rfc CHARACTER VARYING(13),
-    cve_usuario CHARACTER VARYING(20) NOT NULL,
+    cve_usuario CHARACTER VARYING(20) UNIQUE NOT NULL,
     telefono CHARACTER VARYING(10),
     area CHARACTER VARYING(100) NOT NULL,
     usuario CHARACTER VARYING(250) UNIQUE NOT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE public.areas (
     id BIGINT NOT NULL,
     cve_area CHARACTER VARYING(100) UNIQUE NOT NULL,
     nombre CHARACTER VARYING(150) NOT NULL,
-    responsable BIGINT not NULL,
+    responsable CHARACTER VARYING(150) NOT NULL,
     estatus BOOLEAN NOT NULL DEFAULT true,
     created_user_id BIGINT,
     updated_user_id BIGINT,
@@ -241,8 +241,9 @@ CREATE TABLE public.users_monitorings (
 DROP TABLE IF EXISTS public.proveedores;
 CREATE TABLE public.proveedores (
     id BIGINT NOT NULL,
+    cve_prov CHARACTER VARYING(50) UNIQUE NOT NULL,
     nombre CHARACTER VARYING(250) NOT NULL,
-    rfc CHARACTER VARYING(50) UNIQUE NOT NULL,
+    rfc CHARACTER VARYING(50) NOT NULL,
     telefono CHARACTER VARYING(15) NOT NULL,
     extension CHARACTER VARYING(10),
     direccion CHARACTER VARYING(250),
@@ -257,7 +258,7 @@ CREATE TABLE public.proveedores (
 DROP TABLE IF EXISTS public.categorias;
 CREATE TABLE public.categorias (
     id BIGINT NOT NULL,
-    nombre CHARACTER VARYING(250) NOT NULL,
+    nombre CHARACTER VARYING(250) UNIQUE NOT NULL,
     cve_cat CHARACTER VARYING(50) UNIQUE NOT NULL,
     estatus BOOLEAN NOT NULL DEFAULT TRUE,
     created_user_id BIGINT,
@@ -522,8 +523,8 @@ ALTER TABLE ONLY public.model_has_roles
 ALTER TABLE ONLY public.model_has_permissions
     ADD CONSTRAINT model_has_permissions_permission_id_foreign FOREIGN KEY (permission_id) REFERENCES public.permissions(id) ON DELETE CASCADE;
 
-ALTER TABLE ONLY public.areas
-    ADD CONSTRAINT areas_responsable_foreign FOREIGN KEY (responsable) REFERENCES public.users(id);
+/* ALTER TABLE ONLY public.areas
+    ADD CONSTRAINT areas_responsable_foreign FOREIGN KEY (responsable) REFERENCES public.users(id); */
 
 ALTER TABLE ONLY public.areas
     ADD CONSTRAINT areas_created_user_id_foreign FOREIGN KEY (created_user_id) REFERENCES public.users(id);

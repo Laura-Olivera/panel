@@ -34,7 +34,7 @@
 										<select class="form-control select2" id="responsable" name="responsable">
 											<option label="Label"></option>
 											@foreach($usuarios as $usuario)
-     										<option value="{{ $usuario->cve_usuario }}">{{ $usuario->fullname }}</option>
+     										<option value="{{ $usuario->fullname }}">{{ $usuario->fullname }}</option>
 											@endforeach
 										</select>
 									</div> 

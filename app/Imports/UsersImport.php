@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Catalogos\Area;
 use App\Models\User;
+use App\Services\Claves;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,10 +26,6 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
     {
         foreach ($rows as $row) 
         {
-            $area = Area::where('cve_area', '=', $row['area'])->first();
-            
-            $cve_area = (!empty($area)) ? $area->cve_area : 'AADP000001';
-
             $user = User::create([
                 'nombre' => $row['nombre'],
                 'primer_apellido' => $row['primer_apellido'],
@@ -37,7 +34,7 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
                 'rfc' => $row['rfc'],
                 'cve_usuario' => $row['no_empleado'],
                 'telefono' => $row['telefono'],
-                'area' => $cve_area,
+                'area' => $row['area'],
                 'usuario' => $row['usuario'],
                 'email' => $row['email'],
                 'password' => Hash::make($row['password']),
@@ -46,26 +43,22 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
                 'intentos' => 0
             ]);
 
-            $rol = DB::table('roles')->where('name', '=', $row['perfil'])->first();
-            if (!empty($rol)) {
-                $user->assignRole($rol->name);
-            } else {
-                $user->assignRole('InventarioConsulta');
-            }
+            $user->assignRole($row['perfil']);
+            
         }
     }
 
     public function rules(): array
     {
         return [
+            'no_empleado' => ['required', 'unique:users,cve_usuario'],
+            'usuario' => ['required', 'unique:users,usuario'],
             'nombre' => 'required',
             'primer_apellido' => 'required',
             'curp' => ['max:18'],
             'rfc' => ['max:13'],
-            'no_empleado' => ['required', 'unique:users,cve_usuario'],
             'telefono' => ['max:10'],
             'area' => 'required',
-            'usuario' => ['required', 'unique:users,usuario'],
             'email' => 'required',
             'password' => 'required',
         ];
@@ -88,4 +81,22 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
             'telefono.max' => 'El numero maximo de caracteres para el campo TELEFONO es de 10'
         ];
     }
+
+    public function prepareForValidation($data, $index)
+    {
+        $area = Area::where('cve_area', '=', $data['area'])->first();            
+        $cve_area = (!empty($area)) ? $area->cve_area : 'AADP000001';
+        $data['area'] = $cve_area;
+
+        $rol = DB::table('roles')->where('name', '=', $data['perfil'])->first();
+        $data['perfil'] = (!empty($rol)) ? $rol->name : 'InventarioConsulta';
+
+        $clave = new Claves;
+
+        $data['no_empleado'] = $data['no_empleado'] ?? $clave->generarClave('users', 'cve_usuario');
+        $data['usuario'] = $data['usuario'] ?? $clave->generarClave('users', 'usuario');
+        
+        return $data;
+    }
+
 }

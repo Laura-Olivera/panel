@@ -3,6 +3,7 @@
 namespace App\Exports\Catalogos;
 
 use App\Models\Catalogos\Area;
+use App\Models\Catalogos\Proveedor;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -36,12 +37,40 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
      */
     public function __construct(string $reporte)
     {
-        $this->collection = User::select(DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as nombre"), 
+        $this->reporte = $reporte;
+        switch ($this->reporte) {
+            case 'areas':
+                $areas = Area::select('areas.cve_area', 'areas.nombre', 'areas.responsable', 'areas.estatus')->get();
+                foreach ($areas as $area) {
+                    $area->estatus = ($area->estatus) ? "ACTIVO" : "BAJA";
+                }
+                $this->collection = $areas;
+                break;
+                
+            case 'usuarios':
+                $usuarios = User::select(DB::raw("CONCAT(users.nombre,' ',users.primer_apellido,' ',users.segundo_apellido) as nombre"), 
                                                         'users.curp', 'users.rfc', 'users.telefono','users.email','users.usuario', 'users.cve_usuario', 
                                                         'areas.nombre as area', 'users.estatus')
                                                 ->join('areas', 'users.area', '=', 'areas.cve_area')
                                                 ->get();
-        $this->reporte = $reporte;
+                foreach ($usuarios as $usuario) {
+                    $usuario->estatus = ($usuario->estatus) ? "ACTIVO" : "BAJA";                    
+                }
+                $this->collection = $usuarios;
+                break;
+
+            case 'proveedores':
+                $proveedores = Proveedor::select('nombre', 'rfc', 'telefono', 'extension', 'direccion', 'email', 'estatus')->get();
+                foreach ($proveedores as $proveedor) {
+                    $proveedor->estatus = ($proveedor->estatus) ? "ACTIVO" : "BAJA";
+                }
+                $this->collection = $proveedores;
+                break;
+
+            default:
+                # code...
+                break;
+        }        
     }
 
     /**
@@ -66,55 +95,68 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
-                //ENCABEZADO DE DOCUMENTOS
+                //VARIABLES SELECCION DE CELDAS
 
-                $event->sheet->setCellValue('A1', 'REPORTE DE CONTROL DE '.strtoupper($this->reporte))->mergeCells('A1:G1')
-                    ->getStyle('A1:G1')
-                    ->getFont()
-                    ->setSize(26)
-                    ->setBold(true);
-                $event->sheet->getStyle('A1:G1')->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
-                $event->sheet->setCellValue('A2', 'FECHA DE CONSULTA')->mergeCells('A2:C2')
-                    ->getStyle('A2:C2')
-                    ->getFont()
-                    ->setSize(12);
-                $event->sheet->setCellValue('D2', Carbon::now())->mergeCells('D2:G2')
-                    ->getStyle('D2:G2')
-                    ->getFont()
-                    ->setSize(13)
-                    ->setBold(true);
-                $event->sheet->setCellValue('A3', 'USUARIO DE CONSULTA')->mergeCells('A3:C3')
-                    ->getStyle('A3:C3')
-                    ->getFont()
-                    ->setSize(12);
-                $usuario = strtoupper(Auth::user()->nombre.' '.Auth::user()->primer_apellido.' '.Auth::user()->segundo_apellido);
-                $event->sheet->setCellValue('D3', $usuario)->mergeCells('D3:G3')
-                    ->getStyle('D3:G3')
-                    ->getFont()
-                    ->setSize(13)
-                    ->setBold(true);
-
-                //ESTILO DE DATOS
                 $lastColumn = 'A';
                 $lastRow = $event->sheet->getHighestRow();
-                $totalColumns = count($this->collection()->first());
+                $totalColumns = count($this->collection->first()->toArray());
                 for($i=0; $i < $totalColumns; $i++){
                     $lastColumn++;
                 }
-                $cellRange = 'A5:'.$lastColumn.'5';
-                $dataRange = 'A5:'.$lastColumn.$lastRow;
+                $cellRange = 'A6:'.$lastColumn.'6';
+                $dataRange = 'A6:'.$lastColumn.$lastRow;
                 $column = 'A';
                 for($i=0; $i < $totalColumns; $i++){
                     $column++;
                     $event->sheet->getColumnDimension($column)->setAutoSize(true);
                 }
+
+                //ESTILOS EXPORTACION PDF
+
+                $event->sheet->getPageSetup()
+                    ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+                $event->sheet->getPageSetup()
+                    ->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+
+                //ENCABEZADO DE DOCUMENTOS
+
+                $event->sheet->setCellValue('A1', 'REPORTE DE CONTROL DE '.strtoupper($this->reporte))->mergeCells('A1:'.$lastColumn.'1')
+                    ->getStyle('A1:'.$lastColumn.'1')
+                    ->getFont()
+                    ->setSize(26)
+                    ->setBold(true);
+                $event->sheet->getStyle('A1:'.$lastColumn.'1')->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK);
+                $event->sheet->getRowDimension('2')->setRowHeight(5);
+                $event->sheet->setCellValue('A3', 'FECHA DE CONSULTA')->mergeCells('A3:B3')
+                    ->getStyle('A3:B3')
+                    ->getFont()
+                    ->setSize(12);
+                $event->sheet->setCellValue('C3', Carbon::now())->mergeCells('C3:D3')
+                    ->getStyle('C3:D3')
+                    ->getFont()
+                    ->setSize(12)
+                    ->setBold(true);
+                $event->sheet->setCellValue('A4', 'USUARIO DE CONSULTA')->mergeCells('A4:B4')
+                    ->getStyle('A4:B4')
+                    ->getFont()
+                    ->setSize(12);
+                $usuario = strtoupper(Auth::user()->nombre.' '.Auth::user()->primer_apellido.' '.Auth::user()->segundo_apellido);
+                $event->sheet->setCellValue('C4', $usuario)->mergeCells('C4:D4')
+                    ->getStyle('C4:D4')
+                    ->getFont()
+                    ->setSize(12)
+                    ->setBold(true);
+
+                //ESTILO DE DATOS
+
+                $event->sheet->getRowDimension('5')->setRowHeight(5);
                 $event->sheet->getStyle($dataRange)->getAlignment()
                     ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT)
                     ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
                     ->setIndent(1);
                 $event->sheet->getStyle($cellRange)
                     ->getFont()
-                    ->setSize(13)
+                    ->setSize(12)
                     ->setBold(true);
             },
         ];
@@ -134,6 +176,6 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
 
     public function startCell(): string
     {
-        return 'A5';
+        return 'A6';
     }
 }

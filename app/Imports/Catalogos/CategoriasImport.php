@@ -2,7 +2,7 @@
 
 namespace App\Imports\Catalogos;
 
-use App\Models\Catalogos\Area;
+use App\Models\Catalogos\Categoria;
 use App\Services\Claves;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class AreaImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
+class CategoriasImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
 {
     use Importable, SkipsFailures;
 
@@ -22,12 +22,11 @@ class AreaImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsO
     {
         foreach ($rows as $row) 
         {
-            Area::create([
+            Categoria::create([
                 'nombre' => $row['nombre'],
-                'cve_area' => $row['cve_area'],                        
-                'responsable' => $row['empleado_responsable'],
+                'cve_cat' => $row['cve_categoria'],
                 'estatus' => true,
-                'created_user_id' => Auth::user()->id,
+                'ceated_user_id' => Auth::user()->id,
             ]);
             
         }
@@ -36,19 +35,18 @@ class AreaImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsO
     public function rules(): array
     {
         return [
-            'cve_area' => ['required', 'unique:areas,cve_area'],
-            'nombre' => 'required',
-            'empleado_responsable' => ['required'],
+            'cve_categoria' => ['required', 'unique:categorias,cve_cat'],
+            'nombre' => ['required', 'unique:categorias,nombre'],
         ];
     }
 
     public function customValidationMessages()
     {
         return [
-            'cve_area.required' => 'La clave del area es requerido',
-            'cve_area.unique' => 'La clave de area debe ser unica',
-            'nombre.required' => 'El nombre del area es requerido',
-            'empleado_responsable.required' => 'El nombre del empleado responsable de area es requerido',
+            'cve_categoria.required' => 'La clave de la categoria es requerido',
+            'cve_categoria.unique' => 'La clave de la categoria debe ser unica',
+            'nombre.required' => 'El nombre de la categoria es requerido',
+            'nombre.unique' => 'El nombre de la categoria debe ser unico'
         ];
     }
 
@@ -56,11 +54,9 @@ class AreaImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsO
     {
 
         $getClave = new Claves;
-        $cve_area = $getClave->generarClave('areas', 'cve_area');
-        $data['cve_area'] = $data['cve_area'] ?? $cve_area;
+        $cve_cat = $getClave->generarClave('categorias', 'cve_cat');
+        $data['cve_categoria'] = $data['cve_categoria'] ?? $cve_cat;
         
         return $data;
     }
-
 }
-

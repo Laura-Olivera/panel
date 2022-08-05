@@ -15,7 +15,10 @@ class ProveedoresController extends Controller
 {
     public function index()
     {
-        return view('catalogos.proveedores.listar_proveedores');
+        $class = "proveedores";
+        $filename = 'Reporte_proveedores';
+        $plantilla = 'proveedores_import.csv';
+        return view('catalogos.proveedores.listar_proveedores', compact('class', 'filename', 'plantilla'));
     }
 
     public function listar_proveedores()
