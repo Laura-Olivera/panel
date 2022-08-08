@@ -3,6 +3,7 @@
 namespace App\Exports\Catalogos;
 
 use App\Models\Catalogos\Area;
+use App\Models\Catalogos\Producto;
 use App\Models\Catalogos\Proveedor;
 use App\Models\User;
 use Carbon\Carbon;
@@ -60,13 +61,25 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
                 break;
 
             case 'proveedores':
-                $proveedores = Proveedor::select('nombre', 'rfc', 'telefono', 'extension', 'direccion', 'email', 'estatus')->get();
+                $proveedores = Proveedor::select('cve_prov', 'nombre', 'rfc', 'telefono', 'extension', 'direccion', 'email', 'estatus')->get();
                 foreach ($proveedores as $proveedor) {
                     $proveedor->estatus = ($proveedor->estatus) ? "ACTIVO" : "BAJA";
                 }
                 $this->collection = $proveedores;
                 break;
 
+            case 'productos':
+                $productos = Producto::select('productos.codigo', 'productos.nombre', 'productos.modelo', 'productos.marca', 'proveedores.nombre as proveedor',
+                                               'categorias.nombre as categoria', 'productos.precio_compra', 'productos.precio_venta', 'productos.cantidad',
+                                                'productos.estatus')
+                                            ->join('proveedores', 'productos.proveedor_id', '=', 'proveedores.id')
+                                            ->join('categorias', 'productos.categoria_id', '=','categorias.id')
+                                            ->get();
+                foreach ($productos as $producto) {
+                    $producto->estatus ($producto->estatus) ? "ACTIVO" : "BAJA";
+                }
+                $this->collection = $productos;
+                break;
             default:
                 # code...
                 break;

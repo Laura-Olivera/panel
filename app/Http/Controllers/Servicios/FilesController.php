@@ -7,6 +7,7 @@ use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Imports\Catalogos\AreaImport;
 use App\Imports\Catalogos\CategoriasImport;
+use App\Imports\Catalogos\ProductosImport;
 use App\Imports\Catalogos\ProveedoresImport;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class FilesController extends Controller
                     Excel::import($importar, $request->file('importar')->store('temp'));
                     $errors = [];
                     foreach ($importar->failures() as $error) {
-                        $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
+                        $mensaje = 'Error al importar fila '.$error->row().': '.$error->errors()[0];
                         array_push($errors, $mensaje);
                     }
                     
@@ -54,7 +55,7 @@ class FilesController extends Controller
                     Excel::import($importar, $request->file('importar')->store('temp'));
                     $errors = [];
                     foreach ($importar->failures() as $error) {
-                        $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
+                        $mensaje = 'Error al importar fila '.$error->row().': '.$error->errors()[0];
                         array_push($errors, $mensaje);
                     }
 
@@ -70,7 +71,7 @@ class FilesController extends Controller
                     Excel::import($importar, $request->file('importar')->store('temp'));
                     $errors = [];
                     foreach ($importar->failures() as $error) {
-                        $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
+                        $mensaje = 'Error al importar fila '.$error->row().': '.$error->errors()[0];
                         array_push($errors, $mensaje);
                     }
     
@@ -86,7 +87,7 @@ class FilesController extends Controller
                     Excel::import($importar, $request->file('importar')->store('temp'));
                     $errors = [];
                     foreach ($importar->failures() as $error) {
-                        $mensaje = 'Error fila '.$error->row().': '.$error->errors()[0];
+                        $mensaje = 'Error al importar fila '.$error->row().': '.$error->errors()[0];
                         array_push($errors, $mensaje);
                     }
         
@@ -96,7 +97,22 @@ class FilesController extends Controller
         
                     return back()->withErrors($errors);
                     break;
-
+                
+                case 'productos':
+                    $importar = new ProductosImport;
+                    Excel::import($importar, $request->file('importar')->store('temp'));
+                    $errors = [];
+                    foreach ($importar->failures() as $error) {
+                        $mensaje = 'Error al importar fila '.$error->row().': '.$error->errors()[0];
+                        array_push($errors, $mensaje);
+                    }
+        
+                    $data = request();
+                    $accion = 'Importar registros catalogo productos';
+                    Bitacora::usuarios($data, $accion);
+        
+                    return back()->withErrors($errors);
+                    break;
                 default:
                     return back()->withErrors('***Error al importar datos, intente mas tarde.');
                     break;
@@ -104,7 +120,7 @@ class FilesController extends Controller
 
         } catch (\Throwable $th) {
             Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
-            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al importar registros catalogo areas', 'warning');
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al importar registros', 'warning');
             return back()->withErrors('Error al importar datos, intente mas tarde.');
         }
     }
@@ -118,22 +134,12 @@ class FilesController extends Controller
      */
     public function export_data($class_export, $filename)
     {
-        switch ($class_export) {
-            case 'areas':
-                return Excel::download(new AreasExport($class_export), $filename.'.xlsx');
-                break;
-
-            case 'usuarios':
-                return Excel::download(new AreasExport($class_export), $filename.'.xlsx');
-                break;
-
-            case 'proveedores':
-                return Excel::download(new AreasExport($class_export), $filename.'.xlsx');
-                break;
-
-            default:
-                return back()->withErrors('Error al exportar reporte, intente mas tarde.');
-                break;
+        try {
+            return Excel::download(new AreasExport($class_export), $filename.'.xlsx');
+        } catch (\Throwable $th) {
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al exportar registros excel', 'warning');
+            return back()->withErrors('Error al exportar datos, intente mas tarde.');
         }
         
     }
@@ -147,19 +153,12 @@ class FilesController extends Controller
      */
     public function export_pdf($class_export, $filename)
     {
-        switch ($class_export) {
-            case 'areas':
-                return (new AreasExport($class_export))->download($filename.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
-                break;
-            case 'usuarios':
-                return (new AreasExport($class_export))->download($filename.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
-                break;
-            case 'proveedores':
-                return (new AreasExport($class_export))->download($filename.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
-                break;
-            default:
-                return back()->withErrors('Error al exportar reporte, intente mas tarde.');
-                break;
+        try {
+            return (new AreasExport($class_export))->download($filename.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
+        } catch (\Throwable $th) {
+            Log::warning(__METHOD__."--->Line:".$th->getLine()."----->".$th->getMessage());
+            Bitacora::log(__METHOD__, $th->getFile(), $th->getLine(), $th->getMessage(), 'Error al exportar registros pdf', 'warning');
+            return back()->withErrors('Error al exportar datos, intente mas tarde.');
         }
     }
 

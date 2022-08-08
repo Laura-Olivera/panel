@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Catalogos;
 use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
 use App\Models\Catalogos\Proveedor;
+use App\Services\Claves;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,10 +36,13 @@ class ProveedoresController extends Controller
     public function store(Request $request)
     {
         try {
+            $getClave = new Claves;
+            $clave = $getClave->generarClave('proveedores', 'cve_prov');
             DB::beginTransaction();
             $proveedor = Proveedor::create([
+                'cve_prov' => $request->clave ?? $clave,
                 'nombre' => $request->nombre,
-                'rfc' => $request->clave,
+                'rfc' => $request->rfc,
                 'telefono' => $request->telefono,
                 'extension' => $request->extension,
                 'direccion' => $request->direccion,

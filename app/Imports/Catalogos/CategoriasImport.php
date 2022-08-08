@@ -4,32 +4,29 @@ namespace App\Imports\Catalogos;
 
 use App\Models\Catalogos\Categoria;
 use App\Services\Claves;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class CategoriasImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
+class CategoriasImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
 {
     use Importable, SkipsFailures;
 
-    public function collection(Collection $rows)
+    public function model(array $row)
     {
-        foreach ($rows as $row) 
-        {
-            Categoria::create([
-                'nombre' => $row['nombre'],
-                'cve_cat' => $row['cve_categoria'],
-                'estatus' => true,
-                'ceated_user_id' => Auth::user()->id,
-            ]);
-            
-        }
+        $categoria = Categoria::create([
+            'nombre' => $row['nombre'],
+            'cve_cat' => $row['cve_categoria'],
+            'estatus' => true,
+            'created_user_id' => Auth::user()->id,
+        ]);
+
+        return $categoria;
     }
 
     public function rules(): array

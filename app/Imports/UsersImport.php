@@ -13,39 +13,37 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class UsersImport implements ToCollection, WithHeadingRow, WithValidation, SkipsEmptyRows, SkipsOnFailure
+class UsersImport implements ToModel, WithHeadingRow, SkipsEmptyRows, SkipsOnFailure, WithValidation
 {
 
     use Importable, SkipsFailures;
 
-    public function collection(Collection $rows)
+    public function model(array $row)
     {
-        foreach ($rows as $row) 
-        {
-            $user = User::create([
-                'nombre' => $row['nombre'],
-                'primer_apellido' => $row['primer_apellido'],
-                'segundo_apellido' => $row['segundo_apellido'],
-                'curp' => $row['curp'],
-                'rfc' => $row['rfc'],
-                'cve_usuario' => $row['no_empleado'],
-                'telefono' => $row['telefono'],
-                'area' => $row['area'],
-                'usuario' => $row['usuario'],
-                'email' => $row['email'],
-                'password' => Hash::make($row['password']),
-                'cambiar_password' => true,
-                'estatus' => true,
-                'intentos' => 0
-            ]);
+        $user = User::create([
+            'nombre' => $row['nombre'],
+            'primer_apellido' => $row['primer_apellido'],
+            'segundo_apellido' => $row['segundo_apellido'],
+            'curp' => $row['curp'],
+            'rfc' => $row['rfc'],
+            'cve_usuario' => $row['no_empleado'],
+            'telefono' => $row['telefono'],
+            'area' => $row['area'],
+            'usuario' => $row['usuario'],
+            'email' => $row['email'],
+            'password' => Hash::make($row['password']),
+            'cambiar_password' => true,
+            'estatus' => true,
+            'intentos' => 0
+        ]);
 
-            $user->assignRole($row['perfil']);
-            
-        }
+        $user->assignRole($row['perfil']);
+        
+        return $user;
     }
 
     public function rules(): array
@@ -53,14 +51,14 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
         return [
             'no_empleado' => ['required', 'unique:users,cve_usuario'],
             'usuario' => ['required', 'unique:users,usuario'],
-            'nombre' => 'required',
-            'primer_apellido' => 'required',
-            'curp' => ['max:18'],
-            'rfc' => ['max:13'],
-            'telefono' => ['max:10'],
-            'area' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'nombre' => ['required'],
+            'primer_apellido' => ['required'],
+            'curp' => ['size:18'],
+            'rfc' => ['size:13'],
+            'telefono' => ['size:10'],
+            'area' => ['required'],
+            'email' => ['required'],
+            'password' => ['required'],
         ];
     }
 
@@ -76,9 +74,9 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
             'usuario.required' => 'El campo USUARIO es requerido',
             'email.required' => 'El campo EMAIL es requerido',
             'password.required' => 'El campo PASSWORD es requerido',
-            'curp.max' => 'El numero maximo de caracteres para el campo CURP es de 18',
-            'rfc.max' => 'El numero maximo de caracteres para el campo RFC es de 13',
-            'telefono.max' => 'El numero maximo de caracteres para el campo TELEFONO es de 10'
+            'curp.size' => 'El numero de caracteres para el campo CURP es de 18',
+            'rfc.size' => 'El numero de caracteres para el campo RFC es de 13',
+            'telefono.size' => 'El numero de caracteres para el campo TELEFONO es de 10'
         ];
     }
 
