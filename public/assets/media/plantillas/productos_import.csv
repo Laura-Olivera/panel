@@ -1,0 +1,11 @@
+nombre,modelo,marca,cve_proveedor,codigo_producto,precio_compra,precio_venta,cantidad,cve_categoria
+"Acetaminophen, Dextromethorphan HBr, Guaifenesin, Phenylephrine HCl",Topaz,Mucus Relief,PMCY000001,,346832.49,90657.96,4794,CVCP000001
+"Avobenzone, Homosalate, Octinoxate, Octocrylene",350Z Roadster,Daily Moisturizing Broad Spectrum SPF15 Sunscreen,PGBK000001,,93765.94,572285.39,2301,CJSI000001
+PAMIDRONATE DISODIUM,Colorado,Pamidronate Disodium,PLKD000001,,541398.58,161339.65,6253,COTD000001
+Renes Veratrum,Cayenne,Renes Veratrum,PCIO000001,,305047.39,153540.5,507,CPJU000001
+Omeprazole magnesium,E-Class,PRILOSEC,PQRX000001,,609489.85,724189,5803,CFXB000001
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,

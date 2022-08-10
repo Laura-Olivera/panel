@@ -76,7 +76,7 @@ class AreasExport implements FromCollection, WithCustomStartCell, WithHeadings, 
                                             ->join('categorias', 'productos.categoria_id', '=','categorias.id')
                                             ->get();
                 foreach ($productos as $producto) {
-                    $producto->estatus ($producto->estatus) ? "ACTIVO" : "BAJA";
+                    $producto->estatus = ($producto->estatus) ? "ACTIVO" : "BAJA";
                 }
                 $this->collection = $productos;
                 break;

@@ -7,6 +7,10 @@ $(document).ready(function(){
 function buscar_producto()
 {
     $("#cve_prod").change(function(){
+        let data = {
+            producto: this.value,
+            proveedor: $("#proveedor").val()
+        };
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')           
@@ -14,6 +18,7 @@ function buscar_producto()
             type: 'GET',
             url: "buscar_prod/" + this.value,
             datatype: 'json',
+            data: data,
             success: function(response){
                 if (response.success) {
                     $("#id_prod").val(response.id_prod);
@@ -21,10 +26,12 @@ function buscar_producto()
                     $("#general").val(response.descrip_gral);
                     $("#cant_prod").focus();
                 } else {
+                    $("#cve_prod").val("");
+                    $("#cve_prod").focus();
                     Swal.fire({
                         icon: "warning",
                         title: "¡Alerta!",
-                        text: 'El producto no existe.'
+                        text: response.message
                     });
                 }
             },
@@ -49,9 +56,13 @@ function buscar_producto()
 function agregar_entrada_producto(entrada_id)
 {
     console.log(entrada_id);
+    let data = {
+        entrada_id: entrada_id
+    };
     $.ajax({
         url: "/agregar_producto",
         datatype: 'html',
+        data: data,
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {

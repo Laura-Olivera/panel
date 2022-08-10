@@ -65,7 +65,7 @@
                             <div class="form-group row">
                                 <div class="col-lg-4">
                                     <label>Costo unitario:</label>
-                                    <input type="text" class="form-control" value="{{ $producto->costo }}" placeholder="Costo unitario del producto" id="costo" name="costo" autocomplete="off"/>
+                                    <input type="text" class="form-control" value="{{ $producto->precio_venta }}" placeholder="Costo unitario del producto" id="costo" name="costo" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Costo venta:</label>
