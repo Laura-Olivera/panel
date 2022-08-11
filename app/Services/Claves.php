@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -58,6 +59,16 @@ class Claves
         $clave = strtoupper($subs.$random_str.$num);
         return $clave;
         
+    }
+
+    /**
+     * Create consecutive user id
+     * 
+     * 
+     */
+    public function no_usuario(){
+        $consecutivo = User::all()->count();
+                
     }
 
     

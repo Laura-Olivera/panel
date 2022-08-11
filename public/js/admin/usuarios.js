@@ -7,7 +7,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         "ordering": true,
-        order: [0],
+        order: [0, 'ASC'],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
@@ -49,11 +49,7 @@ function add_usuario_modal()
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('#perfil').select2({
-                    placeholder: 'Seleccione...',
-                    allowClear: true,
-                });
-                $('#area').select2({
+                $('.select2_basic').select2({
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
@@ -81,15 +77,17 @@ function add_usuario_modal()
 function store_usuario(){
     var form = $("#frm_nuevo_usuario");
     var validarForm = validar(form);
-    
+
     if(validarForm){
         let data = {
             usuario: $('#usuario').val(),
+            no_usuario: $("#no_usuario").val(),
             nombre: $('#nombre').val(),
             primer: $('#pApellido').val(),
             segundo: $('#sApellido').val(),
             email: $('#email').val(),
             password: $('#password').val(),
+            rpassword: $("rpassword").val(),
             perfil: $('#perfil').val(),
             telefono: $('#telefono').val(),
             rfc: $('#rfc').val(),
@@ -130,7 +128,16 @@ function store_usuario(){
             error: function (xhr) { //xhr
                 if (xhr.responseJSON) {
                     if (xhr.responseJSON.errors) {
-                        imprimirMensajesDeError(xhr.responseJSON.errors);
+                        var errores = '';
+	                var mensaje;
+
+	                $.each(data, function (key, value) {
+	                	$('#' + key + '').addClass('is-invalid');
+	                	errores += '<li>' + value + '</li>';
+	                });
+
+                    console.log(errores);
+                    imprimirMensajesDeError(xhr.responseJSON.errors);
                     }
                 } else {
                     Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
@@ -160,11 +167,7 @@ function edit_usuario_modal(id){
         success: function(data){
             var modal = data;
             $(modal).modal().on('shown.bs.modal', function () {
-                $('#perfil').select2({
-                    placeholder: 'Seleccione...',
-                    allowClear: true,
-                });
-                $('#area').select2({
+                $('.select2_basic').select2({
                     placeholder: 'Seleccione...',
                     allowClear: true,
                 });
@@ -240,7 +243,7 @@ function update_usuario(id){
         error: function (xhr) { //xhr
             if (xhr.responseJSON) {
                 if (xhr.responseJSON.errors) {
-                    imprimirMensajesDeError(xhr.responseJSON.errors);
+                    console.log(xhr.responseJSON.errors);
                 }
             } else {
                 Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
@@ -259,6 +262,15 @@ function update_usuario(id){
         },
     });
 }
+
+$.extend($.validator, {
+    messages: {
+        required: 'El campo es requerido',
+        equalTo: 'Las contraseñas deben ser iguales',
+        maxlength: 'El campo no debe sobrepasar los 150 caracteres',
+        minlength: 'La contraseña debe tene 8 caracteres como minimo'
+    }
+});
 
 function validar(form){
     var validator = form.validate({
@@ -284,7 +296,7 @@ function validar(form){
                 required: true,
                 equalTo: '#password'
             },
-            user: {
+            usuario: {
                 required: true,
             },
             perfil: {
@@ -296,7 +308,33 @@ function validar(form){
                 maxlength: 150
             }
         },
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
     });
 
     return validator.form();
+}
+
+function imprimirMensajesDeError(data) {
+	//Quitamos la clase de los input invalidos
+	$(".is-invalid").removeClass("is-invalid");
+
+	var errores = '';
+	var mensaje;
+
+	$.each(data, function (key, value) {
+		$('#' + key + '').addClass('is-invalid');
+		errores += '<li>' + value + '</li>';
+	});
+
+	mensaje = '<ul>' + errores + '</ul>'
+    Swal.fire({
+        icon: "warning",
+        title: "¡Alerta!",
+        html: mensaje,
+    });
 }

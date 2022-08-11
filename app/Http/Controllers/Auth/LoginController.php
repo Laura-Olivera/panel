@@ -47,7 +47,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         try {
-            $user = $request->input('username');
+            $user = mb_strtolower($request->input('username'));
             $remember = ($request->input('remember')) ? true : false;        
             $existe = User::where('usuario', '=', $user)->where('estatus', '=', true)->exists();
             if($existe){

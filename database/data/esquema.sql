@@ -188,6 +188,22 @@ CREATE TABLE public.model_has_roles(
     model_id BIGINT NOT NULL
 );
 
+DROP TABLE IF EXISTS public.sucursales;
+CREATE TABLE public.sucursales(
+    id BIGINT NOT NULL,
+    cve_sec CHARACTER VARYING(100) UNIQUE NOT NULL,
+    nombre CHARACTER VARYING(255) NOT NULL,
+    telefono CHARACTER VARYING(10),
+    direccion CHARACTER VARYING(255),
+    responsable BIGINT,
+    tipo CHARACTER VARYING(50) NOT NULL,
+    estatus BOOLEAN NOT NULL DEFAULT true,
+    created_user_id BIGINT,
+    updated_user_id BIGINT,
+    created_at TIMESTAMP(0) WITHOUT TIME ZONE,
+    updated_at TIMESTAMP(0) WITHOUT TIME ZONE
+);
+
 DROP TABLE IF EXISTS public.areas;
 CREATE TABLE public.areas (
     id BIGINT NOT NULL,

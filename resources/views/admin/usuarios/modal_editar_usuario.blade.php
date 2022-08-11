@@ -50,7 +50,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label> Usuario: </label>
- 					   					<input type="text" class="form-control" value=" {{ $usuario->usuario }}" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off"/>
+ 					   					<input type="text" class="form-control" value=" {{ $usuario->usuario }}" placeholder="Nombre de usuario" id="usuario" name="usuario" autocomplete="off" readonly/>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -84,7 +84,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Perfil:</label>
-										<select class="form-control select2" id="perfil" name="perfil">
+										<select class="form-control select2_basic" id="perfil" name="perfil">
 											@foreach($roles as $role)
      										<option value="{{ $role->id }}" {{ ($role->id == $perfil->role_id) ? "selected" : "" }}>{{ $role->name }}</option>
 											@endforeach
@@ -96,7 +96,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Area:</label>
-										<select class="form-control select2" id="area" name="area">
+										<select class="form-control select2_basic" id="area" name="area">
 											<option label="Label"></option>
 											@foreach($areas as $area)
      										<option value="{{ $area->cve_area }}" {{ ($area->cve_area == $usuario->area) ? "selected" : "" }}>{{ $area->nombre }} - {{ $area->cve_area }}</option>

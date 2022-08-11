@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Catalogos\Area;
 use App\Models\User;
+use App\Services\Claves;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,20 +26,21 @@ class UsersImport implements ToCollection, WithHeadingRow, WithValidation, Skips
     {
         foreach ($rows as $row) 
         {
-            $area = Area::where('cve_area', '=', $row['area'])->first();
-            
+            $area = Area::where('cve_area', '=', $row['area'])->first();            
             $cve_area = (!empty($area)) ? $area->cve_area : 'AADP000001';
+            $clave = new Claves;
+            $no_empleado = ($row['no_empleado']) ? $row['no_empleado'] : $clave->generarClave('users', 'cve_usuario');
 
             $user = User::create([
-                'nombre' => $row['nombre'],
-                'primer_apellido' => $row['primer_apellido'],
-                'segundo_apellido' => $row['segundo_apellido'],
-                'curp' => $row['curp'],
-                'rfc' => $row['rfc'],
-                'cve_usuario' => $row['no_empleado'],
+                'nombre' => mb_strtoupper($row['nombre']),
+                'primer_apellido' => mb_strtoupper($row['primer_apellido']),
+                'segundo_apellido' => mb_strtoupper($row['segundo_apellido']),
+                'curp' => mb_strtoupper($row['curp']),
+                'rfc' => mb_strtoupper($row['rfc']),
+                'cve_usuario' => $no_empleado,
                 'telefono' => $row['telefono'],
                 'area' => $cve_area,
-                'usuario' => $row['usuario'],
+                'usuario' => mb_strtolower($row['usuario']),
                 'email' => $row['email'],
                 'password' => Hash::make($row['password']),
                 'cambiar_password' => true,
