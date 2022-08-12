@@ -13,6 +13,7 @@
  					 	<div class="panel-body">
                             <input type="hidden" id="id" name="id"/>
                             <input type="hidden" id="id_prod" name="id_prod"/>
+                            <input type="hidden" id="proveedor" name="proveedor" value="{{$prov_id}}">
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label class="">Producto:</label>
@@ -20,13 +21,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="opacity-75">Costo:</label>
-                                        <input type="text" class="form-control" placeholder="Precio de compra del producto" id="costo" name="costo" autocomplete="off"/>
+                                        <input type="text" class="form-control" placeholder="Precio de compra del producto" id="costo" name="costo" autocomplete="off" disabled/>
                                 </div>
                             </div>
                             <div class="form-group row">                                
                                 <div class="col-md-12">
                                     <label class="opacity-75">Descripción:</label>
-                                    <input type="text" class="form-control" placeholder="Descripción general del producto" id="general" name="general" autocomplete="off"/>
+                                    <input type="text" class="form-control" placeholder="Descripción general del producto" id="general" name="general" autocomplete="off" disabled/>
                                 </div>
                             </div>
                             <div class="form-group row">

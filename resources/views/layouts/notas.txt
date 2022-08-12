@@ -523,7 +523,7 @@ Condicion del pago
 
 
 EXCEL TO ARRAY
- $collection = Excel::toArray($importar, $request->file('importar'));
+ $collection = Excel::toArray(new Classimport, $request->file('importar'));
 /* foreach ($collection as $collection) {
     for ($i=0; $i < count($collection); $i++) { 
         $collection[$i]['nombre'] = ($collection[$i]['nombre']) ? $collection[$i]['nombre'] : null;
@@ -532,3 +532,204 @@ EXCEL TO ARRAY
         $collection[$i]['no_empleado_responsable'] = (!empty($usuario)) ? $usuario->id : null;
     }
 } */
+
+
+modulos sistema POS
+
+TABLERO :
+    Hoy Ventas e ingresos y gastos y ganancias
+    Ventas y compras de esta semana
+    Productos más vendidos este mes y año
+    Cinco clientes principales
+    Pago enviado y recibido
+    Ventas recientes
+POS FÁCIL:
+    Mejor sistema POS
+    Magnífico diseño de factura
+    Opción de descuento e impuestos y envío
+    Buscar artículo por código y nombre
+    Filtrar por categoría, marca
+PRODUCTOS:
+    Agregar, editar, eliminar y ver productos
+    Exportar productos como PDF y Excel
+    Importar productos por csv
+    Cantidad de ajuste
+    Transferir Stock
+    Productos de impresión de códigos de barras
+COTIZACIONES:
+    Agregar, editar, eliminar y ver cotizaciones
+    Generar venta a partir de cotización
+    Exportar cotizaciones como PDF y Excel
+    Descargar como pdf
+    Enviar cotización PDF por correo
+VENTAS :
+    Agregar, editar, eliminar y ver ventas
+    agregar, editar, eliminar pagos
+    Exportar ventas como PDF y Excel
+    Descargar como pdf
+    Enviar venta PDF por correo
+COMPRAS:
+    Agregar, editar, eliminar y ver compras
+    Pagos (agregar, editar, eliminar)
+    Exportar compras como PDF y Excel
+    Descargar como pdf
+    Enviar Pdf de compra por correo
+DEVOLUCIONES DE VENTAS Y COMPRAS:
+    Agregar, editar, eliminar y ver devoluciones
+    Pagos (agregar, editar, eliminar)
+    Exportar devoluciones como PDF y Excel
+    Descargar como pdf
+    Enviar PDF de devolución por correo
+PERSONAS :
+    Agregar, editar, eliminar y ver usuarios, asignar roles
+    Agregar, editar, eliminar y ver clientes y proveedores
+    Exportar usuarios, clientes y proveedores como PDF y Excel
+    Importar clientes y proveedores por archivo csv
+INFORMES :
+    Resumen y gráficos de stock de almacén
+    Alertas de cantidad y caducidad del producto
+    Informes de pagos
+    pérdida de beneficios
+    informe de compras y ventas
+    Informes de clientes, proveedores
+AJUSTES :
+    Editar logotipo, nombre de la empresa, correo electrónico, etc.
+    Editar servidor SMTP para notificación por correo
+    Editar perfil de usuario, cambiar contraseña
+    Crear roles para usuarios
+    Agregar, editar, eliminar y ver monedas
+    Agregar, editar, eliminar y ver almacenes
+    Agregar, editar, eliminar y ver marcas
+    Agregar, editar, eliminar y ver categoría
+    Agregar, editar, eliminar y ver unidades
+    Generar copia de seguridad automáticamente
+OTRO :
+Multilingüe: (inglés, francés, español, árabe, alemán, italiano, turco, indonesio, chino, tailandés, ruso, hindi, vietnamita. Pronto se añadirán más)
+Exportar el contenido de la tabla a PDF o Excel
+Sistema de notificación por correo agregado para ventas, compras, cotizaciones, devoluciones, pagos
+
+SISTEMA SAAS ERP MODULOS
+
+Múltiples negocios / tiendas: 
+    Configure varias empresas en la aplicación.
+    No hay restricciones en el número de empresas.
+    La información de inventario y contabilidad se mantiene por separado para cada negocio.
+Agregar ubicación / escaparates / almacén: 
+    Cree múltiples ubicaciones para su negocio / tienda
+    Adminístrelos todos al mismo tiempo.
+    Las existencias, compras y ventas se pueden rastrear de manera diferente para ubicaciones.
+    Personalice el diseño de la factura, el esquema de factura para cada ubicación
+Gestión de usuarios y roles: 
+    Potente sistema de gestión de roles y usuarios
+    Roles predefinidos: administrador y cajero
+    Cree diferentes roles con permiso según sus necesidades.
+    Crea usuarios ilimitados con diferentes roles.
+Contactos (clientes y proveedores):
+    Marque el contacto como cliente o proveedor o ambos (cliente y proveedor)
+    Ver detalles de transacciones con un contacto.
+    Ver el monto total del saldo de crédito / débito 
+    Defina el plazo de pago y reciba alertas de pago una semana antes de la fecha de vencimiento.
+Productos: 
+    Gestione productos únicos y variables.
+    Clasifique los productos según marcas, categoría, subcategoría.
+    Agregar productos que tengan diferentes unidades
+    Agregue un número de SKU o genere automáticamente un número de SKU con prefijos.
+    Recibe alertas de stock sobre stock bajo.
+    Ahorre tiempo calculando automáticamente el precio de venta, el sistema es inteligente para calcular automáticamente el precio de venta en función del precio de compra y el margen de beneficio.
+    No es necesario escribir variaciones cada vez, cree una plantilla de variación y úsela cada vez que necesite crear productos variables.
+Compras:
+    Agregue compras fácilmente.
+    Agregar compra para diferentes ubicaciones.
+    Gestionar compras pagadas / vencidas.
+    Reciba notificaciones de las compras vencidas una semana antes de la fecha de pago.
+    Agregar descuentos e impuestos
+Vender:
+    Interfaz simplificada para vender productos
+    El cliente sin cita previa predeterminado se agrega automáticamente a una empresa
+    Agregar nuevo cliente desde la pantalla POS.
+    Pantalla de venta basada en Ajax:  ahorre tiempo de recarga
+    Marcar una factura como borrador o final
+    Diferentes opciones de pago
+    Personalice el diseño de la factura y el esquema de la factura.
+Gestionar gastos:
+    Agregue fácilmente los gastos comerciales
+    Categorizar gastos 
+    Analice los gastos según la categoría y las ubicaciones comerciales con el informe de gastos.
+Informes: 
+    Informe de compra y venta
+    Informe de impuestos
+    Informes de contacto
+    Informes de stock
+    Informe de gastos
+    Ver productos de tendencia, desglosar por marcas, categoría, subcategoría, unidades y rangos de fechas
+    Reporte de gastos
+    Informe de caja registradora
+    Informe del representante de ventas
+Otra característica útil:
+    Establezca la moneda, la zona horaria, el año financiero, el margen de beneficio de una empresa.
+    Traducción lista.
+    Configuración de etiqueta de código de barras predefinida.
+    Cree su configuración de etiqueta de código de barras
+    Gestionar marcas, tipos impositivos y grupos de impuestos, unidades, categorías y subcategorías
+    Fácil instalación en 3 pasos.
+    Documentación detallada
+    Ajuste de Stock
+    Chequeo rápido
+    Funciona sin conexión
+
+MODULOS
+
+Control de usuarios
+    Lista de usuarios
+        CRUDS
+    Roles y Permisos
+        CRUDS
+    Otros Permisos
+        CRUDS
+Catalogos 
+    Sucursales
+        CRUDS 
+    Departamentos 
+        CRUDS
+    proveedores
+        CRUDS
+        Ver compra totales por proveedor
+    clientes
+        CRUDS
+        Ver ventas totales por cliente
+    Categorias
+        CRUDS
+    Productos
+        CRUDS
+        Ver producto detalles
+        Generar codigo QR 
+inventario
+    Entradas
+        CRUDS 
+    Salidas
+        CRUDS 
+        Transferir productos entre sucursales
+Ventas 
+    CRUDS 
+Reportes
+    defirnir parametro de exportacion de datos
+    exportar csv, excel, pdf, print 
+Backup
+    Base de datos
+    Multimedia 
+RRHH
+POS
+To Do
+    CRUDS
+Calendario 
+    CRUDS
+Configuracion 
+    INVOICES
+        Factura
+        Ticket 
+        Nota 
+    EMAIL 
+        Confirmacion compra
+        Conformacion de cancelacion 
+        Notificaciones 
+    

@@ -235,7 +235,7 @@
                                                                     <button type="button" class="btn btn-primary font-weight-bolder btn-sm" name="editar_producto" id="editar-producto" onclick="editar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">editar</button>
                                                                     @endcan
                                                                     @can('EliminarProductoEntrada')
-                                                                    <button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">-</button>
+                                                                    <button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="borrar_entrada_producto({{ $ent_prod->entrada_id }}, {{ $ent_prod->producto_id }});">borrar</button>
                                                                     @endcan                                                                    
                                                                 </td> 
                                                             </tr>

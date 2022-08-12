@@ -17,7 +17,10 @@ class ProductosController extends Controller
 {
     public function index()
     {
-        return view('catalogos.productos.listar_productos');
+        $class = "productos";
+        $filename = 'Reporte_productos';
+        $plantilla = 'productos_import.csv';
+        return view('catalogos.productos.listar_productos', compact('class', 'filename', 'plantilla'));
     }
 
     public function listar_productos()

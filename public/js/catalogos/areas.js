@@ -3,10 +3,11 @@ $(document).ready(function(){
     $('.areas-table').each(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
-    var tbCatgoria = $('#areas-table').DataTable({
+    var tbAreas = $('#areas-table').DataTable({
         processing: true,
         serverSide: true,
         "ordering": true,
+        order: [1, 'ASC'],
         responsive: true,
         language: {
             "url": '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json'
@@ -18,7 +19,7 @@ $(document).ready(function(){
         columns: [
             { data: 'cve_area', name: 'cve_area'},
             { data: 'nombre', name: 'nombre' },
-            { data: 'usuario_responsable', name: 'usuario_responsable' },
+            { data: 'responsable', name: 'responsable' },
             {   
                 "mRender": function ( data, type, row ) {
                     return '<span class="label label-lg label-light-'+((row.estatus) ? 'success' : 'warning')+' label-inline font-weight-bold py-4">'+ ((row.estatus) ? 'Activo' : 'Inactivo') +'</span>';

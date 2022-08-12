@@ -17,6 +17,14 @@
 					<span class="font-weight-bolder text-dark">Control de Categorias</span></h3>
 				</div>
 				<div class="card-toolbar">
+					<!--begin::Dropdown-->
+					<a href="{{ route('descargarDocumento', ['path' => Crypt::encryptString('assets\media\plantillas'),'name' => $plantilla]) }}" class="btn btn-primary font-weight-bolder">
+						<span class="navi-icon">
+							<i class="la la-file-text-o"></i>
+						</span>Descargar plantilla
+					</a>
+					<!--end::Dropdown-->
+					&nbsp;
 					@can('CatalogoCategoriasCrear')
 						<!--begin::Button-->
 						<a href="javascript:void(0);" onclick="add_categoria_modal();" class="btn btn-primary font-weight-bolder">
@@ -38,6 +46,9 @@
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
+				@can('CatalogoCategoriasCrear')
+				@include('layouts.toolbar.file_import')
+				@endcan
 				<!--begin: Datatable-->
                 <table id="categorias-table" name="categorias-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>

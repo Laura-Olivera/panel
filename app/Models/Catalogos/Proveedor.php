@@ -2,7 +2,6 @@
 
 namespace App\Models\Catalogos;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Proveedor extends Model
@@ -12,6 +11,7 @@ class Proveedor extends Model
     public $timestamps = true;
     protected $fillable = [
         'id',
+        'cve_prov',
         'nombre',
         'rfc',
         'telefono',

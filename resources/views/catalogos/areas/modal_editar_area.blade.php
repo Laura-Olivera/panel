@@ -37,7 +37,7 @@
 										<select class="form-control select2" id="responsable" name="responsable">
 											<option label="Label"></option>
 											@foreach($usuarios as $usuario)
-     										<option value="{{ $usuario->cve_usuario }}" {{ ($usuario->cve_usuario == $area->responsable) ? "selected" : "" }}>{{ $usuario->fullname }}</option>
+     										<option value="{{ $usuario->fullname }}" {{ ($usuario->cve_usuario == $area->responsable) ? "selected" : "" }}>{{ $usuario->fullname }}</option>
 											@endforeach
 										</select>
 									</div>

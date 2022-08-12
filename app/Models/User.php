@@ -37,11 +37,6 @@ class User extends Authenticatable
         return $this->hasMany(Entrada::class);
     }
 
-    public function areas()
-    {
-        return $this->hasMany(Catalogos\Area::class, 'responsable', 'cve_usuario');
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *

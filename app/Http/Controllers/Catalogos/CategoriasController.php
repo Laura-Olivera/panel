@@ -15,7 +15,10 @@ class CategoriasController extends Controller
 {
     public function index()
     {
-        return view('catalogos.categorias.lista_categorias');
+        $class = "categorias";
+        $filename = 'Reporte_categorias';
+        $plantilla = 'categorias_import.csv';
+        return view('catalogos.categorias.lista_categorias', compact('class', 'filename', 'plantilla'));
     }
 
     public function listar_categorias()

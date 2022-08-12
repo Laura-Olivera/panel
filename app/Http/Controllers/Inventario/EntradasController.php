@@ -129,21 +129,28 @@ class EntradasController extends Controller
         return view('inventario.entradas.ver_entrada', compact('entrada', 'entrada_productos', 'anexos'));
     }
 
-    public function buscar_producto($codigo)
+    public function buscar_producto(Request $request)
     {
         try {
-            $producto = Producto::where('codigo', '=', $codigo)->first();
-            $response = ['id_prod' => $producto->id, 'descrip_gral' => $producto->descrip_gral, 'costo' => $producto->precio_compra, 'success' => true];
+            $existe = Producto::where('codigo', '=', $request->producto)->where('proveedor_id', '=', $request->proveedor)->exists();
+            if($existe){
+                $producto = Producto::where('codigo', '=', $request->producto)->where('proveedor_id', '=', $request->proveedor)->first();
+                $response = ['id_prod' => $producto->id, 'descrip_gral' => $producto->descrip_gral, 'costo' => $producto->precio_compra, 'success' => true];
+            }else{
+                $response = ['success' => false, 'message' => 'El producto buscado no pertenece al proveedor de la entrada.'];
+            }
             return $response;
         } catch (\Throwable $th) {
-            $response = ['success' => false];
+            $response = ['success' => false, 'message' => 'El producto no existe.'];
             return $response;
         }
     }
 
-    public function agregar_producto()
+    public function agregar_producto(Request $request)
     {
-        return view('inventario.entradas.models.modal_add_producto_entrada');
+        $proveedor = Entrada::where('id', '=', $request->entrada_id)->first();
+        $prov_id = $proveedor->proveedor_id;
+        return view('inventario.entradas.models.modal_add_producto_entrada', compact('prov_id'));
     }
 
     public function entrada_producto(Request $request)

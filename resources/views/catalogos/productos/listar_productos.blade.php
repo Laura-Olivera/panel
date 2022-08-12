@@ -17,6 +17,9 @@
 					<span class="font-weight-bolder text-dark">Control de Productos</span></h3>
 				</div>
 				<div class="card-toolbar">
+					<!--begin::Dropdown-->
+					@include('layouts.toolbar.export_options')
+					<!--end::Dropdown-->
 					@can('CatalogoProductosCrear')
 						<!--begin::Button-->
 						<a href="{{ URL::to('catalogos/productos/create') }}" class="btn btn-primary font-weight-bolder">
@@ -39,6 +42,9 @@
 			<!--end::Header-->
 			<!--begin::Body-->
 			<div class="card-body">
+				@can('CatalogoProductosCrear')
+					@include('layouts.toolbar.file_import')
+				@endcan
 				<!--begin: Datatable-->
                 <table id="productos-table" name="productos-table" class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
