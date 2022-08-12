@@ -67,9 +67,7 @@ function store_perfil(){
                         $("#roles-table").load(" #roles-table");
                     });
                 } else {
-                    $('#modal_nuevo_perfil').modal('hide').on('hidden.bs.modal', function () {
-                        Swal.fire('¡Alerta!', respuesta.message, 'warning');
-                    });
+                    Swal.fire('¡Alerta!', respuesta.message, 'warning');
                 }
             },
             error: function (xhr) { //xhr
@@ -110,6 +108,12 @@ function validar(form){
                 maxlength: 150
             },
         },
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
     });
 
     return validator.form();

@@ -51,10 +51,10 @@ class RolesController extends Controller
         return $response;
     }
 
-    public function edit($id)
+    public function edit($name)
     {
         $permissions = Permission::all();
-        $rol = Role::findOrFail($id);
+        $rol = Role::where('name', '=', $name)->first();
         return view('admin.roles.editar_perfil', compact('permissions', 'rol'));
     }
 

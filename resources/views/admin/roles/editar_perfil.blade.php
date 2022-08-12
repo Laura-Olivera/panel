@@ -5,24 +5,6 @@
 @endsection
 
 @section('content')
-<!--begin::Subheader-->
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-	<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-		<!--begin::Details-->
-		<div class="d-flex align-items-center flex-wrap mr-2">
-			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Editar Perfil</h5>
-			<!--end::Title-->
-		</div>
-		<div class="d-flex align-items-center">
-            <!--begin::Actions-->
-            <button onClick="window.history.go(-1);" class="btn btn-primary font-weight-bolder">Regresar</button>
-            <!--end::Actions-->
-        </div>
-		<!--end::Details-->
-	</div>
-</div>
-<!--end::Subheader-->
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 	<!--begin::Container-->
@@ -33,6 +15,9 @@
 				<div class="card-title">
 					<h3 class="card-label">Perfil {{ $rol->name }}</h3>
 				</div>
+				<div class="card-toolbar">
+					<button onClick="window.history.go(-1);" class="btn btn-primary font-weight-bolder">Regresar</button>
+				</div>
 			</div>
 			<!--begin::Body-->
 			<div class="card-body">
@@ -42,6 +27,9 @@
                     {{ Form::text('name', null, array('class' => 'form-control','readonly' => true)) }}
                     <br>
                     <h5><b>Permisos Asignados</b></h5>
+					<br>
+					{{Form::checkbox('todos','todos' ) }}
+                    {{Form::label('Seleccionar todos') }}<br><br>
                     @foreach ($permissions as $permission)
                     {{Form::checkbox('permissions[]',  $permission->id, $rol->permissions ) }}
                     {{Form::label($permission->name, ucfirst($permission->name)) }}<br>

@@ -50,12 +50,12 @@ Route::middleware('auth')->group(function(){
             Route::post('/usuarios/store', [App\Http\Controllers\Admin\UsuariosController::class, 'store']);
             Route::get('/usuarios/edit/{id}', [App\Http\Controllers\Admin\UsuariosController::class,'edit']);
             Route::post('/usuarios/update/{id}',[App\Http\Controllers\Admin\UsuariosController::class, 'update']);
-            Route::get('/usuarios/detalle_usuario/{id}', [\App\Http\Controllers\Admin\UsuariosController::class, 'viewUsuario']);
+            Route::get('/usuarios/detalle_usuario/{cve_usuario}', [\App\Http\Controllers\Admin\UsuariosController::class, 'viewUsuario']);
             //RUTAS ROLES
             Route::get('/perfiles', [\App\Http\Controllers\Admin\RolesController::class, 'index']);
             Route::get('/perfiles/create', [\App\Http\Controllers\Admin\RolesController::class, 'create']);
             Route::post('/perfiles/store', [\App\Http\Controllers\Admin\RolesController::class, 'store']);
-            Route::get('/perfiles/editar_perfil/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
+            Route::get('/perfiles/editar_perfil/{name}', [\App\Http\Controllers\Admin\RolesController::class, 'edit']);
             Route::post('/perfiles/update/{id}', [\App\Http\Controllers\Admin\RolesController::class, 'update']);
             //RUTAS PERMISOS
             Route::get('/permisos', [\App\Http\Controllers\Admin\PermisosController::class, 'index']);

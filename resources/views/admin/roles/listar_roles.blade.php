@@ -47,7 +47,7 @@
                              {{ objectToString($role->permissions()->pluck('name')) }}
                             </td>
                             <td>
-                            <a href="{{ URL::to('admin/perfiles/editar_perfil/'.$role->id) }}" class="btn btn-icon" style="margin-right: 3px;" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>
+                            <a href="{{ URL::to('admin/perfiles/editar_perfil/'.$role->name) }}" class="btn btn-icon" style="margin-right: 3px;" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>
                             {!! Form::close() !!}
                             </td>
                         </tr>

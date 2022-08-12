@@ -31,8 +31,9 @@ $(document).ready(function() {
             {
                 "mRender": function (data, type, row) {
                     let id = row.id;
+                    let cve_usuario = row.cve_usuario;
                     let btn = '<a class="btn btn-icon" onClick="edit_usuario_modal(' + id + ');" href="javascript:void(0)" title="Editar"><i class="icon-xl fa fa-edit text-primary"></i></a>';
-                    btn += '<a class="btn btn-icon" href="usuarios/detalle_usuario/'+ id +'" title="Ver detalle"><i class="icon-xl far fa-eye text-info"></i></a>';
+                    btn += '<a class="btn btn-icon" href="usuarios/detalle_usuario/'+ cve_usuario +'" title="Ver detalle"><i class="icon-xl far fa-eye text-info"></i></a>';
                     return btn;
                 }
             },
@@ -114,30 +115,19 @@ function store_usuario(){
                         });
                     });
                 } else {
-                    $('#modal_nuevo_usuario').modal('hide').on('hidden.bs.modal', function () {
-                        $('#users-table').DataTable().ajax.reload();
-                        Swal.fire({
-                            icon: "warning",
-                            title: "¡Alerta!",
-                            text: respuesta.message,
-                            timer: 1500
-                        });
+                    $('#users-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
                     });
                 }
             },
             error: function (xhr) { //xhr
                 if (xhr.responseJSON) {
                     if (xhr.responseJSON.errors) {
-                        var errores = '';
-	                var mensaje;
-
-	                $.each(data, function (key, value) {
-	                	$('#' + key + '').addClass('is-invalid');
-	                	errores += '<li>' + value + '</li>';
-	                });
-
-                    console.log(errores);
-                    imprimirMensajesDeError(xhr.responseJSON.errors);
+                        imprimirMensajesDeError(xhr.responseJSON.errors);
                     }
                 } else {
                     Swal.fire('¡Alerta!', 'Error de conectividad de red.', 'warning');
@@ -229,14 +219,12 @@ function update_usuario(id){
                     });
                 });
             } else {
-                $('#modal_editar_usuario').modal('hide').on('hidden.bs.modal', function () {
-                    $('#users-table').DataTable().ajax.reload();
-                    Swal.fire({
-                        icon: "warning",
-                        title: "¡Alerta!",
-                        text: respuesta.message,
-                        timer: 1500
-                    });
+                $('#users-table').DataTable().ajax.reload();
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: respuesta.message,
+                    timer: 1500
                 });
             }
         },
@@ -262,15 +250,6 @@ function update_usuario(id){
         },
     });
 }
-
-$.extend($.validator, {
-    messages: {
-        required: 'El campo es requerido',
-        equalTo: 'Las contraseñas deben ser iguales',
-        maxlength: 'El campo no debe sobrepasar los 150 caracteres',
-        minlength: 'La contraseña debe tene 8 caracteres como minimo'
-    }
-});
 
 function validar(form){
     var validator = form.validate({
@@ -317,24 +296,4 @@ function validar(form){
     });
 
     return validator.form();
-}
-
-function imprimirMensajesDeError(data) {
-	//Quitamos la clase de los input invalidos
-	$(".is-invalid").removeClass("is-invalid");
-
-	var errores = '';
-	var mensaje;
-
-	$.each(data, function (key, value) {
-		$('#' + key + '').addClass('is-invalid');
-		errores += '<li>' + value + '</li>';
-	});
-
-	mensaje = '<ul>' + errores + '</ul>'
-    Swal.fire({
-        icon: "warning",
-        title: "¡Alerta!",
-        html: mensaje,
-    });
 }

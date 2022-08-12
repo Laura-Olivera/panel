@@ -182,3 +182,13 @@ if (! function_exists('getStringFromObject'))
         return implode($separador, $array);
     }
 }
+
+if (! function_exists('getUserFullname'))
+{
+
+    function getUserFullname(string $cve_usuario)
+    {
+        
+    }
+
+}

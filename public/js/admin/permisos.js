@@ -88,14 +88,12 @@ function store_permiso(){
                         });
                     });
                 } else {
-                    $('#modal_nuevo_permiso').modal('hide').on('hidden.bs.modal', function () {
-                        $('#permisos-table').DataTable().ajax.reload();
-                        Swal.fire({
-                            icon: "warning",
-                            title: "¡Alerta!",
-                            text: respuesta.message,
-                            timer: 1500
-                        });
+                    $('#permisos-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Alerta!",
+                        text: respuesta.message,
+                        timer: 1500
                     });
                 }
             },
@@ -180,14 +178,12 @@ function update_permiso(id){
                     });
                 });
             } else {
-                $('#modal_editar_permiso').modal('hide').on('hidden.bs.modal', function () {
-                    $('#permisos-table').DataTable().ajax.reload();
-                    Swal.fire({
-                        icon: "warning",
-                        title: "¡Alerta!",
-                        text: respuesta.message,
-                        timer: 1500
-                    });
+                $('#permisos-table').DataTable().ajax.reload();
+                Swal.fire({
+                    icon: "warning",
+                    title: "¡Alerta!",
+                    text: respuesta.message,
+                    timer: 1500
                 });
             }
         },
@@ -225,7 +221,13 @@ function validar(form){
                 required: true,
                 maxlength: 150
             },
+        },        
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
         },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
     });
 
     return validator.form();

@@ -5,344 +5,406 @@
 @endsection
 
 @section('content')
-<!--begin::Subheader-->
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-	<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-		<!--begin::Details-->
-		<div class="d-flex align-items-center flex-wrap mr-2">
-			<!--begin::Title-->
-			<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Detalle usuario {{ $usuario->clave_empleado }}</h5>
-			<!--end::Title-->
-		</div>
-        <div class="d-flex align-items-center">
-            <!--begin::Actions-->
-            <button onClick="window.history.go(-1);" class="btn btn-primary font-weight-bolder">Regresar</button>
-            <!--end::Actions-->
-        </div>
-		<!--end::Details-->
-	</div>
-</div>
-<!--end::Subheader-->
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
     <!--begin::Container-->
-    <div class="container">
-        <!--begin::Card-->
+    <div class="container-fluid">
+        <!-- begin::Card-->
         <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h3 class="font-weight-bolder text-dark-75 text-hover-primary">{{ $usuario->fullname }}</h3>
+                            <div class="text-muted">{{ $usuario->cve_usuario }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-toolbar">  
+                    <a href="javascript:void(0);" onclick="window.history.go(-1);" class="btn btn-light-primary font-weight-bolder btn-sm mr-2">
+                        <span class="svg-icon svg-icon-md">
+                            <i class="icon-md far fa-id-badge"></i>
+                        </span>Regresar
+                    </a>
+                </div>
+            </div>
+            <div class="card-header card-header-tabs-line">
+                <div class="card-toolbar">
+                    <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#actividad">
+                                <span class="nav-icon"><i class="fas fa-file-invoice"></i></span>
+                                <span class="nav-text">Actividad</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#info-laboral">
+                                <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
+                                <span class="nav-text">Información laboral</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#info-personal">
+                                <span class="nav-icon"><i class="fas fa-info-circle"></i></span>
+                                <span class="nav-text">Información personal</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="card-body">
-                <div class="d-flex">
-                    <!--begin: Info-->
-                    <div class="flex-grow-1">
-                        <!--begin::Title-->
-                        <div class="d-flex align-items-center justify-content-between flex-wrap">
-                            <!--begin::User-->
-                            <div class="mr-3">
-                                <div class="d-flex align-items-center mr-3">
-                                    <!--begin::Name-->
-                                    <h6 class="d-flex align-items-center text-dark font-size-h5 font-weight-bold mr-3">{{ $usuario->nombre }} {{ $usuario->primer_apellido }}</h6>
-                                    <!--end::Name-->
-                                    <span class="label label-light-primary label-inline font-weight-bolder mr-1">{{$perfil->name}}</span>                                    
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="actividad" role="tabpanel" aria-labelledby="actividad">
+                        <div class="col-xl-12">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h4 class="card-label">Folio: </h4>            
+                                    </div>
+                                    <div class="card-toolbar">
+                                        <a class="btn btn-icon" href="#" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                    
+                                        <a class="btn btn-icon" href="#" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                        
+                                        <a class="btn btn-icon" href="#" title="Imprimir" target="_blank"><i class="icon-2x fas fa-print text-primary"></i></a>
+                                    </div>
                                 </div>
-                                <!--begin::Contacts-->
-                                <div class="d-flex flex-wrap my-2">
-                                    <h6 class="text-muted font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Mail-notification.svg-->
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24" height="24" />
-                                                <path d="M21,12.0829584 C20.6747915,12.0283988 20.3407122,12 20,12 C16.6862915,12 14,14.6862915 14,18 C14,18.3407122 14.0283988,18.6747915 14.0829584,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,12.0829584 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z" fill="#000000" />
-                                                <circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5" r="2.5" />
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span>{{ $usuario->email }}</h6>
+                                <div class="card-body">
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>Actividad reciente</h3>
+                                                    </div>
+                                                    <span class="label font-weight-bold label label-inline label-light-danger">Ahora</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia perspiciatis quam repellendus totam repellat placeat, dignissimos aut sunt cum reiciendis exercitationem. Veniam architecto aliquam assumenda ipsa alias eius quod quisquam?</span>
+                                                    </div>
+                                                    <span class="label label-lg label-light-dark label-inline font-weight-bold py-4">xxxxx</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, commodi asperiores, obcaecati aperiam nostrum adipisci unde minima maiores totam reiciendis illo iste a animi fugit iure. Reprehenderit nostrum non impedit.</span>
+                                                    </div>
+                                                    <span class="label label-lg label-light-success label-inline font-weight-bold py-4">xxxxx</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque error ab aliquam facere, officia eos, officiis laboriosam ipsa assumenda possimus molestiae vel esse, voluptas culpa vitae praesentium incidunt nesciunt? Suscipit.</span>
+                                                    </div>
+                                                    <span class="label label-lg label-light-danger label-inline font-weight-bold py-4">xxxxx</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>Tareas asignadas</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="md-6">
+                                                <div class="card-header-tabs-line">
+                                                    <div class="card-toolbar">
+                                                        <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_3">
+                                                                    <span class="nav-icon"><i class="far fa-clock"></i></span>
+                                                                    <span class="nav-text">Pendientes</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
+                                                                    <span class="nav-icon"><i class="fas fa-check"></i></span>
+                                                                    <span class="nav-text">Terminadas</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div><br>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="kt_tab_pane_1_3" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
+                                                        <div class="col-xl-12">
+                                                            <!--begin::List Widget 10-->
+                                                            <div class="card card-custom card-stretch gutter-b">
+                                                                <!--begin::Body-->
+                                                                <div class="card-body pt-0">
+                                                                    <!--begin::Item-->                                                
+                                                                            <div class="mb-6">
+                                                                                <!--begin::Content-->
+                                                                                <div class="d-flex align-items-center flex-grow-1">
+                                                                                    <!--begin::Bullet-->
+                                                                                    <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
+                                                                                    <!--end::Bullet-->
+                                                                                    <!--begin::Checkbox-->
+                                                                                    <label class="checkbox checkbox-lg checkbox-light-warning checkbox-inline flex-shrink-0 m-0 mx-4"></label>
+                                                                                    <!--end::Checkbox-->
+                                                                                    <!--begin::Section-->
+                                                                                    <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                                                        <!--begin::Info-->
+                                                                                        <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                                                            <!--begin::Title-->
+                                                                                            <span class="text-dark-75 font-weight-bold font-size-lg mb-1">xxxxx</span>
+                                                                                            <!--end::Title-->
+                                                                                            <!--begin::Data-->
+                                                                                            <span class="text-muted font-weight-bold">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum reiciendis beatae nesciunt commodi consequuntur unde enim omnis cupiditate eligendi, id tenetur dolorem aspernatur, ipsa minus impedit eum eos quia deleniti.</span>
+                                                                                            <!--end::Data-->
+                                                                                        </div>
+                                                                                        <!--end::Info-->
+                                                                                        <!--begin::Label-->
+                                                                                        <span class="label label-lg label-light-warning label-inline font-weight-bold py-4">pendiente</span>
+                                                                                        <!--end::Label-->
+                                                                                    </div>
+                                                                                    <!--end::Section-->
+                                                                                </div>
+                                                                                <!--end::Content-->
+                                                                            </div>   
+                                                                    {{-- end::item --}}
+                                                                </div>
+                                                                {{-- {{ $tPendientes->links() }} --}}
+                                                                <!--end: Card Body-->
+                                                            </div>
+                                                            <!--end: Card-->
+                                                            <!--end: List Widget 10-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="kt_tab_pane_2_3" role="tabpanel" aria-labelledby="kt_tab_pane_2_3">
+                                                        <div class="col-xl-12">
+                                                            <!--begin::List Widget 10-->
+                                                            <div class="card card-custom card-stretch gutter-b">
+                                                                <!--begin::Body-->
+                                                                <div class="card-body pt-0">
+                                                                    <!--begin::Item-->                                                   
+                                                                            <div class="mb-6">
+                                                                                <!--begin::Content-->
+                                                                                <div class="d-flex align-items-center flex-grow-1">
+                                                                                    <!--begin::Bullet-->
+                                                                                    <span class="bullet bullet-bar bg-success align-self-stretch"></span>
+                                                                                    <!--end::Bullet-->
+                                                                                    <!--begin::Checkbox-->
+                                                                                    <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
+                                                                                    <!--end::Checkbox-->
+                                                                                    <!--begin::Section-->
+                                                                                    <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                                                        <!--begin::Info-->
+                                                                                        <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                                                            <!--begin::Title-->
+                                                                                            <a href="javascript:void(0);" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">xxxx</a>
+                                                                                            <!--end::Title-->
+                                                                                            <!--begin::Data-->
+                                                                                            <span class="text-muted font-weight-bold">xxxx Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ducimus odio rem excepturi veritatis maiores quaerat possimus, ex dolor optio id, illum consectetur nam doloremque? Atque nam sint labore veritatis.</span>
+                                                                                            <!--end::Data-->
+                                                                                        </div>
+                                                                                        <!--end::Info-->
+                                                                                        <!--begin::Label-->
+                                                                                        <span class="label label-lg label-light-success label-inline font-weight-bold py-4">Terminado</span>
+                                                                                        <!--end::Label-->
+                                                                                    </div>
+                                                                                    <!--end::Section-->
+                                                                                </div>
+                                                                                <!--end::Content-->
+                                                                            </div>       
+                                                                    {{-- end::item --}}
+                                                                </div>
+                                                                <!--end: Card Body-->
+                                                            </div>
+                                                            <!--end: Card-->
+                                                            <!--end: List Widget 10-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--end::Contacts-->
                             </div>
-                            <!--begin::User-->
                         </div>
-                        <!--end::Title-->
                     </div>
-                    <!--end::Info-->
+                    <div class="tab-pane fade" id="info-laboral" role="tabpanel" aria-labelledby="info-laboral">
+                        <div class="col-xl-12">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h4 class="card-label">Folio: </h4>            
+                                    </div>
+                                    <div class="card-toolbar">
+                                        <a class="btn btn-icon" href="#" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                    
+                                        <a class="btn btn-icon" href="#" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                        
+                                        <a class="btn btn-icon" href="#" title="Imprimir" target="_blank"><i class="icon-2x fas fa-print text-primary"></i></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>Información</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-6">
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Nombre de usuario:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->usuario }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Clave de empleado:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->cve_usuario }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Area:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->area }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>-------------</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="md-6">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="info-personal" role="tabpanel" aria-labelledby="info-personal">
+                        <div class="col-xl-12">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h4 class="card-label">Folio: </h4>            
+                                    </div>
+                                    <div class="card-toolbar">
+                                        <a class="btn btn-icon" href="#" title="Editar"><i class="icon-2x far fa-edit text-primary"></i></a>
+                                    
+                                        <a class="btn btn-icon" href="#" title="Descargar"><i class="icon-2x fas fa-download text-primary"></i></a>
+                                        
+                                        <a class="btn btn-icon" href="#" title="Imprimir" target="_blank"><i class="icon-2x fas fa-print text-primary"></i></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>Información personal</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-6">
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Nombre:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->fullname }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Correo electrónico:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->email }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Telefono:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext font-weight-bolder">{{ $usuario->telefono }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row my-2">
+                                                <label class="col-4 col-form-label">Dirección:</label>
+                                                <div class="col-8">
+                                                    <span class="form-control-plaintext">
+                                                    <span class="font-weight-bolder">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore esse commodi expedita consequuntur? Vel earum eos at tenetur exercitationem. Id fugiat voluptas totam. Sapiente velit molestiae adipisci saepe doloribus numquam?</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div>
+                                        <div class="mb-6">
+                                            <div class="d-flex align-items-center flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                        <h3>Información de contacto</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="md-6">
+                                                <div class="row align-items-center" class="tab">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="pr-0 font-weight-boldest text-uppercase">Nombre</th>
+                                                                    <th class="pr-0 font-weight-boldest text-uppercase">telefono</th>
+                                                                    <th class="pr-0 font-weight-boldest text-uppercase">Direccion</th>
+                                                                    <th class="pr-0 font-weight-boldest text-uppercase">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody-productos">
+                                                                <tr class="font-weight-boldest font-size-lg" id="id-cont">
+                                                                    <td class="pt-4"> xxxxxxxxxxxx </td> 
+                                                                    <td class="pt-4"> xxxxxxxxxxxx </td> 
+                                                                    <td class="pt-4"> xxxxxxxxxxxx </td> 
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-primary font-weight-bolder btn-sm" name="editar_producto" id="editar-producto" onclick="">editar</button>                                                                        
+                                                                        <button type="button" class="btn btn-danger font-weight-bolder btn-sm" name="borrar-producto" id="borrar-producto" onclick="">borrar</button>                                                                                                                                   
+                                                                    </td> 
+                                                                </tr>
+                                                                <tr class="font-weight-bold font-size-lg" id="empty-ent-prod">
+                                                                    <td class="text-center pt-4"> No existen contactos registrados </td> 
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--end::Card-->
-        <!--begin::Row-->
-        <div class="row">
-            <div class="col-xl-12">
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-header h-auto py-3 border-0">
-                        <div class="card-title">
-                            <h3 class="card-label">Actividad reciente</h3>
-                        </div>
-                        <div class="card-toolbar">
-                            <span class="label font-weight-bold label label-inline label-light-danger">Ahora</span>
-                        </div>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="mb-6">
-                            <!--begin::Content-->
-                            <div class="d-flex align-items-center flex-grow-1">
-                                <!--begin::Section-->
-                                <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                                    <!--begin::Info-->
-                                    <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                        <!--begin::Title-->
-                                        <span class="text-dark-50 font-weight-bold font-size-lg mb-1"></span>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Info-->
-                                    <!--begin::Label-->
-                                    <span class="label label-lg label-light-dark label-inline font-weight-bold py-4"></span>
-                                    <!--end::Label-->
-                                </div>
-                                <!--end::Section-->
-                            </div>
-                            <!--end::Content-->
-                        </div>
-                    </div>
-                </div>
-                <!--end::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-header h-auto py-3 border-0">
-                        <div class="card-title">
-                            <h3 class="card-label">Tareas asignadas</h3>
-                        </div>
-                    </div>                    
-                    <div class="card-body pt-2">
-                        <div class="card-header-tabs-line">
-                            <div class="card-toolbar">
-                                <ul class="nav nav-tabs nav-bold nav-tabs-line">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_3">
-                                            <span class="nav-icon"><i class="far fa-clock"></i></span>
-                                            <span class="nav-text">Pendientes</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_3">
-                                            <span class="nav-icon"><i class="fas fa-check"></i></span>
-                                            <span class="nav-text">Terminadas</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div><br>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="kt_tab_pane_1_3" role="tabpanel" aria-labelledby="kt_tab_pane_1_3">
-                                <div class="col-xl-12">
-                                    <!--begin::List Widget 10-->
-                                    <div class="card card-custom card-stretch gutter-b">
-                                        <!--begin::Body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Item-->                                                
-                                                    <div class="mb-6">
-                                                        <!--begin::Content-->
-                                                        <div class="d-flex align-items-center flex-grow-1">
-                                                            <!--begin::Bullet-->
-                                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-                                                            <!--end::Bullet-->
-                                                            <!--begin::Checkbox-->
-                                                            <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-                                                            <!--end::Checkbox-->
-                                                            <!--begin::Section-->
-                                                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                                                                <!--begin::Info-->
-                                                                <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                                                    <!--begin::Title-->
-                                                                    <span class="text-dark-75 font-weight-bold font-size-lg mb-1"></span>
-                                                                    <!--end::Title-->
-                                                                    <!--begin::Data-->
-                                                                    <span class="text-muted font-weight-bold"></span>
-                                                                    <span class="text-muted font-weight-bold"></span>
-                                                                    <!--end::Data-->
-                                                                </div>
-                                                                <!--end::Info-->
-                                                                <!--begin::Label-->
-                                                                <span class="label label-lg label-light-success label-inline font-weight-bold py-4"></span>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Section-->
-                                                        </div>
-                                                        <!--end::Content-->
-                                                    </div>   
-                                            {{-- end::item --}}
-                                        </div>
-                                        {{-- {{ $tPendientes->links() }} --}}
-                                        <!--end: Card Body-->
-                                    </div>
-                                    <!--end: Card-->
-                                    <!--end: List Widget 10-->
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="kt_tab_pane_2_3" role="tabpanel" aria-labelledby="kt_tab_pane_2_3">
-                                <div class="col-xl-12">
-                                    <!--begin::List Widget 10-->
-                                    <div class="card card-custom card-stretch gutter-b">
-                                        <!--begin::Body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Item-->                                                   
-                                                    <div class="mb-6">
-                                                        <!--begin::Content-->
-                                                        <div class="d-flex align-items-center flex-grow-1">
-                                                            <!--begin::Bullet-->
-                                                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
-                                                            <!--end::Bullet-->
-                                                            <!--begin::Checkbox-->
-                                                            <label class="checkbox checkbox-lg checkbox-light-success checkbox-inline flex-shrink-0 m-0 mx-4"></label>
-                                                            <!--end::Checkbox-->
-                                                            <!--begin::Section-->
-                                                            <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
-                                                                <!--begin::Info-->
-                                                                <div class="d-flex flex-column align-items-cente py-2 w-75">
-                                                                    <!--begin::Title-->
-                                                                    <a href="javascript:void(0);" class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1"></a>
-                                                                    <!--end::Title-->
-                                                                    <!--begin::Data-->
-                                                                    <span class="text-muted font-weight-bold"></span>
-                                                                    <span class="text-muted font-weight-bold"></span>
-                                                                    <!--end::Data-->
-                                                                </div>
-                                                                <!--end::Info-->
-                                                                <!--begin::Label-->
-                                                                <span class="label label-lg label-light-success label-inline font-weight-bold py-4"></span>
-                                                                <!--end::Label-->
-                                                            </div>
-                                                            <!--end::Section-->
-                                                        </div>
-                                                        <!--end::Content-->
-                                                    </div>       
-                                            {{-- end::item --}}
-                                        </div>
-                                        <!--end: Card Body-->
-                                    </div>
-                                    <!--end: Card-->
-                                    <!--end: List Widget 10-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b">
-                    <div class="card-header h-auto py-3 border-0">
-                        <div class="card-title">
-                            <h3 class="card-label">Información</h3>
-                        </div>
-                    </div>                    
-                    <div class="card-body pt-2">
-                        <div class="card-header-tabs-line">
-                            <div class="card-toolbar">
-                                <ul class="nav nav-tabs nav-bold nav-tabs-line">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#info_tab_pane_1_3">
-                                            <span class="nav-icon"><i class="fas fa-user"></i></span>
-                                            <span class="nav-text">Personal</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#info_tab_pane_2_3">
-                                            <span class="nav-icon"><i class="fas fa-users"></i></span>
-                                            <span class="nav-text">Contacto</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div><br>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="info_tab_pane_1_3" role="tabpanel" aria-labelledby="info_tab_pane_1_3">
-                                <div class="col-xl-12">
-                                    <!--begin::List Widget 10-->
-                                    <div class="card card-custom card-stretch gutter-b">
-                                        <!--begin::Body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Item-->
-                                            <div class="card-body py-4">
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Nombre:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->nombre }} {{ $usuario->primer_apellido }} {{ $usuario->segundo_apellido }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Correo electrónico:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->email }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Telefono:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder">{{ $usuario->telefono }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Dirección:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext">
-                                                        <span class="font-weight-bolder"></span>
-                                                    </div>
-                                                </div>                        
-                                            </div>
-                                            {{-- end::item --}}
-                                        </div>
-                                        <!--end: Card Body-->
-                                    </div>
-                                    <!--end: Card-->
-                                    <!--end: List Widget 10-->
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="info_tab_pane_2_3" role="tabpanel" aria-labelledby="info_tab_pane_2_3">
-                                <div class="col-xl-12">
-                                    <!--begin::List Widget 10-->
-                                    <div class="card card-custom card-stretch gutter-b">
-                                        <!--begin::Body-->
-                                        <div class="card-body pt-0">
-                                            <!--begin::Item-->
-                                            <div class="card-body py-4">
-                                                <div class="form-group row my-2">
-                                                    <span class="form-control-plaintext font-weight-bolder">No se encontraron registros.</span>
-                                                </div>                      
-                                            </div>
-                                            <div class="card-body py-4">
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Nombre:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Telefono:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext font-weight-bolder"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row my-2">
-                                                    <label class="col-4 col-form-label">Dirección:</label>
-                                                    <div class="col-8">
-                                                        <span class="form-control-plaintext">
-                                                        <span class="font-weight-bolder"></span>
-                                                    </div>
-                                                </div>                        
-                                            </div>
-                                            {{-- end::item --}}
-                                        </div>
-                                        <!--end: Card Body-->
-                                    </div>
-                                    <!--end: Card-->
-                                    <!--end: List Widget 10-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Card-->
-            </div>
-        </div>
-        <!--end::Row-->
+        <!-- end::Card-->
     </div>
     <!--end::Container-->
 </div>

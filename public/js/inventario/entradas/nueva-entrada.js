@@ -192,22 +192,11 @@ function validar(form){
                 required: true,
             },
         },
-        message: {
-            proveedor: "Este campo es requerido",
-            factura: "Este campo es requerido",
-            fac_fecha_emision: "Este campo es requerido",
-            fac_fecha_operacion: "Este campo es requerido",
-            fac_subtotal: "Este campo es requerido",
-            fac_impuesto: "Este campo es requerido",
-            fac_total: "Este campo es requerido",
-            fac_forma_pago: "Este campo es requerido",
-            fac_metodo_pago: "Este campo es requerido",
-            fac_path: {
-                required: "Este campo es requerido",
-                extension: "Solo puede ingresar documento en formato PDF"
-            },
-            fac_notas: "Este campo es requerido",
-            entrada_notas: "Este campo es requerido",
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
         }
     });
 

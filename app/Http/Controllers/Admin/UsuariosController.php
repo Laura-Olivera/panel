@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Bitacora;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsuariosRequest;
 use App\Models\User;
 use App\Models\Catalogos\Area;
 use App\Services\Claves;
@@ -174,9 +175,10 @@ class UsuariosController extends Controller
         return $response;
     }
 
-    public function viewUsuario($id)
+    public function viewUsuario($cve_usuario)
     {
-        $usuario = User::findOrFail($id);
+        $usuario = User::where('cve_usuario', '=', $cve_usuario)->first();
+        $usuario->fullname = $usuario->nombre.' '.$usuario->primer_apellido.' '.$usuario->segundo_apellido;
         
         $modHasRol = DB::table('model_has_roles')->select('role_id')->where('model_id', '=', $usuario->id)->first();
         $perfil = DB::table('roles')->where('id', '=', $modHasRol->role_id)->first();

@@ -117,18 +117,21 @@
 	<script>
 		var $max_upload_facturas_size = "{{ env('max_upload_facturas_size', 3072) }}";
 	</script>
-    <script src="{{ URL::asset('assets/plugins/global/plugins.bundle.js')}}" type="text/javascript"></script>
+    <script src="{{ URL::asset('assets/vendors/general/jquery/dist/jquey.js')}}" type="text/javascript"></script>
+	<script src="{{ URL::asset('assets/plugins/global/plugins.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/plugins/custom/prismjs/prismjs.bundle.js')}}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/js/scripts.bundle.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('assets/vendors/general/jquery_validation/dist/jquery.validate.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/vendors/general/jquery_validation/dist/additional-methods.js')}}" type="text/javascript"></script>
+	{{-- <script src="{{ URL::asset('assets/vendors/general/jquery_validation/dist/localization/messages_es.js')}}" type="text/javascript"></script> --}}
 	<script src="{{ URL::asset('assets/js/pages/features/miscellaneous/sweetalert2.js')}}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('assets/js/pages/crud/forms/widgets/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
 	<!--end::Global Theme Bundle-->
-	<!-- begin::Page Scripts -->
-	@yield('scripts')
+	<!-- begin::Scripts -->
+	<script src="{{ URL::asset('js/general.js?v=1.0.0') }}" type="text/javascript"></script>
 	<!-- end::Page Scripts -->
+	@yield('scripts')
 </html>
